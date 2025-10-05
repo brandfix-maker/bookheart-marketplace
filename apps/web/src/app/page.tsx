@@ -1,26 +1,153 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Header } from '@/components/layout/header'
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Header } from '@/components/layout/header';
+import { FeaturedBooksCarousel } from '@/components/books/FeaturedBooksCarousel';
+import { RecentlyViewedBooks } from '@/components/books/RecentlyViewedBooks';
+import { SearchAutocomplete } from '@/components/search/SearchAutocomplete';
+import { SearchHistory } from '@/components/search/SearchHistory';
+import { Book } from '@bookheart/shared';
+import { apiClient } from '@/lib/api-client';
+import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
+import { useSearchHistory } from '@/hooks/useSearchHistory';
+import { SearchSuggestion } from '@bookheart/shared';
+import { toast } from '@/components/ui/use-toast';
 
 export default function HomePage() {
+  const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
+  const [_trendingBooks, setTrendingBooks] = useState<Book[]>([]);
+  const [_recentBooks, setRecentBooks] = useState<Book[]>([]);
+  const [_isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchHistory, setShowSearchHistory] = useState(false);
+
+  const { 
+    recentlyViewed: _recentlyViewed, 
+    getRecentlyViewedBooks, 
+    removeFromRecentlyViewed, 
+    clearRecentlyViewed 
+  } = useRecentlyViewed();
+
+  const {
+    savedSearches,
+    addToSearchHistory,
+    updateSearchUsage,
+    removeFromSearchHistory,
+    clearSearchHistory,
+    getRecentSearches
+  } = useSearchHistory();
+
+  useEffect(() => {
+    fetchHomePageData();
+  }, []);
+
+  const fetchHomePageData = async () => {
+    try {
+      setIsLoading(true);
+      
+      // Fetch featured, trending, and recent books in parallel
+      const [featuredResponse, trendingResponse, recentResponse] = await Promise.all([
+        apiClient.get('/books/featured?limit=5'),
+        apiClient.get('/books/trending?limit=8'),
+        apiClient.get('/books/recent?limit=6')
+      ]);
+
+      setFeaturedBooks(featuredResponse.data.data || []);
+      setTrendingBooks(trendingResponse.data.data || []);
+      setRecentBooks(recentResponse.data.data || []);
+    } catch (error) {
+      console.error('Error fetching home page data:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load home page data. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSearchSelect = (suggestion: SearchSuggestion) => {
+    const searchParams = {
+      query: suggestion.text,
+      page: 1,
+      pageSize: 20,
+      sortBy: 'relevance' as const,
+      sortOrder: 'desc' as const,
+    };
+
+    // Add to search history
+    addToSearchHistory(searchParams);
+
+    // Navigate to books page with search
+    const params = new URLSearchParams();
+    params.set('q', suggestion.text);
+    window.location.href = `/books?${params.toString()}`;
+  };
+
+  const handleSearchHistorySelect = (searchParams: any) => {
+    updateSearchUsage(searchParams.id || '');
+    
+    // Navigate to books page with search
+    const params = new URLSearchParams();
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (Array.isArray(value)) {
+          value.forEach(v => params.append(key, v.toString()));
+        } else {
+          params.set(key, value.toString());
+        }
+      }
+    });
+    window.location.href = `/books?${params.toString()}`;
+  };
+
+  const recentlyViewedBooks = getRecentlyViewedBooks();
+
   return (
     <div className="min-h-screen">
       <Header />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-rose-50 to-gold-50 py-20">
-        <div className="absolute inset-0 bg-[url('/Patterns/Stars_gradient.png')] opacity-20"></div>
+      <section className="relative overflow-hidden watercolor-bg py-20">
+        <div className="absolute inset-0 bg-[url('/Patterns/Stars_gradient.png')] opacity-30"></div>
         <div className="container relative z-10">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="text-5xl md:text-7xl font-bold font-serif mb-6 text-shadow-lg">
+            <h1 className="text-5xl md:text-7xl font-bold font-serif mb-6 text-white drop-shadow-2xl">
               Where Your <span className="gradient-text">Bookish Dreams</span> Come True
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
               Buy and sell secondhand romantasy books with trust. Special editions, signed copies, 
               and rare finds—all with our 72-hour inspection guarantee.
             </p>
+            
+            {/* Enhanced Search Bar */}
+            <div className="max-w-2xl mx-auto mb-8">
+              <SearchAutocomplete
+                value={searchQuery}
+                onChange={setSearchQuery}
+                onSelect={handleSearchSelect}
+                placeholder="Search books, authors, series, or tropes..."
+                className="w-full"
+              />
+              {savedSearches.length > 0 && (
+                <div className="mt-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowSearchHistory(!showSearchHistory)}
+                    className="text-purple-600 hover:text-purple-700"
+                  >
+                    {showSearchHistory ? 'Hide' : 'Show'} Search History
+                  </Button>
+                </div>
+              )}
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="gradient" asChild>
                 <Link href="/books">Browse Books</Link>
@@ -41,9 +168,64 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Search History Dropdown */}
+      {showSearchHistory && (
+        <section className="py-8 bg-card/50 backdrop-blur-sm border-b border-border">
+          <div className="container">
+            <SearchHistory
+              savedSearches={getRecentSearches(10)}
+              onSearchSelect={handleSearchHistorySelect}
+              onRemoveSearch={removeFromSearchHistory}
+              onUpdateSearchName={() => {}} // TODO: Implement
+              onToggleNotifications={() => {}} // TODO: Implement
+              onClearAll={clearSearchHistory}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* Featured Books Carousel */}
+      {featuredBooks.length > 0 && (
+        <section className="py-20 bg-background/80 backdrop-blur-sm">
+          <div className="container">
+            <h2 className="text-4xl font-serif font-bold text-center mb-12">
+              Featured <span className="gradient-text">Books</span>
+            </h2>
+            <FeaturedBooksCarousel
+              books={featuredBooks}
+              autoRotate={true}
+              autoRotateInterval={6000}
+              className="max-w-6xl mx-auto"
+            />
+          </div>
+        </section>
+      )}
+
+      {/* Recently Viewed Books */}
+      {recentlyViewedBooks.length > 0 && (
+        <section className="py-20 watercolor-bg">
+          <div className="container">
+            <RecentlyViewedBooks
+              books={recentlyViewedBooks}
+              onRemoveBook={removeFromRecentlyViewed}
+              onClearAll={clearRecentlyViewed}
+              maxItems={6}
+            />
+          </div>
+        </section>
+      )}
+
       {/* Features Section */}
-      <section className="py-20 bg-background">
-        <div className="container">
+      <section className="relative py-20 overflow-hidden bg-cover bg-center bg-no-repeat" style={{
+        backgroundImage: `url('/Image/watercolor-night-sky.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
+        {/* Subtle overlay for text readability */}
+        <div className="absolute inset-0 bg-black/20"></div>
+        
+        <div className="container relative z-10">
           <h2 className="text-4xl font-serif font-bold text-center mb-12">
             Trending in <span className="gradient-text">Romantasy</span>
           </h2>
@@ -51,11 +233,13 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {/* Placeholder book cards */}
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="book-card overflow-hidden">
-                <div className="aspect-[3/4] bg-gradient-to-br from-primary-100 to-rose-100 relative">
+              <Card key={i} className="book-card overflow-hidden bg-white/10 backdrop-blur-md border-white/20 shadow-xl">
+                <div className="aspect-[3/4] bg-gradient-to-br from-purple-300/30 via-pink-300/30 to-indigo-300/30 relative">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-6xl opacity-20">📚</span>
+                    <span className="text-6xl opacity-40">📚</span>
                   </div>
+                  {/* Watercolor overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
                 </div>
                 <CardContent className="p-4">
                   <h3 className="font-serif font-semibold text-lg mb-1">Book Title {i}</h3>
@@ -81,13 +265,13 @@ export default function HomePage() {
             ].map((category) => (
               <Card 
                 key={category.name} 
-                className="group cursor-pointer hover:shadow-lg transition-all duration-300"
+                className="group cursor-pointer hover:shadow-lg transition-all duration-300 bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 shadow-lg"
               >
                 <CardContent className="p-6 text-center">
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br ${category.color} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform`}>
+                  <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br ${category.color} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-lg`}>
                     {category.icon}
                   </div>
-                  <h3 className="font-serif font-semibold">{category.name}</h3>
+                  <h3 className="font-serif font-semibold text-white">{category.name}</h3>
                 </CardContent>
               </Card>
             ))}
@@ -96,7 +280,7 @@ export default function HomePage() {
       </section>
 
       {/* Trust Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-50 to-rose-50">
+      <section className="py-20 watercolor-bg">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-serif font-bold mb-6">

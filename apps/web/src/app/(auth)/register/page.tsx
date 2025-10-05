@@ -7,13 +7,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import Link from 'next/link';
-import { Eye, EyeOff, Heart, Check, X } from 'lucide-react';
-
-type UserRole = 'buyer' | 'seller' | 'both';
+import { Eye, EyeOff, Heart, Check } from 'lucide-react';
 
 interface PasswordStrength {
   score: number;
   feedback: string[];
+}
+
+interface RegistrationSurvey {
+  whatBringsYouHere?: string;
+  interests?: string[];
+  heardAboutUs?: string;
 }
 
 export default function RegisterPage() {
@@ -23,8 +27,8 @@ export default function RegisterPage() {
     username: '',
     password: '',
     confirmPassword: '',
-    role: 'buyer' as UserRole,
   });
+  const [surveyData, setSurveyData] = useState<RegistrationSurvey>({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -76,8 +80,8 @@ export default function RegisterPage() {
     }
   };
 
-  const handleRoleChange = (role: UserRole) => {
-    setFormData(prev => ({ ...prev, role }));
+  const handleSurveyChange = (field: keyof RegistrationSurvey, value: string | string[]) => {
+    setSurveyData(prev => ({ ...prev, [field]: value }));
   };
 
   const validateForm = () => {
@@ -134,7 +138,7 @@ export default function RegisterPage() {
         email: formData.email,
         username: formData.username,
         password: formData.password,
-        role: formData.role,
+        registrationSurvey: Object.keys(surveyData).length > 0 ? surveyData : undefined,
       });
     } catch (error) {
       // Error handling is done in the auth context
@@ -218,76 +222,23 @@ export default function RegisterPage() {
         <Card className="p-8 shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Create Your Account</h2>
-            <p className="text-gray-600">Choose your role to get started</p>
+            <p className="text-gray-600">Join the BookHeart community</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Role Selection */}
+            {/* Optional Survey */}
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-gray-700">I want to:</Label>
-              <div className="grid grid-cols-1 gap-3">
-                <button
-                  type="button"
-                  onClick={() => handleRoleChange('buyer')}
-                  className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
-                    formData.role === 'buyer'
-                      ? 'border-purple-500 bg-purple-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+              <Label className="text-sm font-medium text-gray-700">What brings you here? (Optional)</Label>
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  placeholder="e.g., Looking for rare romantasy books, Want to sell my collection..."
+                  value={surveyData.whatBringsYouHere || ''}
+                  onChange={(e) => handleSurveyChange('whatBringsYouHere', e.target.value)}
+                  className="w-full"
                   disabled={isLoading}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Buy Books</h3>
-                      <p className="text-sm text-gray-600">Discover and purchase romantasy books</p>
-                    </div>
-                    {formData.role === 'buyer' && (
-                      <Check className="h-5 w-5 text-purple-600" />
-                    )}
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleRoleChange('seller')}
-                  className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
-                    formData.role === 'seller'
-                      ? 'border-purple-500 bg-purple-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                  disabled={isLoading}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Sell Books</h3>
-                      <p className="text-sm text-gray-600">List your books and earn money</p>
-                    </div>
-                    {formData.role === 'seller' && (
-                      <Check className="h-5 w-5 text-purple-600" />
-                    )}
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleRoleChange('both')}
-                  className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
-                    formData.role === 'both'
-                      ? 'border-purple-500 bg-purple-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                  disabled={isLoading}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Buy & Sell</h3>
-                      <p className="text-sm text-gray-600">Full marketplace access</p>
-                    </div>
-                    {formData.role === 'both' && (
-                      <Check className="h-5 w-5 text-purple-600" />
-                    )}
-                  </div>
-                </button>
+                />
+                <p className="text-xs text-gray-500">This helps us personalize your experience</p>
               </div>
             </div>
 

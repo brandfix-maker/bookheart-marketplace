@@ -46,6 +46,12 @@ class ApiClient {
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
 
+          // Don't try to refresh for auth endpoints (me, refresh, login, register)
+          const isAuthEndpoint = originalRequest.url?.includes('/auth/');
+          if (isAuthEndpoint) {
+            return Promise.reject(error);
+          }
+
           // Prevent multiple refresh requests
           if (!this.refreshPromise) {
             this.refreshPromise = this.refreshToken();

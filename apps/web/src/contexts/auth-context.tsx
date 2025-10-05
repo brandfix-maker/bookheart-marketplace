@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import { User, LoginRequest, RegisterRequest, AuthResponse } from '@bookheart/shared';
+import { User, LoginRequest, RegisterRequest } from '@bookheart/shared';
 import { apiClient, setAuthContextRef } from '@/lib/api-client';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
@@ -28,9 +28,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchUser = useCallback(async () => {
     try {
-      const response = await apiClient.get<User>('/auth/me');
-      if (response.data) {
-        setUser(response.data);
+      const response = await apiClient.get('/auth/me');
+      if (response.data && response.data.success && response.data.data) {
+        setUser(response.data.data as User);
         scheduleTokenRefresh();
       }
     } catch (error) {
@@ -66,9 +66,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isRefreshingRef.current = true;
 
     try {
-      const response = await apiClient.post<AuthResponse>('/auth/refresh');
-      if (response.data?.user) {
-        setUser(response.data.user);
+      const response = await apiClient.post('/auth/refresh');
+      if (response.data && response.data.success && response.data.data?.user) {
+        setUser(response.data.data.user as User);
         scheduleTokenRefresh();
         return true;
       }
@@ -129,13 +129,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (credentials: LoginRequest) => {
     try {
-      const response = await apiClient.post<AuthResponse>('/auth/login', credentials);
-      if (response.data?.user) {
-        setUser(response.data.user);
+      const response = await apiClient.post('/auth/login', credentials);
+      if (response.data && response.data.success && response.data.data?.user) {
+        setUser(response.data.data.user as User);
         scheduleTokenRefresh();
         toast({
           title: 'Welcome back!',
-          description: `Logged in as ${response.data.user.username}`,
+          description: `Logged in as ${response.data.data.user.username}`,
         });
         router.push('/');
       }
@@ -151,9 +151,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = async (data: RegisterRequest) => {
     try {
-      const response = await apiClient.post<AuthResponse>('/auth/register', data);
-      if (response.data?.user) {
-        setUser(response.data.user);
+      const response = await apiClient.post('/auth/register', data);
+      if (response.data && response.data.success && response.data.data?.user) {
+        setUser(response.data.data.user as User);
         scheduleTokenRefresh();
         toast({
           title: 'Account created!',

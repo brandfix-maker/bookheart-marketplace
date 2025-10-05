@@ -14,11 +14,8 @@ import {
   Heart
 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
 export function UserMenu() {
   const { user, logout } = useAuth();
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

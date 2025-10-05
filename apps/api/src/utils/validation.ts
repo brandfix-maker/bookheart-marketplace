@@ -10,7 +10,12 @@ export const registerSchema = z.object({
   password: z.string()
     .min(8, 'Password must be at least 8 characters')
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Password must contain at least one uppercase letter, one lowercase letter, and one number'),
-  role: z.enum(['buyer', 'seller', 'both']).default('buyer'),
+  // Optional survey data for analytics
+  registrationSurvey: z.object({
+    whatBringsYouHere: z.string().optional(),
+    interests: z.array(z.string()).optional(),
+    heardAboutUs: z.string().optional(),
+  }).optional(),
 });
 
 export const loginSchema = z.object({

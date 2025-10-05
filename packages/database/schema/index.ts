@@ -13,9 +13,18 @@ export const users = pgTable('users', {
   email: text('email').unique().notNull(),
   username: text('username').unique().notNull(),
   passwordHash: text('password_hash').notNull(),
+  
+  // Universal account - role field deprecated but kept for backward compatibility
   role: userRoleEnum('role').default('buyer').notNull(),
   
-  // Seller specific
+  // Activity tracking for progressive disclosure
+  hasMadePurchase: boolean('has_made_purchase').default(false),
+  hasListedItem: boolean('has_listed_item').default(false),
+  lastBuyerActivity: timestamp('last_buyer_activity'),
+  lastSellerActivity: timestamp('last_seller_activity'),
+  
+  // Seller onboarding
+  sellerOnboardingCompleted: boolean('seller_onboarding_completed').default(false),
   sellerVerified: boolean('seller_verified').default(false),
   stripeAccountId: text('stripe_account_id'),
   stripeAccountStatus: text('stripe_account_status'),
@@ -26,11 +35,23 @@ export const users = pgTable('users', {
   bio: text('bio'),
   location: text('location'), // For local pickup
   
+  // Optional survey data (for analytics only)
+  registrationSurvey: jsonb('registration_survey').$type<{
+    whatBringsYouHere?: string;
+    interests?: string[];
+    heardAboutUs?: string;
+  }>(),
+  
   // System
   emailVerified: boolean('email_verified').default(false),
   refreshToken: text('refresh_token'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  
+  // Future Stripe integration fields
+  stripeCustomerId: text('stripe_customer_id'), // For buyers
+  paymentMethodId: text('payment_method_id'), // Default payment method
+  subscriptionStatus: text('subscription_status'), // For premium features
 });
 
 export const books = pgTable('books', {

@@ -1,8 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { db } from '../lib/db';
-import { users } from '@bookheart/database';
-import { eq } from '@bookheart/database';
+import { db, users, eq } from '@bookheart/database';
 import { User, RegisterRequest } from '@bookheart/shared';
 
 interface TokenPayload {
@@ -19,8 +17,8 @@ interface TokenPair {
 }
 
 const SALT_ROUNDS = 10;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-refresh-secret';
+const JWT_SECRET = process.env.JWT_SECRET!;
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 const ACCESS_TOKEN_EXPIRY = '15m';
 const REFRESH_TOKEN_EXPIRY = '7d';
 
@@ -68,36 +66,78 @@ export class AuthService {
   }
 
   /**
-   * Create a new user with hashed password
+   * Create a new user with hashed password (Universal Account)
    */
   static async createUser(data: RegisterRequest): Promise<User> {
-    const passwordHash = await this.hashPassword(data.password);
+    console.log('🔐 AuthService.createUser: Starting universal user creation for', data.email);
+    console.log('🔐 AuthService.createUser: Data received:', { email: data.email, username: data.username, registrationSurvey: data.registrationSurvey });
     
-    const [newUser] = await db
-      .insert(users)
-      .values({
+    try {
+      console.log('🔐 AuthService.createUser: Hashing password...');
+      const passwordHash = await this.hashPassword(data.password);
+      console.log('🔐 AuthService.createUser: Password hashed successfully');
+      
+      console.log('🔐 AuthService.createUser: Preparing database insert...');
+      const insertData = {
         email: data.email,
         username: data.username,
         passwordHash,
-        role: data.role,
+        role: 'buyer', // Default role for backward compatibility
         displayName: data.username, // Default display name to username
-      })
-      .returning();
+        // Universal account fields
+        hasMadePurchase: false,
+        hasListedItem: false,
+        sellerOnboardingCompleted: false,
+        registrationSurvey: data.registrationSurvey || null,
+      };
+      console.log('🔐 AuthService.createUser: Insert data prepared:', { ...insertData, passwordHash: '[HASHED]' });
+      
+      console.log('🔐 AuthService.createUser: Executing database insert...');
+      const [newUser] = await db
+        .insert(users)
+        .values(insertData)
+        .returning();
 
-    return {
-      id: newUser.id,
-      email: newUser.email,
-      username: newUser.username,
-      role: newUser.role,
-      displayName: newUser.displayName ?? undefined,
-      avatarUrl: newUser.avatarUrl ?? undefined,
-      sellerVerified: newUser.sellerVerified ?? undefined,
-      location: newUser.location ?? undefined,
-      bio: newUser.bio ?? undefined,
-      emailVerified: newUser.emailVerified ?? undefined,
-      createdAt: newUser.createdAt.toISOString(),
-      updatedAt: newUser.updatedAt.toISOString(),
-    };
+      console.log('🔐 AuthService.createUser: Database insert successful');
+      console.log('🔐 AuthService.createUser: Raw user data:', newUser);
+
+      const userResponse = {
+        id: (newUser as any).id,
+        email: (newUser as any).email,
+        username: (newUser as any).username,
+        role: (newUser as any).role,
+        // Activity tracking
+        hasMadePurchase: (newUser as any).hasMadePurchase || false,
+        hasListedItem: (newUser as any).hasListedItem || false,
+        lastBuyerActivity: (newUser as any).lastBuyerActivity?.toISOString() || undefined,
+        lastSellerActivity: (newUser as any).lastSellerActivity?.toISOString() || undefined,
+        // Seller onboarding
+        sellerOnboardingCompleted: (newUser as any).sellerOnboardingCompleted || false,
+        sellerVerified: (newUser as any).sellerVerified || undefined,
+        // Profile
+        displayName: (newUser as any).displayName || undefined,
+        avatarUrl: (newUser as any).avatarUrl || undefined,
+        location: (newUser as any).location || undefined,
+        bio: (newUser as any).bio || undefined,
+        // Survey data
+        registrationSurvey: (newUser as any).registrationSurvey || undefined,
+        // System
+        emailVerified: (newUser as any).emailVerified || undefined,
+        createdAt: (newUser as any).createdAt.toISOString(),
+        updatedAt: (newUser as any).updatedAt.toISOString(),
+      };
+
+      console.log('🔐 AuthService.createUser: Universal user created successfully with ID:', userResponse.id);
+      return userResponse;
+    } catch (error: any) {
+      console.error('🔐 AuthService.createUser: Detailed error creating user:');
+      console.error('🔐 AuthService.createUser: Error type:', typeof error);
+      console.error('🔐 AuthService.createUser: Error message:', error?.message || 'Unknown error');
+      console.error('🔐 AuthService.createUser: Error code:', error?.code || 'Unknown code');
+      console.error('🔐 AuthService.createUser: Error stack:', error?.stack || 'No stack trace');
+      console.error('🔐 AuthService.createUser: Full error object:', error);
+      throw error;
+    }
   }
 
   /**
@@ -110,7 +150,7 @@ export class AuthService {
       .where(eq(users.email, email))
       .limit(1);
 
-    return user;
+    return user || null;
   }
 
   /**
@@ -123,7 +163,7 @@ export class AuthService {
       .where(eq(users.id, id))
       .limit(1);
 
-    return user;
+    return user || null;
   }
 
   /**
@@ -140,7 +180,7 @@ export class AuthService {
    * Validate refresh token against database
    */
   static async validateRefreshToken(userId: string, token: string): Promise<boolean> {
-    const user = await this.findUserById(userId);
+    const user = await this.findUserById(userId) as any;
     return user?.refreshToken === token;
   }
 
@@ -158,33 +198,49 @@ export class AuthService {
    * Check if email already exists
    */
   static async emailExists(email: string): Promise<boolean> {
-    const [user] = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.email, email))
-      .limit(1);
+    try {
+      console.log('🔍 AuthService.emailExists: Checking email:', email);
+      const [user] = await db
+        .select({ id: users.id })
+        .from(users)
+        .where(eq(users.email, email))
+        .limit(1);
 
-    return !!user;
+      const exists = !!user;
+      console.log('🔍 AuthService.emailExists: Email exists:', exists);
+      return exists;
+    } catch (error) {
+      console.error('🔍 AuthService.emailExists: Error checking email:', error);
+      throw error;
+    }
   }
 
   /**
    * Check if username already exists
    */
   static async usernameExists(username: string): Promise<boolean> {
-    const [user] = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.username, username))
-      .limit(1);
+    try {
+      console.log('🔍 AuthService.usernameExists: Checking username:', username);
+      const [user] = await db
+        .select({ id: users.id })
+        .from(users)
+        .where(eq(users.username, username))
+        .limit(1);
 
-    return !!user;
+      const exists = !!user;
+      console.log('🔍 AuthService.usernameExists: Username exists:', exists);
+      return exists;
+    } catch (error) {
+      console.error('🔍 AuthService.usernameExists: Error checking username:', error);
+      throw error;
+    }
   }
 
   /**
    * Authenticate user with email and password
    */
   static async authenticateUser(email: string, password: string) {
-    const user = await this.findUserByEmail(email);
+    const user = await this.findUserByEmail(email) as any;
     
     if (!user) {
       return null;
@@ -201,12 +257,23 @@ export class AuthService {
       email: user.email,
       username: user.username,
       role: user.role,
-      displayName: user.displayName ?? undefined,
-      avatarUrl: user.avatarUrl ?? undefined,
-      sellerVerified: user.sellerVerified ?? undefined,
-      location: user.location ?? undefined,
-      bio: user.bio ?? undefined,
-      emailVerified: user.emailVerified ?? undefined,
+      // Activity tracking
+      hasMadePurchase: user.hasMadePurchase || false,
+      hasListedItem: user.hasListedItem || false,
+      lastBuyerActivity: user.lastBuyerActivity?.toISOString() || undefined,
+      lastSellerActivity: user.lastSellerActivity?.toISOString() || undefined,
+      // Seller onboarding
+      sellerOnboardingCompleted: user.sellerOnboardingCompleted || false,
+      sellerVerified: user.sellerVerified || undefined,
+      // Profile
+      displayName: user.displayName || undefined,
+      avatarUrl: user.avatarUrl || undefined,
+      location: user.location || undefined,
+      bio: user.bio || undefined,
+      // Survey data
+      registrationSurvey: user.registrationSurvey || undefined,
+      // System
+      emailVerified: user.emailVerified || undefined,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
     };
@@ -216,7 +283,7 @@ export class AuthService {
    * Refresh user tokens
    */
   static async refreshUserTokens(userId: string) {
-    const user = await this.findUserById(userId);
+    const user = await this.findUserById(userId) as any;
     
     if (!user) {
       throw new Error('User not found');
@@ -234,12 +301,23 @@ export class AuthService {
         email: user.email,
         username: user.username,
         role: user.role,
-        displayName: user.displayName ?? undefined,
-        avatarUrl: user.avatarUrl ?? undefined,
-        sellerVerified: user.sellerVerified ?? undefined,
-        location: user.location ?? undefined,
-        bio: user.bio ?? undefined,
-        emailVerified: user.emailVerified ?? undefined,
+        // Activity tracking
+        hasMadePurchase: user.hasMadePurchase || false,
+        hasListedItem: user.hasListedItem || false,
+        lastBuyerActivity: user.lastBuyerActivity?.toISOString() || undefined,
+        lastSellerActivity: user.lastSellerActivity?.toISOString() || undefined,
+        // Seller onboarding
+        sellerOnboardingCompleted: user.sellerOnboardingCompleted || false,
+        sellerVerified: user.sellerVerified || undefined,
+        // Profile
+        displayName: user.displayName || undefined,
+        avatarUrl: user.avatarUrl || undefined,
+        location: user.location || undefined,
+        bio: user.bio || undefined,
+        // Survey data
+        registrationSurvey: user.registrationSurvey || undefined,
+        // System
+        emailVerified: user.emailVerified || undefined,
         createdAt: user.createdAt.toISOString(),
         updatedAt: user.updatedAt.toISOString(),
       },

@@ -30,74 +30,115 @@ router.post('/register',
   registerLimiter,
   validate(registerSchema),
   asyncHandler(async (req, res) => {
-    const { email, username, password, role } = req.body;
+    console.log('📝 POST /api/auth/register: Registration attempt for', req.body.email);
+    
+    try {
+      const { email, username, password, role } = req.body;
+      console.log('📝 Registration data:', { email, username, role });
 
-    // Check if email already exists
-    if (await AuthService.emailExists(email)) {
-      res.status(400).json({
-        success: false,
-        error: 'Email already registered',
+      // Check if email already exists
+      console.log('📝 Checking if email exists:', email);
+      const emailExists = await AuthService.emailExists(email);
+      if (emailExists) {
+        console.log('📝 Email already exists:', email);
+        res.status(409).json({
+          success: false,
+          error: 'Email already registered',
+          code: 'EMAIL_EXISTS',
+        });
+        return;
+      }
+
+      // Check if username already exists
+      console.log('📝 Checking if username exists:', username);
+      const usernameExists = await AuthService.usernameExists(username);
+      if (usernameExists) {
+        console.log('📝 Username already exists:', username);
+        res.status(409).json({
+          success: false,
+          error: 'Username already taken',
+          code: 'USERNAME_EXISTS',
+        });
+        return;
+      }
+
+      // Create user with hashed password
+      console.log('📝 Creating new user...');
+      const user = await AuthService.createUser({ email, username, password, role });
+
+      // Generate tokens
+      console.log('📝 Generating tokens...');
+      const { accessToken, refreshToken } = AuthService.generateTokens(
+        user.id,
+        user.email,
+        user.role
+      );
+
+      // Update refresh token in database
+      console.log('📝 Updating refresh token in database...');
+      await AuthService.updateRefreshToken(user.id, refreshToken);
+
+      // Set cookies
+      console.log('📝 Setting cookies...');
+      res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 15 * 60 * 1000, // 15 minutes
       });
-      return;
-    }
 
-    // Check if username already exists
-    if (await AuthService.usernameExists(username)) {
-      res.status(400).json({
-        success: false,
-        error: 'Username already taken',
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
-      return;
-    }
 
-    // Create user with hashed password
-    const user = await AuthService.createUser({ email, username, password, role });
-
-    // Generate tokens
-    const { accessToken, refreshToken } = AuthService.generateTokens(
-      user.id,
-      user.email,
-      user.role
-    );
-
-    // Update refresh token in database
-    await AuthService.updateRefreshToken(user.id, refreshToken);
-
-    // Set cookies
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 15 * 60 * 1000, // 15 minutes
-    });
-
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-
-    const response: ApiResponse<AuthResponse> = {
-      success: true,
-      data: {
+      const response: ApiResponse<AuthResponse> = {
+        success: true,
+        data: {
         user: {
           ...user,
-          displayName: user.displayName ?? undefined,
-          avatarUrl: user.avatarUrl ?? undefined,
-          sellerVerified: user.sellerVerified ?? undefined,
-          location: user.location ?? undefined,
-          bio: user.bio ?? undefined,
-          emailVerified: user.emailVerified ?? undefined,
-          createdAt: new Date(user.createdAt).toISOString(),
-          updatedAt: new Date(user.updatedAt).toISOString(),
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
         },
-        accessToken,
-        refreshToken,
-      },
-    };
+          accessToken,
+          refreshToken,
+        },
+      };
 
-    res.status(201).json(response);
+      console.log('📝 Registration successful for user:', user.id);
+      res.status(201).json(response);
+    } catch (error: any) {
+      console.error('📝 Registration error:', error);
+      
+      // Check if it's a database connection error
+      if (error.message && error.message.includes('DATABASE_URL')) {
+        res.status(503).json({
+          success: false,
+          error: 'Database connection not configured. Please check DATABASE_URL environment variable.',
+          code: 'DATABASE_CONFIG_ERROR',
+        });
+        return;
+      }
+      
+      // Check if it's a database connection error
+      if (error.message && (error.message.includes('connection') || error.message.includes('ECONNREFUSED'))) {
+        res.status(503).json({
+          success: false,
+          error: 'Database connection failed. Please check your database configuration.',
+          code: 'DATABASE_CONNECTION_ERROR',
+        });
+        return;
+      }
+      
+      // Generic server error
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error during registration',
+        code: 'INTERNAL_ERROR',
+      });
+    }
   })
 );
 
@@ -149,14 +190,8 @@ router.post('/login',
       data: {
         user: {
           ...user,
-          displayName: user.displayName ?? undefined,
-          avatarUrl: user.avatarUrl ?? undefined,
-          sellerVerified: user.sellerVerified ?? undefined,
-          location: user.location ?? undefined,
-          bio: user.bio ?? undefined,
-          emailVerified: user.emailVerified ?? undefined,
-          createdAt: new Date(user.createdAt).toISOString(),
-          updatedAt: new Date(user.updatedAt).toISOString(),
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
         },
         accessToken,
         refreshToken,
@@ -182,7 +217,7 @@ router.post('/refresh',
 
     try {
       // Verify refresh token
-      const payload = AuthService.verifyToken(refreshToken, process.env.JWT_REFRESH_SECRET || 'your-refresh-secret');
+      const payload = AuthService.verifyToken(refreshToken, process.env.JWT_REFRESH_SECRET!);
 
       // Validate refresh token against database
       const isValid = await AuthService.validateRefreshToken(payload.userId, refreshToken);
@@ -216,17 +251,11 @@ router.post('/refresh',
       const response: ApiResponse<AuthResponse> = {
         success: true,
         data: {
-          user: {
-            ...user,
-            displayName: user.displayName ?? undefined,
-            avatarUrl: user.avatarUrl ?? undefined,
-            sellerVerified: user.sellerVerified ?? undefined,
-            location: user.location ?? undefined,
-            bio: user.bio ?? undefined,
-            emailVerified: user.emailVerified ?? undefined,
-            createdAt: new Date(user.createdAt).toISOString(),
-            updatedAt: new Date(user.updatedAt).toISOString(),
-          },
+        user: {
+          ...user,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+        },
           accessToken: tokens.accessToken,
           refreshToken: tokens.refreshToken,
         },
@@ -246,7 +275,7 @@ router.post('/refresh',
 router.get('/me',
   authenticate,
   asyncHandler(async (req, res) => {
-    const user = await AuthService.findUserById(req.user!.userId);
+    const user = await AuthService.findUserById(req.user!.userId) as any;
 
     if (!user) {
       res.status(404).json({
@@ -263,14 +292,14 @@ router.get('/me',
         email: user.email,
         username: user.username,
         role: user.role,
-        displayName: user.displayName ?? undefined,
-        avatarUrl: user.avatarUrl ?? undefined,
-        sellerVerified: user.sellerVerified ?? undefined,
-        location: user.location ?? undefined,
-        bio: user.bio ?? undefined,
-        emailVerified: user.emailVerified ?? undefined,
-        createdAt: new Date(user.createdAt).toISOString(),
-        updatedAt: new Date(user.updatedAt).toISOString(),
+        displayName: user.displayName || undefined,
+        avatarUrl: user.avatarUrl || undefined,
+        sellerVerified: user.sellerVerified || undefined,
+        location: user.location || undefined,
+        bio: user.bio || undefined,
+        emailVerified: user.emailVerified || undefined,
+        createdAt: user.createdAt.toISOString(),
+        updatedAt: user.updatedAt.toISOString(),
       },
     };
 

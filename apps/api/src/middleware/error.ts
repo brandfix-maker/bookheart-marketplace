@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiResponse } from '@bookheart/shared';
 
-interface AppError extends Error {
+export interface AppError extends Error {
   statusCode?: number;
   isOperational?: boolean;
 }
 
 export const errorHandler = (
   err: AppError,
-  req: Request,
+  _req: Request,
   res: Response<ApiResponse>,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   let statusCode = err.statusCode || 500;
   let message = err.message || 'Internal server error';
@@ -42,9 +42,9 @@ export const errorHandler = (
   });
 };
 
-export class AppError extends Error {
-  statusCode: number;
-  isOperational: boolean;
+export class AppError extends Error implements AppError {
+  statusCode?: number;
+  isOperational?: boolean;
 
   constructor(message: string, statusCode: number) {
     super(message);

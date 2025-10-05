@@ -5,7 +5,7 @@ import { asyncHandler } from '../middleware/error';
 const router = Router();
 
 // Get user profile
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(async (_req, res) => {
   // TODO: Implement get user profile
   res.status(501).json({
     success: false,
@@ -14,7 +14,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // Update user profile
-router.put('/profile', authenticate, asyncHandler(async (req, res) => {
+router.put('/profile', authenticate, asyncHandler(async (_req, res) => {
   // TODO: Implement update profile
   res.status(501).json({
     success: false,

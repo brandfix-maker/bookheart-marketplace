@@ -2,10 +2,16 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Heart, Search, Menu } from 'lucide-react';
+import { Heart, Search, Menu, ChevronDown } from 'lucide-react';
 import { UserMenu, UserMenuCompact } from './user-menu';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export function Header() {
   return (
@@ -23,7 +29,7 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link 
-              href="/browse" 
+              href="/books" 
               className="text-gray-700 hover:text-purple-600 transition-colors font-medium"
             >
               Browse Books
@@ -34,12 +40,34 @@ export function Header() {
             >
               Categories
             </Link>
-            <Link 
-              href="/about" 
-              className="text-gray-700 hover:text-purple-600 transition-colors font-medium"
-            >
-              About
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-purple-600 transition-colors font-medium focus:outline-none">
+                About
+                <ChevronDown className="ml-1 h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuItem asChild>
+                  <Link href="/about/founder" className="w-full">
+                    Message from Our Founder
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/about/mission" className="w-full text-gray-500">
+                    Our Mission
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/about/how-it-works" className="w-full text-gray-500">
+                    How It Works
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/about/trust-safety" className="w-full text-gray-500">
+                    Trust & Safety
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
 
           {/* Search Bar */}

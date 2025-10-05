@@ -5,7 +5,7 @@ import { asyncHandler } from '../middleware/error';
 const router = Router();
 
 // Get reviews for a user
-router.get('/user/:userId', asyncHandler(async (req, res) => {
+router.get('/user/:userId', asyncHandler(async (_req, res) => {
   // TODO: Implement get user reviews
   res.status(501).json({
     success: false,
@@ -14,7 +14,7 @@ router.get('/user/:userId', asyncHandler(async (req, res) => {
 }));
 
 // Create review
-router.post('/', authenticate, asyncHandler(async (req, res) => {
+router.post('/', authenticate, asyncHandler(async (_req, res) => {
   // TODO: Implement create review
   res.status(501).json({
     success: false,

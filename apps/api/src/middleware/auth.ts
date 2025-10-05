@@ -82,7 +82,7 @@ export const requireRole = (...roles: User['role'][]) => {
 // Optional authentication - doesn't fail if no token
 export const optionalAuth = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
