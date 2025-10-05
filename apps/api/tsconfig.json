@@ -1,10 +1,6 @@
 {
   "extends": "@bookheart/config/typescript/base.json",
   "compilerOptions": {
-    "typeRoots": [
-      "../../node_modules/@types",
-      "./node_modules/@types"
-    ],
     "outDir": "./dist",
     "rootDir": "./src",
     "lib": ["ES2022"],
