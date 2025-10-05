@@ -1,15 +1,17 @@
 export interface Message {
   id: string;
-  transactionId?: string;
   senderId: string;
   recipientId: string;
-  content: string;
+  bookId?: string; // Context for message
+  transactionId?: string;
+  messageText: string;
   isRead: boolean;
   readAt?: string;
   
   // Relations
   sender?: User;
   recipient?: User;
+  book?: Book;
   transaction?: Transaction;
   
   createdAt: string;
@@ -17,7 +19,8 @@ export interface Message {
 
 export interface SendMessageRequest {
   recipientId: string;
-  content: string;
+  messageText: string;
+  bookId?: string;
   transactionId?: string;
 }
 
@@ -34,4 +37,5 @@ export interface MarkAsReadRequest {
 
 // Import types from other files
 import type { User } from './user';
+import type { Book } from './book';
 import type { Transaction } from './transaction';

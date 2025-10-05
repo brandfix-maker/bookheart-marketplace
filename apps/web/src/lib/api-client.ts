@@ -26,6 +26,10 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
+        // Don't set Content-Type for FormData - let the browser set it with boundary
+        if (config.data instanceof FormData) {
+          delete config.headers['Content-Type'];
+        }
         // Add any auth headers if needed
         return config;
       },

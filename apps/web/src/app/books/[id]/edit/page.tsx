@@ -83,7 +83,6 @@ export default function EditBookPage() {
             isSpecialEdition: book.isSpecialEdition,
             specialEditionDetails: book.specialEditionDetails || {
               paintedEdges: false,
-              signedCopy: false,
               firstEdition: false,
               exclusiveCover: false,
               sprayed: false,

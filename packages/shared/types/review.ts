@@ -1,8 +1,11 @@
+export type ReviewType = 'seller' | 'buyer';
+
 export interface Review {
   id: string;
   transactionId: string;
   reviewerId: string;
   reviewedUserId: string;
+  reviewType: ReviewType;
   rating: number; // 1-5
   comment?: string;
   conditionAccurate?: boolean;

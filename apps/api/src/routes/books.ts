@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate, optionalAuth, requireRole } from '../middleware/auth';
+import { authenticate, optionalAuth } from '../middleware/auth';
 import { asyncHandler } from '../middleware/error';
 import { validate } from '../middleware/validation';
 import { BookService } from '../services/book.service';
@@ -49,8 +49,8 @@ router.get('/', optionalAuth, asyncHandler(async (req, res) => {
 
 
 
-// Get seller's books (seller only)
-router.get('/seller/my-books', authenticate, requireRole('seller', 'both'), asyncHandler(async (req, res) => {
+// Get seller's books (any authenticated user can view their own books)
+router.get('/seller/my-books', authenticate, asyncHandler(async (req, res) => {
   const { status } = req.query;
   const sellerId = req.user!.userId;
 
@@ -64,8 +64,77 @@ router.get('/seller/my-books', authenticate, requireRole('seller', 'both'), asyn
   res.json(response);
 }));
 
-// Get seller dashboard stats (seller only)
-router.get('/seller/stats', authenticate, requireRole('seller', 'both'), asyncHandler(async (req, res) => {
+// Get all drafts for seller
+router.get('/drafts', authenticate, asyncHandler(async (req, res) => {
+  const sellerId = req.user!.userId;
+
+  const drafts = await BookService.getSellerBooks(sellerId, 'draft');
+  
+  const response: ApiResponse = {
+    success: true,
+    data: drafts,
+  };
+
+  res.json(response);
+}));
+
+// Get single draft
+router.get('/drafts/:id', authenticate, asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const sellerId = req.user!.userId;
+
+  const validation = uuidSchema.safeParse(id);
+  if (!validation.success) {
+    res.status(400).json({
+      success: false,
+      error: 'Invalid draft ID format',
+    });
+    return;
+  }
+
+  const book = await BookService.getBookById(id);
+  
+  if (!book || book.sellerId !== sellerId || book.status !== 'draft') {
+    res.status(404).json({
+      success: false,
+      error: 'Draft not found',
+    });
+    return;
+  }
+
+  const response: ApiResponse = {
+    success: true,
+    data: book,
+  };
+
+  res.json(response);
+}));
+
+// Save/update draft
+router.post('/drafts', authenticate, asyncHandler(async (req, res) => {
+  const sellerId = req.user!.userId;
+  const bookData = { ...req.body, status: 'draft' };
+
+  // If id exists, update; otherwise create
+  if (bookData.id) {
+    const book = await BookService.updateBook(bookData.id, sellerId, bookData);
+    const response: ApiResponse = {
+      success: true,
+      data: book,
+    };
+    res.json(response);
+  } else {
+    const book = await BookService.createBook(sellerId, bookData);
+    const response: ApiResponse = {
+      success: true,
+      data: book,
+    };
+    res.status(201).json(response);
+  }
+}));
+
+// Get seller dashboard stats (any authenticated user can view their stats)
+router.get('/seller/stats', authenticate, asyncHandler(async (req, res) => {
   const sellerId = req.user!.userId;
 
   const stats = await BookService.getSellerStats(sellerId);
@@ -78,8 +147,8 @@ router.get('/seller/stats', authenticate, requireRole('seller', 'both'), asyncHa
   res.json(response);
 }));
 
-// Create new book (seller only)
-router.post('/', authenticate, requireRole('seller', 'both'), validate(createBookSchema), asyncHandler(async (req, res) => {
+// Create new book (any authenticated user can list books)
+router.post('/', authenticate, validate(createBookSchema), asyncHandler(async (req, res) => {
   const sellerId = req.user!.userId;
   const bookData = req.body;
 
@@ -93,8 +162,8 @@ router.post('/', authenticate, requireRole('seller', 'both'), validate(createBoo
   res.status(201).json(response);
 }));
 
-// Update book (seller only)
-router.put('/:id', authenticate, requireRole('seller', 'both'), validate(updateBookSchema), asyncHandler(async (req, res) => {
+// Update book (any authenticated user can update their own books)
+router.put('/:id', authenticate, validate(updateBookSchema), asyncHandler(async (req, res) => {
   const { id } = req.params;
   const sellerId = req.user!.userId;
   const updateData = req.body;
@@ -119,8 +188,8 @@ router.put('/:id', authenticate, requireRole('seller', 'both'), validate(updateB
   res.json(response);
 }));
 
-// Delete book (seller only)
-router.delete('/:id', authenticate, requireRole('seller', 'both'), asyncHandler(async (req, res) => {
+// Delete book (any authenticated user can delete their own books)
+router.delete('/:id', authenticate, asyncHandler(async (req, res) => {
   const { id } = req.params;
   const sellerId = req.user!.userId;
 
@@ -144,8 +213,8 @@ router.delete('/:id', authenticate, requireRole('seller', 'both'), asyncHandler(
   res.json(response);
 }));
 
-// Add book image (seller only)
-router.post('/:id/images', authenticate, requireRole('seller', 'both'), asyncHandler(async (req, res) => {
+// Add book image (any authenticated user can add images to their books)
+router.post('/:id/images', authenticate, asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { cloudinaryUrl, cloudinaryPublicId, altText, isPrimary, width, height } = req.body;
 
@@ -176,8 +245,8 @@ router.post('/:id/images', authenticate, requireRole('seller', 'both'), asyncHan
   res.status(201).json(response);
 }));
 
-// Remove book image (seller only)
-router.delete('/:id/images/:imageId', authenticate, requireRole('seller', 'both'), asyncHandler(async (req, res) => {
+// Remove book image (any authenticated user can remove images from their books)
+router.delete('/:id/images/:imageId', authenticate, asyncHandler(async (req, res) => {
   const { id, imageId } = req.params;
   const sellerId = req.user!.userId;
 
@@ -276,6 +345,43 @@ router.get('/recent', optionalAuth, asyncHandler(async (req, res) => {
   const response: ApiResponse = {
     success: true,
     data: recentBooks,
+  };
+
+  res.json(response);
+}));
+
+// Recommended books (authenticated users only)
+router.get('/recommended', authenticate, asyncHandler(async (req, res) => {
+  const { limit = '10' } = req.query;
+  const userId = req.user!.userId;
+  
+  const recommendedBooks = await BookService.getRecommendedBooks(userId, Number(limit));
+  
+  const response: ApiResponse = {
+    success: true,
+    data: recommendedBooks,
+  };
+
+  res.json(response);
+}));
+
+// Autocomplete for search
+router.get('/autocomplete', optionalAuth, asyncHandler(async (req, res) => {
+  const { q, limit = '10' } = req.query;
+  
+  if (!q || typeof q !== 'string') {
+    res.status(400).json({
+      success: false,
+      error: 'Query parameter is required',
+    });
+    return;
+  }
+
+  const autocomplete = await BookService.getSearchSuggestions(q, Number(limit));
+  
+  const response: ApiResponse = {
+    success: true,
+    data: autocomplete,
   };
 
   res.json(response);

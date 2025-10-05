@@ -4,8 +4,19 @@ import { pgTable, uuid, text, integer, boolean, timestamp, jsonb, index, pgEnum 
 export const userRoleEnum = pgEnum('user_role', ['buyer', 'seller', 'both', 'admin']);
 export const bookConditionEnum = pgEnum('book_condition', ['new', 'like-new', 'very-good', 'good', 'acceptable']);
 export const bookStatusEnum = pgEnum('book_status', ['draft', 'active', 'pending', 'sold', 'removed']);
+export const transactionTypeEnum = pgEnum('transaction_type', ['buy_now', 'accepted_offer', 'auction_win']);
 export const transactionStatusEnum = pgEnum('transaction_status', [
-  'pending', 'authorized', 'shipped', 'delivered', 'completed', 'disputed', 'refunded', 'cancelled'
+  'pending_payment', 'paid', 'shipped', 'delivered', 'inspection_approved', 'disputed', 'completed', 'cancelled', 'refunded'
+]);
+export const offerStatusEnum = pgEnum('offer_status', ['pending', 'accepted', 'rejected', 'expired', 'countered']);
+export const auctionStatusEnum = pgEnum('auction_status', ['active', 'ended', 'cancelled']);
+export const reviewTypeEnum = pgEnum('review_type', ['seller', 'buyer']);
+export const subscriptionBoxEnum = pgEnum('subscription_box', [
+  'FairyLoot', 'OwlCrate', 'IllumiCrate', 'Locked Library', 'Alluria', 'Acrylipics', 'Bookish', 'Bookish Darkly'
+]);
+export const signatureTypeEnum = pgEnum('signature_type', ['hand', 'bookplate', 'digital']);
+export const forumCategoryEnum = pgEnum('forum_category', [
+  'new-releases', 'iso', 'collections', 'author-events', 'reading-challenges', 'feedback'
 ]);
 
 export const users = pgTable('users', {
@@ -75,14 +86,23 @@ export const books = pgTable('books', {
   conditionNotes: text('condition_notes'),
   priceCents: integer('price_cents').notNull(),
   shippingPriceCents: integer('shipping_price_cents').default(0),
+  acceptsOffers: boolean('accepts_offers').default(false),
   localPickupAvailable: boolean('local_pickup_available').default(false),
   
-  // Special editions
+  // Location for distance calculations
+  city: text('city'),
+  state: text('state'),
+  zipCode: text('zip_code'),
+  
+  // Special editions - enhanced structure
   isSpecialEdition: boolean('is_special_edition').default(false),
+  subscriptionBox: subscriptionBoxEnum('subscription_box'),
+  isSigned: boolean('is_signed').default(false),
+  signatureType: signatureTypeEnum('signature_type'),
   specialEditionDetails: jsonb('special_edition_details').$type<{
     paintedEdges?: boolean;
-    signedCopy?: boolean;
     firstEdition?: boolean;
+    dustJacket?: boolean;
     exclusiveCover?: boolean;
     sprayed?: boolean;
     customDustJacket?: boolean;
@@ -120,9 +140,12 @@ export const transactions = pgTable('transactions', {
   buyerId: uuid('buyer_id').references(() => users.id).notNull(),
   sellerId: uuid('seller_id').references(() => users.id).notNull(),
   
+  // Transaction type
+  transactionType: transactionTypeEnum('transaction_type').default('buy_now').notNull(),
+  
   // Financial (cents)
-  bookPriceCents: integer('book_price_cents').notNull(),
-  shippingPriceCents: integer('shipping_price_cents').default(0),
+  itemPriceCents: integer('item_price_cents').notNull(),
+  shippingCents: integer('shipping_cents').default(0),
   platformFeeCents: integer('platform_fee_cents').notNull(), // 7%
   sellerPayoutCents: integer('seller_payout_cents').notNull(),
   totalCents: integer('total_cents').notNull(),
@@ -133,15 +156,18 @@ export const transactions = pgTable('transactions', {
   stripeRefundId: text('stripe_refund_id'),
   
   // Status flow
-  status: transactionStatusEnum('status').default('pending').notNull(),
+  status: transactionStatusEnum('status').default('pending_payment').notNull(),
   
   // Milestones
-  authorizedAt: timestamp('authorized_at'),
+  paidAt: timestamp('paid_at'),
   shippedAt: timestamp('shipped_at'),
   deliveredAt: timestamp('delivered_at'),
-  inspectionEndsAt: timestamp('inspection_ends_at'),
+  inspectionDeadline: timestamp('inspection_deadline'), // 72 hours after delivery
+  inspectionApprovedAt: timestamp('inspection_approved_at'),
   completedAt: timestamp('completed_at'),
   disputedAt: timestamp('disputed_at'),
+  cancelledAt: timestamp('cancelled_at'),
+  refundedAt: timestamp('refunded_at'),
   
   // Shipping
   shippingMethod: text('shipping_method'),
@@ -163,6 +189,7 @@ export const reviews = pgTable('reviews', {
   reviewerId: uuid('reviewer_id').references(() => users.id).notNull(),
   reviewedUserId: uuid('reviewed_user_id').references(() => users.id).notNull(),
   
+  reviewType: reviewTypeEnum('review_type').notNull(),
   rating: integer('rating').notNull(), // 1-5
   comment: text('comment'),
   
@@ -180,26 +207,165 @@ export const reviews = pgTable('reviews', {
 
 export const wishlists = pgTable('wishlists', {
   id: uuid('id').primaryKey().defaultRandom(),
-  userId: uuid('user_id').references(() => users.id).notNull(),
-  bookId: uuid('book_id').references(() => books.id).notNull(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  bookId: uuid('book_id').references(() => books.id, { onDelete: 'cascade' }).notNull(),
+  priceAlertThresholdCents: integer('price_alert_threshold_cents'), // Notify when book drops below this price
+  notes: text('notes'),
   notifyOnPriceDrop: boolean('notify_on_price_drop').default(true),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export const messages = pgTable('messages', {
   id: uuid('id').primaryKey().defaultRandom(),
-  transactionId: uuid('transaction_id').references(() => transactions.id),
-  senderId: uuid('sender_id').references(() => users.id).notNull(),
-  recipientId: uuid('recipient_id').references(() => users.id).notNull(),
-  content: text('content').notNull(),
+  senderId: uuid('sender_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  recipientId: uuid('recipient_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  bookId: uuid('book_id').references(() => books.id, { onDelete: 'set null' }), // Context for message
+  transactionId: uuid('transaction_id').references(() => transactions.id, { onDelete: 'set null' }),
+  messageText: text('message_text').notNull(),
   isRead: boolean('is_read').default(false),
   readAt: timestamp('read_at'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+export const offers = pgTable('offers', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  buyerId: uuid('buyer_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  sellerId: uuid('seller_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  bookId: uuid('book_id').references(() => books.id, { onDelete: 'cascade' }).notNull(),
+  
+  offerAmountCents: integer('offer_amount_cents').notNull(),
+  messageToSeller: text('message_to_seller'),
+  status: offerStatusEnum('status').default('pending').notNull(),
+  
+  // 48-hour expiration from creation
+  expiresAt: timestamp('expires_at').notNull(),
+  
+  // Counter offer
+  counterOfferAmountCents: integer('counter_offer_amount_cents'),
+  counterOfferMessage: text('counter_offer_message'),
+  
+  // Response tracking
+  respondedAt: timestamp('responded_at'),
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const auctions = pgTable('auctions', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  bookId: uuid('book_id').references(() => books.id, { onDelete: 'cascade' }).unique().notNull(),
+  sellerId: uuid('seller_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  
+  startingBidCents: integer('starting_bid_cents').notNull(),
+  currentBidCents: integer('current_bid_cents').notNull(),
+  reservePriceCents: integer('reserve_price_cents'), // Nullable - optional reserve
+  currentHighBidderId: uuid('current_high_bidder_id').references(() => users.id),
+  
+  status: auctionStatusEnum('status').default('active').notNull(),
+  
+  // Timing
+  startTime: timestamp('start_time').defaultNow().notNull(),
+  endTime: timestamp('end_time').notNull(),
+  
+  // Stats
+  totalBids: integer('total_bids').default(0),
+  uniqueBidders: integer('unique_bidders').default(0),
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const auctionBids = pgTable('auction_bids', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  auctionId: uuid('auction_id').references(() => auctions.id, { onDelete: 'cascade' }).notNull(),
+  bidderId: uuid('bidder_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  
+  bidAmountCents: integer('bid_amount_cents').notNull(),
+  autoBidMaxCents: integer('auto_bid_max_cents'), // For automatic bidding
+  
+  isAutoBid: boolean('is_auto_bid').default(false), // Was this bid placed automatically?
+  isWinningBid: boolean('is_winning_bid').default(false), // Updated when auction ends
+  
+  bidTime: timestamp('bid_time').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const forums = pgTable('forums', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  category: forumCategoryEnum('category').notNull(),
+  threadTitle: text('thread_title').notNull(),
+  authorId: uuid('author_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  
+  isPinned: boolean('is_pinned').default(false),
+  isLocked: boolean('is_locked').default(false),
+  
+  // Stats
+  viewCount: integer('view_count').default(0),
+  replyCount: integer('reply_count').default(0),
+  
+  // Last activity tracking
+  lastPostId: uuid('last_post_id'),
+  lastPostAt: timestamp('last_post_at'),
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const forumPosts = pgTable('forum_posts', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  threadId: uuid('thread_id').references(() => forums.id, { onDelete: 'cascade' }).notNull(),
+  authorId: uuid('author_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  
+  postContent: text('post_content').notNull(), // Rich text
+  parentPostId: uuid('parent_post_id').references((): any => forumPosts.id, { onDelete: 'cascade' }), // For nested replies
+  
+  // Voting
+  upvotes: integer('upvotes').default(0),
+  downvotes: integer('downvotes').default(0),
+  
+  // Moderation
+  isEdited: boolean('is_edited').default(false),
+  editedAt: timestamp('edited_at'),
+  isDeleted: boolean('is_deleted').default(false),
+  deletedAt: timestamp('deleted_at'),
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 // Performance indexes
 export const booksSellerStatusIdx = index('books_seller_status_idx').on(books.sellerId, books.status);
+// Index for searching the 'title' field in books.
+// Note: Intended for JSONB array search, but using standard indexing due to Drizzle limitations (GIN not supported here).
 export const booksTitleIdx = index('books_title_idx').on(books.title);
 export const booksAuthorIdx = index('books_author_idx').on(books.author);
+export const booksSubscriptionBoxIdx = index('books_subscription_box_idx').on(books.subscriptionBox);
+export const booksTropesIdx = index('books_tropes_idx').on(books.tropes); // JSONB array search - using standard indexing due to Drizzle limitations
 export const transactionsBuyerIdx = index('transactions_buyer_idx').on(transactions.buyerId);
 export const transactionsSellerIdx = index('transactions_seller_idx').on(transactions.sellerId);
+export const transactionsStatusIdx = index('transactions_status_idx').on(transactions.buyerId, transactions.sellerId, transactions.status);
+
+export const offersSellerStatusIdx = index('offers_seller_status_idx').on(offers.sellerId, offers.status);
+export const offersBuyerIdx = index('offers_buyer_idx').on(offers.buyerId);
+export const offersBookIdx = index('offers_book_idx').on(offers.bookId);
+
+export const auctionsStatusIdx = index('auctions_status_idx').on(auctions.status);
+export const auctionsEndTimeIdx = index('auctions_end_time_idx').on(auctions.endTime);
+
+export const auctionBidsAuctionIdx = index('auction_bids_auction_idx').on(auctionBids.auctionId);
+export const auctionBidsBidderIdx = index('auction_bids_bidder_idx').on(auctionBids.bidderId);
+
+export const reviewsReviewedUserIdx = index('reviews_reviewed_user_idx').on(reviews.reviewedUserId, reviews.rating);
+export const reviewsReviewerIdx = index('reviews_reviewer_idx').on(reviews.reviewerId);
+
+export const wishlistsUserIdx = index('wishlists_user_idx').on(wishlists.userId);
+export const wishlistsBookIdx = index('wishlists_book_idx').on(wishlists.bookId);
+
+export const messagesRecipientReadIdx = index('messages_recipient_read_idx').on(messages.recipientId, messages.isRead);
+export const messagesSenderIdx = index('messages_sender_idx').on(messages.senderId);
+
+export const forumsCategoryIdx = index('forums_category_idx').on(forums.category);
+export const forumsLastPostIdx = index('forums_last_post_idx').on(forums.lastPostAt);
+
+export const forumPostsThreadIdx = index('forum_posts_thread_idx').on(forumPosts.threadId);
+export const forumPostsAuthorIdx = index('forum_posts_author_idx').on(forumPosts.authorId);

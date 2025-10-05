@@ -5,4 +5,7 @@ export * from './transaction';
 export * from './review';
 export * from './wishlist';
 export * from './message';
+export * from './offer';
+export * from './auction';
+export * from './forum';
 export * from './api';

@@ -1,5 +1,15 @@
 export type BookCondition = 'new' | 'like-new' | 'very-good' | 'good' | 'acceptable';
 export type BookStatus = 'draft' | 'active' | 'pending' | 'sold' | 'removed';
+export type SubscriptionBox = 
+  | 'FairyLoot' 
+  | 'OwlCrate' 
+  | 'IllumiCrate' 
+  | 'Locked Library' 
+  | 'Alluria' 
+  | 'Acrylipics' 
+  | 'Bookish' 
+  | 'Bookish Darkly';
+export type SignatureType = 'hand' | 'bookplate' | 'digital';
 
 export interface Book {
   id: string;
@@ -16,9 +26,21 @@ export interface Book {
   conditionNotes?: string;
   priceCents: number;
   shippingPriceCents: number;
+  acceptsOffers: boolean;
   localPickupAvailable: boolean;
+  
+  // Location for distance calculations
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  
+  // Special editions
   isSpecialEdition: boolean;
+  subscriptionBox?: SubscriptionBox;
+  isSigned: boolean;
+  signatureType?: SignatureType;
   specialEditionDetails?: SpecialEditionDetails;
+  
   status: BookStatus;
   images: BookImage[];
   seller?: User;
@@ -32,8 +54,8 @@ export interface Book {
 
 export interface SpecialEditionDetails {
   paintedEdges?: boolean;
-  signedCopy?: boolean;
   firstEdition?: boolean;
+  dustJacket?: boolean;
   exclusiveCover?: boolean;
   sprayed?: boolean;
   customDustJacket?: boolean;

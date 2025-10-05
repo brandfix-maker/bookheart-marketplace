@@ -3,6 +3,9 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { AuthProvider } from '@/contexts/auth-context'
+import { CartProvider } from '@/contexts/cart-context'
+import { WishlistProvider } from '@/contexts/wishlist-context'
+import { MarketplaceNav } from '@/components/layout/marketplace-nav'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -47,10 +50,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen bg-background antialiased`}>
+      <body className={`${inter.className} min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-white antialiased`}>
         <AuthProvider>
-          {children}
-          <Toaster />
+          <CartProvider>
+            <WishlistProvider>
+              <MarketplaceNav />
+              <main className="min-h-[calc(100vh-72px-64px)] lg:min-h-[calc(100vh-72px)]">
+                {children}
+              </main>
+              <Toaster />
+            </WishlistProvider>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

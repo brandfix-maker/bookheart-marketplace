@@ -91,6 +91,7 @@ const config: Config = {
       fontFamily: {
         serif: ['Cinzel', 'serif'],
         sans: ['Inter', 'sans-serif'],
+        dancing: ['Dancing Script', 'cursive'],
       },
       borderRadius: {
         lg: "var(--radius)",

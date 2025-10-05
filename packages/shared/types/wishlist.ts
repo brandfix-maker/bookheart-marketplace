@@ -2,6 +2,8 @@ export interface Wishlist {
   id: string;
   userId: string;
   bookId: string;
+  priceAlertThresholdCents?: number; // Notify when book drops below this price
+  notes?: string;
   notifyOnPriceDrop: boolean;
   
   // Relations
@@ -13,6 +15,14 @@ export interface Wishlist {
 
 export interface AddToWishlistRequest {
   bookId: string;
+  priceAlertThresholdCents?: number;
+  notes?: string;
+  notifyOnPriceDrop?: boolean;
+}
+
+export interface UpdateWishlistRequest {
+  priceAlertThresholdCents?: number;
+  notes?: string;
   notifyOnPriceDrop?: boolean;
 }
 

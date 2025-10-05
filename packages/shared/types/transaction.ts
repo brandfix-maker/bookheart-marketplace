@@ -1,20 +1,25 @@
+export type TransactionType = 'buy_now' | 'accepted_offer' | 'auction_win';
 export type TransactionStatus = 
-  | 'pending' 
-  | 'authorized' 
+  | 'pending_payment' 
+  | 'paid' 
   | 'shipped' 
   | 'delivered' 
-  | 'completed' 
+  | 'inspection_approved'
   | 'disputed' 
-  | 'refunded' 
-  | 'cancelled';
+  | 'completed' 
+  | 'cancelled'
+  | 'refunded';
 
 export interface Transaction {
   id: string;
   bookId: string;
   buyerId: string;
   sellerId: string;
-  bookPriceCents: number;
-  shippingPriceCents: number;
+  
+  transactionType: TransactionType;
+  
+  itemPriceCents: number;
+  shippingCents: number;
   platformFeeCents: number;
   sellerPayoutCents: number;
   totalCents: number;
@@ -26,12 +31,15 @@ export interface Transaction {
   stripeRefundId?: string;
   
   // Milestones
-  authorizedAt?: string;
+  paidAt?: string;
   shippedAt?: string;
   deliveredAt?: string;
-  inspectionEndsAt?: string;
+  inspectionDeadline?: string; // 72 hours after delivery
+  inspectionApprovedAt?: string;
   completedAt?: string;
   disputedAt?: string;
+  cancelledAt?: string;
+  refundedAt?: string;
   
   // Shipping
   shippingMethod?: string;

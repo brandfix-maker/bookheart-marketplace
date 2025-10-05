@@ -15,7 +15,7 @@ import {
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b bg-gray-800/95 backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -30,18 +30,18 @@ export function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link 
               href="/books" 
-              className="text-gray-700 hover:text-purple-600 transition-colors font-medium"
+              className="text-gray-200 hover:text-purple-400 transition-colors font-medium"
             >
               Browse Books
             </Link>
             <Link 
               href="/categories" 
-              className="text-gray-700 hover:text-purple-600 transition-colors font-medium"
+              className="text-gray-200 hover:text-purple-400 transition-colors font-medium"
             >
               Categories
             </Link>
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-purple-600 transition-colors font-medium focus:outline-none">
+              <DropdownMenuTrigger className="flex items-center text-gray-200 hover:text-purple-400 transition-colors font-medium focus:outline-none">
                 About
                 <ChevronDown className="ml-1 h-4 w-4" />
               </DropdownMenuTrigger>
@@ -77,20 +77,35 @@ export function Header() {
               <Input
                 type="search"
                 placeholder="Search books, authors, series..."
-                className="pl-10 pr-4 py-2 w-full border-gray-300 focus:ring-purple-500 focus:border-purple-500"
+                className="pl-10 pr-4 py-2 w-full border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:ring-purple-400 focus:border-purple-400"
               />
             </div>
           </div>
 
           {/* User Menu */}
           <div className="flex items-center space-x-4">
+            {/* Sell Your Books Button - Desktop */}
+            <Link href="/sell">
+              <Button className="hidden md:flex items-center gap-2 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 min-w-[160px] group">
+                <Heart className="h-4 w-4 group-hover:animate-pulse" />
+                Sell Your Books
+              </Button>
+            </Link>
+            
+            {/* Sell Your Books Button - Mobile */}
+            <Link href="/sell" className="md:hidden">
+              <Button size="icon" className="bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-10 h-10 group">
+                <Heart className="h-4 w-4 group-hover:animate-pulse" />
+              </Button>
+            </Link>
+
             {/* Mobile Search Button */}
-            <Button variant="ghost" size="sm" className="lg:hidden">
+            <Button variant="ghost" size="sm" className="lg:hidden text-gray-200 hover:text-white hover:bg-gray-700">
               <Search className="h-4 w-4" />
             </Button>
 
             {/* Mobile Menu Button */}
-            <Button variant="ghost" size="sm" className="md:hidden">
+            <Button variant="ghost" size="sm" className="md:hidden text-gray-200 hover:text-white hover:bg-gray-700">
               <Menu className="h-4 w-4" />
             </Button>
 
@@ -113,7 +128,7 @@ export function Header() {
             <Input
               type="search"
               placeholder="Search books, authors, series..."
-              className="pl-10 pr-4 py-2 w-full border-gray-300 focus:ring-purple-500 focus:border-purple-500"
+              className="pl-10 pr-4 py-2 w-full border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:ring-purple-400 focus:border-purple-400"
             />
           </div>
         </div>

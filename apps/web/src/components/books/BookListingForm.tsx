@@ -63,7 +63,6 @@ export function BookListingForm({ initialData, bookId, onSuccess }: BookListingF
     isSpecialEdition: initialData?.isSpecialEdition || false,
     specialEditionDetails: initialData?.specialEditionDetails || {
       paintedEdges: false,
-      signedCopy: false,
       firstEdition: false,
       exclusiveCover: false,
       sprayed: false,
@@ -172,11 +171,7 @@ export function BookListingForm({ initialData, bookId, onSuccess }: BookListingF
           formData.append('images', file);
         });
 
-        const response = await apiClient.post('/images/upload-multiple', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        const response = await apiClient.post('/images/upload-multiple', formData);
 
         imageUrls = response.data.map((img: any) => img.url);
       }

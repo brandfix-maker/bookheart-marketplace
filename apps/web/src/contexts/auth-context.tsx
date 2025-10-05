@@ -13,8 +13,8 @@ interface AuthContextType {
   login: (credentials: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
-  refreshToken: () => Promise<boolean>;
   refreshUser: () => Promise<void>;
+  refreshToken: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,6 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const router = useRouter();
   const refreshTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isRefreshingRef = useRef(false);
@@ -128,46 +129,72 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (credentials: LoginRequest) => {
+    setIsAuthenticating(true);
     try {
+      console.log('🔐 Starting login request...');
       const response = await apiClient.post('/auth/login', credentials);
-      if (response.data && response.data.success && response.data.data?.user) {
-        setUser(response.data.data.user as User);
+      console.log('✅ Login response received:', response.data);
+      
+      // Handle direct response format (not wrapped in ApiResponse)
+      if (response.data && response.data.user) {
+        console.log('👤 Setting user:', response.data.user);
+        setUser(response.data.user as User);
         scheduleTokenRefresh();
         toast({
           title: 'Welcome back!',
-          description: `Logged in as ${response.data.data.user.username}`,
+          description: `Logged in as ${response.data.user.username}`,
         });
+        console.log('🏠 Redirecting to home...');
         router.push('/');
+      } else {
+        console.error('❌ Unexpected response format:', response.data);
+        throw new Error('Invalid response format');
       }
     } catch (error: any) {
+      console.error('❌ Login error:', error);
       toast({
         title: 'Login failed',
         description: error.response?.data?.error || 'Invalid email or password',
         variant: 'destructive',
       });
       throw error;
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
   const register = async (data: RegisterRequest) => {
+    setIsAuthenticating(true);
     try {
+      console.log('📝 Starting registration request...');
       const response = await apiClient.post('/auth/register', data);
-      if (response.data && response.data.success && response.data.data?.user) {
-        setUser(response.data.data.user as User);
+      console.log('✅ Registration response received:', response.data);
+      
+      // Handle direct response format (not wrapped in ApiResponse)
+      if (response.data && response.data.user) {
+        console.log('👤 Setting user:', response.data.user);
+        setUser(response.data.user as User);
         scheduleTokenRefresh();
         toast({
           title: 'Account created!',
           description: 'Welcome to BookHeart',
         });
+        console.log('🏠 Redirecting to home...');
         router.push('/');
+      } else {
+        console.error('❌ Unexpected response format:', response.data);
+        throw new Error('Invalid response format');
       }
     } catch (error: any) {
+      console.error('❌ Registration error:', error);
       toast({
         title: 'Registration failed',
         description: error.response?.data?.error || 'Failed to create account',
         variant: 'destructive',
       });
       throw error;
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
@@ -179,13 +206,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
-        isLoading,
+        isLoading: isLoading || isAuthenticating,
         isAuthenticated: !!user,
         login,
         register,
         logout,
-        refreshToken,
         refreshUser,
+        refreshToken,
       }}
     >
       {children}

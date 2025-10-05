@@ -1,4 +1,4 @@
-import { db, books, bookImages, users, eq, and, desc, asc, like, sql, count } from '@bookheart/database';
+import { db, books, bookImages, users, reviews, eq, and, desc, asc, sql, count } from '@bookheart/database';
 import { Book, CreateBookRequest, UpdateBookRequest, BookSearchParams, BookListingStats } from '@bookheart/shared';
 // import { v4 as uuidv4 } from 'uuid';
 
@@ -11,7 +11,7 @@ export class BookService {
     
     try {
       // Generate slug from title
-      const slug = this.generateSlug(data.title);
+      const slug = await this.generateSlug(data.title);
       
       const [newBook] = await db
         .insert(books)
@@ -93,7 +93,7 @@ export class BookService {
   }
 
   /**
-   * Get books with search and filters
+   * Get books with advanced search and filters
    */
   static async getBooks(params: BookSearchParams = {}): Promise<{
     items: Book[];
@@ -116,8 +116,16 @@ export class BookService {
         page = 1,
         pageSize = 20,
         sortBy = 'newest',
-        sortOrder = 'desc'
-      } = params;
+        sortOrder = 'desc',
+        sellerId,
+        subscriptionBox,
+        isSigned,
+        acceptsOffers,
+        paintedEdges,
+        firstEdition,
+        dustJacket,
+        minRating,
+      } = params as any;
 
       const offset = (page - 1) * pageSize;
 
@@ -126,12 +134,20 @@ export class BookService {
 
       if (query) {
         whereConditions.push(
-          sql`(${books.title} ILIKE ${`%${query}%`} OR ${books.author} ILIKE ${`%${query}%`} OR ${books.description} ILIKE ${`%${query}%`})`
+          sql`(
+            ${books.title} ILIKE ${`%${query}%`} OR 
+            ${books.author} ILIKE ${`%${query}%`} OR 
+            ${books.description} ILIKE ${`%${query}%`} OR
+            EXISTS (
+              SELECT 1 FROM jsonb_array_elements_text(${books.tropes}) AS trope
+              WHERE trope ILIKE ${`%${query}%`}
+            )
+          )`
         );
       }
 
       if (author) {
-        whereConditions.push(like(books.author, `%${author}%`));
+        whereConditions.push(sql`${books.author} ILIKE ${`%${author}%`}`);
       }
 
       if (minPrice !== undefined) {
@@ -143,7 +159,7 @@ export class BookService {
       }
 
       if (condition.length > 0) {
-        whereConditions.push(sql`${books.condition} = ANY(${condition})`);
+        whereConditions.push(sql`${books.condition} = ANY(ARRAY[${sql.raw(condition.map((c: string) => `'${c}'`).join(','))}]::text[])`);
       }
 
       if (isSpecialEdition !== undefined) {
@@ -155,25 +171,57 @@ export class BookService {
       }
 
       if (tropes.length > 0) {
-        whereConditions.push(sql`${books.tropes} && ${tropes}`);
+        whereConditions.push(sql`${books.tropes} ?| ARRAY[${sql.raw(tropes.map((t: string) => `'${t}'`).join(','))}]`);
       }
 
       if (spiceLevel.length > 0) {
-        whereConditions.push(sql`${books.spiceLevel} = ANY(${spiceLevel})`);
+        whereConditions.push(sql`${books.spiceLevel} = ANY(ARRAY[${sql.raw(spiceLevel.join(','))}])`);
+      }
+
+      if (sellerId) {
+        whereConditions.push(eq(books.sellerId, sellerId));
+      }
+
+      if (subscriptionBox) {
+        const boxes = Array.isArray(subscriptionBox) ? subscriptionBox : [subscriptionBox];
+        whereConditions.push(sql`${books.subscriptionBox} = ANY(ARRAY[${sql.raw(boxes.map((b: string) => `'${b}'`).join(','))}]::text[])`);
+      }
+
+      if (isSigned !== undefined) {
+        whereConditions.push(eq(books.isSigned, isSigned));
+      }
+
+      if (acceptsOffers !== undefined) {
+        whereConditions.push(eq(books.acceptsOffers, acceptsOffers));
+      }
+
+      if (paintedEdges !== undefined) {
+        whereConditions.push(sql`${books.specialEditionDetails}->>'paintedEdges' = ${paintedEdges ? 'true' : 'false'}`);
+      }
+
+      if (firstEdition !== undefined) {
+        whereConditions.push(sql`${books.specialEditionDetails}->>'firstEdition' = ${firstEdition ? 'true' : 'false'}`);
+      }
+
+      if (dustJacket !== undefined) {
+        whereConditions.push(sql`${books.specialEditionDetails}->>'dustJacket' = ${dustJacket ? 'true' : 'false'}`);
       }
 
       // Build order by
-      let orderBy;
+      let orderByClause;
       switch (sortBy) {
         case 'price':
-          orderBy = sortOrder === 'asc' ? asc(books.priceCents) : desc(books.priceCents);
+          orderByClause = sortOrder === 'asc' ? asc(books.priceCents) : desc(books.priceCents);
           break;
         case 'title':
-          orderBy = sortOrder === 'asc' ? asc(books.title) : desc(books.title);
+          orderByClause = sortOrder === 'asc' ? asc(books.title) : desc(books.title);
+          break;
+        case 'views':
+          orderByClause = desc(books.viewCount);
           break;
         case 'newest':
         default:
-          orderBy = sortOrder === 'asc' ? asc(books.publishedAt) : desc(books.publishedAt);
+          orderByClause = desc(books.publishedAt);
           break;
       }
 
@@ -185,33 +233,80 @@ export class BookService {
 
       const total = totalResult.count;
 
-      // Get books
+      // Get books with seller info and rating
       const booksData = await db
-        .select()
+        .select({
+          book: books,
+          seller: {
+            id: users.id,
+            username: users.username,
+            displayName: users.displayName,
+            avatarUrl: users.avatarUrl,
+            location: users.location,
+            sellerVerified: users.sellerVerified,
+          },
+        })
         .from(books)
+        .leftJoin(users, eq(books.sellerId, users.id))
         .where(and(...whereConditions))
-        .orderBy(orderBy)
+        .orderBy(orderByClause)
         .limit(pageSize)
         .offset(offset);
 
-      // Get images for each book
-      const booksWithImages = await Promise.all(
-        booksData.map(async (book) => {
+      // Get images and seller ratings for each book
+      const booksWithDetails = await Promise.all(
+        booksData.map(async ({ book, seller }) => {
           const images = await db
             .select()
             .from(bookImages)
             .where(eq(bookImages.bookId, book.id))
             .orderBy(asc(bookImages.order));
 
+          // Get seller rating
+          let sellerRating = null;
+          if (seller?.id) {
+            const [ratingResult] = await db
+              .select({
+                avgRating: sql<number>`AVG(${reviews.rating})`,
+                totalReviews: count(),
+              })
+              .from(reviews)
+              .where(
+                and(
+                  eq(reviews.reviewedUserId, seller.id),
+                  eq(reviews.reviewType, 'seller')
+                )
+              );
+
+            if (ratingResult && ratingResult.totalReviews > 0) {
+              sellerRating = {
+                average: Number(ratingResult.avgRating?.toFixed(1)),
+                count: ratingResult.totalReviews,
+              };
+            }
+          }
+
+          // Filter by min rating if specified
+          if (minRating && (!sellerRating || sellerRating.average < minRating)) {
+            return null;
+          }
+
           return {
             ...this.formatBook(book as any),
             images: images.map(img => this.formatBookImage(img as any)),
+            seller: seller ? {
+              ...seller,
+              rating: sellerRating,
+            } : undefined,
           };
         })
       );
 
+      // Filter out nulls (books that didn't meet rating criteria)
+      const filteredBooks = booksWithDetails.filter(book => book !== null) as Book[];
+
       return {
-        items: booksWithImages,
+        items: filteredBooks,
         total,
         page,
         pageSize,
@@ -288,7 +383,7 @@ export class BookService {
 
       // Update slug if title changed
       if (data.title && data.title !== existingBook.title) {
-        updateData.slug = this.generateSlug(data.title);
+        updateData.slug = await this.generateSlug(data.title);
       }
 
       const [updatedBook] = await db
@@ -449,13 +544,34 @@ export class BookService {
   /**
    * Generate URL-friendly slug from title
    */
-  private static generateSlug(title: string): string {
-    return title
+  private static async generateSlug(title: string): Promise<string> {
+    const baseSlug = title
       .toLowerCase()
       .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
+
+    // Check if slug already exists and add suffix if needed
+    let slug = baseSlug;
+    let counter = 1;
+    
+    while (true) {
+      const existingBook = await db
+        .select({ id: books.id })
+        .from(books)
+        .where(eq(books.slug, slug))
+        .limit(1);
+      
+      if (existingBook.length === 0) {
+        break; // Slug is unique
+      }
+      
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+    
+    return slug;
   }
 
   /**
@@ -477,8 +593,15 @@ export class BookService {
       conditionNotes: book.conditionNotes,
       priceCents: book.priceCents,
       shippingPriceCents: book.shippingPriceCents,
+      acceptsOffers: book.acceptsOffers || false,
       localPickupAvailable: book.localPickupAvailable,
+      city: book.city,
+      state: book.state,
+      zipCode: book.zipCode,
       isSpecialEdition: book.isSpecialEdition,
+      subscriptionBox: book.subscriptionBox,
+      isSigned: book.isSigned || false,
+      signatureType: book.signatureType,
       specialEditionDetails: book.specialEditionDetails,
       status: book.status,
       slug: book.slug,
@@ -510,18 +633,89 @@ export class BookService {
   }
 
   /**
-   * Get search suggestions
+   * Get search suggestions and autocomplete
    */
-  static async getSearchSuggestions(_query: string, _limit: number = 10) {
+  static async getSearchSuggestions(query: string, _limit: number = 10) {
     try {
-      // This is a placeholder implementation
-      // In a real app, you'd implement proper search suggestions
+      const searchTerm = `%${query.toLowerCase()}%`;
+      
+      // Get matching books
+      const matchingBooks = await db
+        .select({
+          id: books.id,
+          title: books.title,
+          author: books.author,
+          priceCents: books.priceCents,
+          coverImage: sql<string>`(
+            SELECT ${bookImages.cloudinaryUrl} 
+            FROM ${bookImages} 
+            WHERE ${bookImages.bookId} = ${books.id} 
+            AND ${bookImages.isPrimary} = true 
+            LIMIT 1
+          )`,
+        })
+        .from(books)
+        .where(
+          and(
+            eq(books.status, 'active'),
+            sql`(LOWER(${books.title}) LIKE ${searchTerm} OR LOWER(${books.author}) LIKE ${searchTerm})`
+          )
+        )
+        .limit(5);
+
+      // Get matching authors
+      const matchingAuthors = await db
+        .selectDistinct({ author: books.author })
+        .from(books)
+        .where(
+          and(
+            eq(books.status, 'active'),
+            sql`LOWER(${books.author}) LIKE ${searchTerm}`
+          )
+        )
+        .limit(5);
+
+      // Get matching tropes
+      const matchingTropes = await db
+        .select({ tropes: books.tropes })
+        .from(books)
+        .where(
+          and(
+            eq(books.status, 'active'),
+            sql`EXISTS (
+              SELECT 1 FROM jsonb_array_elements_text(${books.tropes}) AS trope
+              WHERE LOWER(trope) LIKE ${searchTerm}
+            )`
+          )
+        )
+        .limit(5);
+
       return {
-        suggestions: [],
+        books: matchingBooks.map(book => ({
+          id: book.id,
+          title: book.title,
+          author: book.author,
+          price: book.priceCents / 100,
+          coverImage: book.coverImage,
+          type: 'book' as const,
+        })),
+        authors: matchingAuthors.map(a => ({
+          text: a.author,
+          type: 'author' as const,
+        })),
+        tropes: Array.from(
+          new Set(
+            matchingTropes.flatMap(t => 
+              (t.tropes as string[]).filter(trope => 
+                trope.toLowerCase().includes(query.toLowerCase())
+              )
+            )
+          )
+        ).slice(0, 5).map(trope => ({
+          text: trope,
+          type: 'trope' as const,
+        })),
         popularSearches: ['romantasy', 'enemies to lovers', 'special edition', 'signed copy'],
-        trendingAuthors: ['Sarah J. Maas', 'Rebecca Yarros', 'Jennifer L. Armentrout'],
-        trendingSeries: ['ACOTAR', 'Fourth Wing', 'From Blood and Ash'],
-        trendingTropes: ['enemies-to-lovers', 'fated-mates', 'magic-system']
       };
     } catch (error) {
       console.error('Error getting search suggestions:', error);
@@ -589,12 +783,85 @@ export class BookService {
         .select()
         .from(books)
         .where(eq(books.status, 'active'))
-        .orderBy(desc(books.createdAt))
+        .orderBy(desc(books.publishedAt))
         .limit(limit);
 
-      return recentBooks.map(book => this.formatBook(book as any));
+      // Get images for each book
+      const booksWithImages = await Promise.all(
+        recentBooks.map(async (book) => {
+          const images = await db
+            .select()
+            .from(bookImages)
+            .where(eq(bookImages.bookId, book.id))
+            .orderBy(asc(bookImages.order));
+
+          return {
+            ...this.formatBook(book as any),
+            images: images.map(img => this.formatBookImage(img as any)),
+          };
+        })
+      );
+
+      return booksWithImages;
     } catch (error) {
       console.error('Error getting recently added books:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get recommended books for user based on their preferences
+   */
+  static async getRecommendedBooks(userId: string, limit: number = 10) {
+    try {
+      // Get user's preferences from registration survey
+      const [user] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, userId))
+        .limit(1);
+
+      if (!user) {
+        return [];
+      }
+
+      const survey = user.registrationSurvey as any;
+      const interests = survey?.interests || [];
+
+      // Get books matching user interests (tropes, genres)
+      const recommendedBooks = await db
+        .select()
+        .from(books)
+        .where(
+          and(
+            eq(books.status, 'active'),
+            interests.length > 0
+              ? sql`${books.tropes} ?| ARRAY[${sql.raw(interests.map((i: string) => `'${i}'`).join(','))}]`
+              : sql`1=1`
+          )
+        )
+        .orderBy(desc(books.viewCount))
+        .limit(limit);
+
+      // Get images for each book
+      const booksWithImages = await Promise.all(
+        recommendedBooks.map(async (book) => {
+          const images = await db
+            .select()
+            .from(bookImages)
+            .where(eq(bookImages.bookId, book.id))
+            .orderBy(asc(bookImages.order));
+
+          return {
+            ...this.formatBook(book as any),
+            images: images.map(img => this.formatBookImage(img as any)),
+          };
+        })
+      );
+
+      return booksWithImages;
+    } catch (error) {
+      console.error('Error getting recommended books:', error);
       throw error;
     }
   }
