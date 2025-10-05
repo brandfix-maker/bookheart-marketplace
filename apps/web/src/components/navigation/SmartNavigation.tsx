@@ -12,8 +12,7 @@ import {
   Package, 
   BarChart3, 
   Plus,
-  User,
-  Settings
+  User
 } from 'lucide-react';
 
 interface SmartNavigationProps {

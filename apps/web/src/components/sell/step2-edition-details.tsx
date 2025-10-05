@@ -29,7 +29,7 @@ interface Step2Props {
   errors: any;
 }
 
-export function Step2EditionDetails({ data, onChange, errors }: Step2Props) {
+export function Step2EditionDetails({ data, onChange }: Step2Props) {
   const toggleSubscriptionBox = (box: string) => {
     const boxes = data.subscriptionBoxes.includes(box)
       ? data.subscriptionBoxes.filter((b) => b !== box)

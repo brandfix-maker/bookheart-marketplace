@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { Camera, Upload, X, RotateCw, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState } from 'react';
+import { Camera, Upload, X, Info, ChevronDown, ChevronUp } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { ImageUpload, IMAGE_SLOT_CONFIG, ImageType } from '@/types/book-wizard';
@@ -19,8 +18,8 @@ interface Step4Props {
 
 export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Props) {
   const [showTips, setShowTips] = useState(false);
-  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
-  const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
+  // const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+  // const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
   // Filter slots based on whether book is signed
   const requiredSlots = IMAGE_SLOT_CONFIG.filter(

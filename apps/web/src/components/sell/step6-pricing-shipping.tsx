@@ -37,7 +37,7 @@ export function Step6PricingAndShipping({
   subscriptionBox,
 }: Step6Props) {
   const [priceSuggestion, setPriceSuggestion] = useState<PriceSuggestion | null>(null);
-  const [isCalculating, setIsCalculating] = useState(false);
+  // const [isCalculating, setIsCalculating] = useState(false);
 
   useEffect(() => {
     if (condition && editionType) {
@@ -46,7 +46,7 @@ export function Step6PricingAndShipping({
   }, [condition, editionType, subscriptionBox]);
 
   const calculatePriceSuggestion = async () => {
-    setIsCalculating(true);
+    // setIsCalculating(true);
     // Simulate price calculation with more realistic market data
     setTimeout(() => {
       // Base prices based on real romantasy book market trends
@@ -86,7 +86,7 @@ export function Step6PricingAndShipping({
         average,
         confidence: subscriptionBox || condition === 'new' ? 'high' : 'medium',
       });
-      setIsCalculating(false);
+      // setIsCalculating(false);
     }, 500);
   };
 

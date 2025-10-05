@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Heart, BookHeart, Sparkles, Info } from 'lucide-react';
+import { Heart, Sparkles, Info } from 'lucide-react';
 
 interface Step7Props {
   data: {

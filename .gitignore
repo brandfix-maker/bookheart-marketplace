@@ -46,3 +46,8 @@ coverage/
 # Temporary folders
 tmp/
 temp/
+
+
+# Google OAuth credentials
+google-credentials.json
+client_secret*.json

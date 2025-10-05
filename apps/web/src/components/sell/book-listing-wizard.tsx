@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight, Save, Sparkles } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+// form resolver imports removed (not used in this component)
 import Confetti from 'react-confetti';
 import { useWindowSize } from '@/hooks/use-window-size';
 import { BookWizardData } from '@/types/book-wizard';
@@ -156,7 +155,7 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
     setIsSavingDraft(true);
     try {
       const payload = transformWizardDataToApi(wizardData, 'draft');
-      const response = await apiClient.post('/books/drafts', payload);
+      await apiClient.post('/books/drafts', payload);
       
       if (!isAutoSave) {
         toast({
@@ -334,7 +333,7 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
     };
   };
 
-  const transformApiToWizardData = (apiData: any): BookWizardData => {
+  const transformApiToWizardData = (_apiData: any): BookWizardData => {
     // Transform API response back to wizard format
     return INITIAL_DATA; // Implement transformation
   };

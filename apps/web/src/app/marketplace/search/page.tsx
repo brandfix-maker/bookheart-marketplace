@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SearchBar } from '@/components/marketplace/search-bar';
 import { FilterPanel, FilterState } from '@/components/marketplace/filter-panel';
@@ -20,11 +20,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-export default function SearchResultsPage() {
+function SearchResultsContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const { user } = useAuth();
-  const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
+  const { addItem: addWishlistItem, removeItem: removeWishlistItem, items: wishlistItems } = useWishlist();
   const { addItem: addToCart } = useCart();
 
   const [books, setBooks] = useState<Book[]>([]);
@@ -130,9 +130,12 @@ export default function SearchResultsPage() {
   const handleWishlistToggle = (bookId: string) => {
     const isWishlisted = wishlistItems.some(item => item.bookId === bookId);
     if (isWishlisted) {
-      removeFromWishlist(bookId);
+      removeWishlistItem(bookId);
     } else {
-      addToWishlist(bookId);
+      const book = books.find(b => b.id === bookId);
+      if (book) {
+        addWishlistItem({ bookId: book.id, title: book.title, author: book.author });
+      }
     }
   };
 
@@ -142,12 +145,8 @@ export default function SearchResultsPage() {
       addToCart({
         bookId: book.id,
         title: book.title,
-        author: book.author,
         price: book.priceCents / 100,
-        shippingPrice: book.shippingPriceCents / 100,
-        coverImage: book.images?.[0]?.cloudinaryUrl || '',
-        condition: book.condition,
-        seller: book.seller,
+        quantity: 1,
       });
     }
   };
@@ -172,12 +171,7 @@ export default function SearchResultsPage() {
     return count;
   };
 
-  // Highlight search terms in text
-  const highlightText = (text: string) => {
-    if (!query) return text;
-    const regex = new RegExp(`(${query})`, 'gi');
-    return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
-  };
+  // reserved for future highlighting of search terms
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -367,5 +361,13 @@ export default function SearchResultsPage() {
         onClear={clearFilters}
       />
     </div>
+  );
+}
+
+export default function SearchResultsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50" /> }>
+      <SearchResultsContent />
+    </Suspense>
   );
 }

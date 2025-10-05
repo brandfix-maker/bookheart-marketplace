@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus, BookOpen } from 'lucide-react';
 import { useAuth } from '@/contexts/auth-context';
@@ -13,7 +13,6 @@ interface SellYoursPromptProps {
 
 export function SellYoursPrompt({ bookTitle, bookAuthor, className = '' }: SellYoursPromptProps) {
   const { user } = useAuth();
-  const [isHovered, setIsHovered] = useState(false);
 
   // Don't show if user is already a seller
   if (!user || user.sellerOnboardingCompleted || user.hasListedItem) {
@@ -29,8 +28,6 @@ export function SellYoursPrompt({ bookTitle, bookAuthor, className = '' }: SellY
   return (
     <div
       className={`absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="text-center text-white p-4">
         <BookOpen className="h-8 w-8 mx-auto mb-2" />
