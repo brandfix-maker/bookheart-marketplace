@@ -1,7 +1,8 @@
 import { pgTable, uuid, text, integer, boolean, timestamp, jsonb, index, pgEnum } from 'drizzle-orm/pg-core';
 
 // Enums for consistent types
-export const userRoleEnum = pgEnum('user_role', ['buyer', 'seller', 'both', 'admin']);
+// All users can buy and sell. Seller features activate when they list their first book.
+export const userRoleEnum = pgEnum('user_role', ['user', 'admin']);
 export const bookConditionEnum = pgEnum('book_condition', ['new', 'like-new', 'very-good', 'good', 'acceptable']);
 export const bookStatusEnum = pgEnum('book_status', ['draft', 'active', 'pending', 'sold', 'removed']);
 export const transactionTypeEnum = pgEnum('transaction_type', ['buy_now', 'accepted_offer', 'auction_win']);
@@ -25,8 +26,8 @@ export const users = pgTable('users', {
   username: text('username').unique().notNull(),
   passwordHash: text('password_hash').notNull(),
   
-  // Universal account - role field deprecated but kept for backward compatibility
-  role: userRoleEnum('role').default('buyer').notNull(),
+  // Universal account - user/admin only
+  role: userRoleEnum('role').default('user').notNull(),
   
   // Activity tracking for progressive disclosure
   hasMadePurchase: boolean('has_made_purchase').default(false),

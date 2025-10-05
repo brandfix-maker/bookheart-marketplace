@@ -2,7 +2,7 @@ export interface User {
   id: string;
   email: string;
   username: string;
-  role: 'buyer' | 'seller' | 'both' | 'admin'; // Deprecated but kept for backward compatibility
+  role: 'user' | 'admin';
   
   // Activity tracking for progressive disclosure
   hasMadePurchase: boolean;

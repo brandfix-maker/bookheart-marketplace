@@ -63,7 +63,7 @@ export default function EditBookPage() {
   }
 
   return (
-    <ProtectedRoute requiredRoles={['seller', 'both']}>
+    <ProtectedRoute requiredRoles={['user', 'admin']}>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 py-8">
         <BookListingForm 
           initialData={{

@@ -47,8 +47,7 @@ export function ProtectedRoute({
 
   // Check role requirements
   if (requiredRoles.length > 0) {
-    const hasRequiredRole = requiredRoles.includes(user.role) || 
-      (user.role === 'both' && (requiredRoles.includes('buyer') || requiredRoles.includes('seller')));
+    const hasRequiredRole = requiredRoles.includes(user.role);
 
     if (!hasRequiredRole) {
       return (
@@ -86,14 +85,15 @@ export function withAuth<P extends object>(
 }
 
 // Specific role HOCs
-export function withBuyerAuth<P extends object>(Component: React.ComponentType<P>) {
-  return withAuth(Component, { requiredRoles: ['buyer', 'both'] });
-}
-
-export function withSellerAuth<P extends object>(Component: React.ComponentType<P>) {
-  return withAuth(Component, { requiredRoles: ['seller', 'both'] });
+// Buyer/Seller are unified into 'user'. Use withUserAuth for authenticated routes.
+export function withUserAuth<P extends object>(Component: React.ComponentType<P>) {
+  return withAuth(Component);
 }
 
 export function withAdminAuth<P extends object>(Component: React.ComponentType<P>) {
   return withAuth(Component, { requiredRoles: ['admin'] });
 }
+
+// Backward-compat exports (deprecated)
+export const withBuyerAuth = undefined as unknown as never;
+export const withSellerAuth = undefined as unknown as never;

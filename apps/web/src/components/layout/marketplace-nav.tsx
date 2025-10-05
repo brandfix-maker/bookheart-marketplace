@@ -204,8 +204,8 @@ export function MarketplaceNav() {
                 Forums
               </Link>
 
-              {/* My Listings (Sellers only) */}
-              {user && (user.role === 'seller' || user.role === 'both') && (
+              {/* My Listings (visible after first listing) */}
+              {user && user.hasListedItem && (
                 <Link
                   href="/dashboard"
                   className={`text-base font-semibold transition-all duration-300 ${
@@ -288,7 +288,7 @@ export function MarketplaceNav() {
                               <ShoppingBag className="h-4 w-4" />
                               My Purchases
                             </Link>
-                            {(user.role === 'seller' || user.role === 'both') && (
+                            {user.hasListedItem && (
                               <Link
                                 href="/sales"
                                 onClick={() => setProfileOpen(false)}
@@ -479,7 +479,7 @@ export function MarketplaceNav() {
                       <ShoppingBag className="h-5 w-5" />
                       <span className="font-semibold">My Purchases</span>
                     </Link>
-                    {(user.role === 'seller' || user.role === 'both') && (
+                    {user.hasListedItem && (
                       <>
                         <Link
                           href="/sales"

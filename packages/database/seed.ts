@@ -158,12 +158,12 @@ async function seedDatabase() {
   try {
     console.log('🌱 Starting database seeding...');
     
-    // Create a test seller user
+    // Create a test user who has listings (acts as seller)
     const sellerUser = await db.insert(users).values({
       email: 'seller@bookheart.com',
       username: 'bookseller123',
       passwordHash: '$2b$10$example.hash', // This would be properly hashed in real app
-      role: 'seller',
+      role: 'user',
       displayName: 'Book Seller',
       sellerVerified: true,
       emailVerified: true

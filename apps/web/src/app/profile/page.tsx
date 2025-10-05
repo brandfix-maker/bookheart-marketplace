@@ -22,12 +22,8 @@ function ProfileContent() {
 
   const getRoleDisplayName = (role: string) => {
     switch (role) {
-      case 'buyer':
-        return 'Reader';
-      case 'seller':
-        return 'Seller';
-      case 'both':
-        return 'Reader & Seller';
+      case 'user':
+        return 'Member';
       case 'admin':
         return 'Admin';
       default:
@@ -37,11 +33,7 @@ function ProfileContent() {
 
   const getRoleIcon = (role: string) => {
     switch (role) {
-      case 'buyer':
-        return <Heart className="h-4 w-4" />;
-      case 'seller':
-        return <Shield className="h-4 w-4" />;
-      case 'both':
+      case 'user':
         return <Heart className="h-4 w-4" />;
       case 'admin':
         return <Shield className="h-4 w-4" />;
@@ -196,7 +188,7 @@ function ProfileContent() {
             <Button variant="outline">
               Change Password
             </Button>
-            {(user.role === 'seller' || user.role === 'both') && (
+            {user.hasListedItem && (
               <Button variant="outline">
                 Seller Settings
               </Button>

@@ -26,7 +26,7 @@ const upload = multer({
 // Upload single image
 router.post('/upload', 
   authenticate, 
-  requireRole('seller', 'both'),
+  requireRole('user', 'admin'),
   upload.single('image'),
   asyncHandler(async (req, res) => {
     if (!req.file) {
@@ -58,7 +58,7 @@ router.post('/upload',
 // Upload multiple images
 router.post('/upload-multiple',
   authenticate,
-  requireRole('seller', 'both'),
+  requireRole('user', 'admin'),
   upload.array('images', 10), // Max 10 images
   asyncHandler(async (req, res) => {
     const files = req.files as Express.Multer.File[];
@@ -92,7 +92,7 @@ router.post('/upload-multiple',
 // Delete image
 router.delete('/:publicId',
   authenticate,
-  requireRole('seller', 'both'),
+  requireRole('user', 'admin'),
   asyncHandler(async (req, res) => {
     const { publicId } = req.params;
 

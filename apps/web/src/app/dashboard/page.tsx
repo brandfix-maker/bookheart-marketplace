@@ -6,7 +6,7 @@ import { SellerDashboard } from '@/components/seller/SellerDashboard';
 
 export default function DashboardPage() {
   return (
-    <ProtectedRoute requiredRoles={['seller', 'both']}>
+    <ProtectedRoute requiredRoles={['user', 'admin']}>
       <div className="min-h-screen bg-gray-50">
         <Header />
         <div className="container mx-auto px-4 py-8">

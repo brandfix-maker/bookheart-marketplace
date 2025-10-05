@@ -70,12 +70,8 @@ export function UserMenu() {
 
   const getRoleDisplayName = (role: string) => {
     switch (role) {
-      case 'buyer':
-        return 'Reader';
-      case 'seller':
-        return 'Seller';
-      case 'both':
-        return 'Reader & Seller';
+      case 'user':
+        return 'Member';
       case 'admin':
         return 'Admin';
       default:
@@ -85,11 +81,7 @@ export function UserMenu() {
 
   const getRoleIcon = (role: string) => {
     switch (role) {
-      case 'buyer':
-        return <BookOpen className="h-4 w-4" />;
-      case 'seller':
-        return <Store className="h-4 w-4" />;
-      case 'both':
+      case 'user':
         return <Heart className="h-4 w-4" />;
       case 'admin':
         return <Settings className="h-4 w-4" />;
@@ -186,7 +178,7 @@ export function UserMenu() {
             </Link>
 
             {/* Role-specific links */}
-            {(user.role === 'buyer' || user.role === 'both') && (
+            {user.role !== 'admin' && (
               <>
                 <Link
                   href="/purchases"
@@ -207,7 +199,7 @@ export function UserMenu() {
               </>
             )}
 
-            {(user.role === 'seller' || user.role === 'both') && (
+            {user.hasListedItem && (
               <>
                 <Link
                   href="/dashboard"

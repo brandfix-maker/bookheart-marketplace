@@ -62,10 +62,8 @@ export const requireRole = (...roles: User['role'][]) => {
       return;
     }
 
-    // Allow 'both' role to access buyer and seller routes
     const userRole = req.user.role;
-    const hasPermission = roles.includes(userRole) || 
-      (userRole === 'both' && (roles.includes('buyer') || roles.includes('seller')));
+    const hasPermission = roles.length === 0 || roles.includes(userRole);
 
     if (!hasPermission) {
       res.status(403).json({

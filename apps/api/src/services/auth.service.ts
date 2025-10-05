@@ -82,7 +82,7 @@ export class AuthService {
         email: data.email,
         username: data.username,
         passwordHash,
-        role: 'buyer' as const, // Default role for backward compatibility
+        // role omitted; DB default 'user' applies
         displayName: data.username, // Default display name to username
         // Universal account fields
         hasMadePurchase: false,
