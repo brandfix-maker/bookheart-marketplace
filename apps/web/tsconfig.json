@@ -1,6 +1,7 @@
 {
   "extends": "@bookheart/config/typescript/base.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "preserve",
