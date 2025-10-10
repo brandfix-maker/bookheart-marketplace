@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { authenticate } from '../middleware/auth';
 import { asyncHandler } from '../middleware/error';
 
-const router = Router();
+const router: Router = Router();
 
 // Get reviews for a user
 router.get('/user/:userId', asyncHandler(async (_req, res) => {

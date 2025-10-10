@@ -174,11 +174,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
       </div>
 
       <div className="relative w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -186,15 +186,13 @@ export default function RegisterPage() {
         <div className="flex flex-col justify-center space-y-8">
           <div className="text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start mb-4">
-              <Heart className="h-8 w-8 text-purple-600 mr-2" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                BookHeart
-              </span>
+              <img src="/Logo.png" alt="BookHeart Logo" className="h-8 w-8 mr-2" />
+              <img src="/Logo/Text_purple.png" alt="BookHeart" className="h-6 w-auto" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Cinzel, serif' }}>
+            <h1 className="text-4xl font-bold text-white mb-4" style={{ fontFamily: 'Cinzel, serif' }}>
               Join the Inner Circle
             </h1>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="text-lg text-gray-300 mb-8">
               Connect with fellow romantasy enthusiasts and discover your next favorite read.
             </p>
           </div>
@@ -205,8 +203,8 @@ export default function RegisterPage() {
                 <Heart className="h-4 w-4 text-purple-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Curated Collection</h3>
-                <p className="text-gray-600">Access exclusive romantasy books and special editions</p>
+                <h3 className="font-semibold text-white">Curated Collection</h3>
+                <p className="text-gray-300">Access exclusive romantasy books and special editions</p>
               </div>
             </div>
 
@@ -215,8 +213,8 @@ export default function RegisterPage() {
                 <Heart className="h-4 w-4 text-purple-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Community Driven</h3>
-                <p className="text-gray-600">Connect with readers who share your passion</p>
+                <h3 className="font-semibold text-white">Community Driven</h3>
+                <p className="text-gray-300">Connect with readers who share your passion</p>
               </div>
             </div>
 
@@ -225,24 +223,24 @@ export default function RegisterPage() {
                 <Heart className="h-4 w-4 text-purple-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Secure Trading</h3>
-                <p className="text-gray-600">Buy and sell books with confidence and protection</p>
+                <h3 className="font-semibold text-white">Secure Trading</h3>
+                <p className="text-gray-300">Buy and sell books with confidence and protection</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right Side - Registration Form */}
-        <Card className="p-8 shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+        <Card className="p-8 shadow-2xl border-0 bg-gray-800/90 backdrop-blur-sm">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Create Your Account</h2>
-            <p className="text-gray-600">Join the BookHeart community</p>
+            <h2 className="text-2xl font-bold text-white mb-2">Create Your Account</h2>
+            <p className="text-gray-300">Join the BookHeart community</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Optional Survey */}
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-gray-700">What brings you here? (Optional)</Label>
+              <Label className="text-sm font-medium text-gray-200">What brings you here? (Optional)</Label>
               <div className="space-y-2">
                 <Input
                   type="text"
@@ -252,13 +250,13 @@ export default function RegisterPage() {
                   className="w-full"
                   disabled={isLoading}
                 />
-                <p className="text-xs text-gray-500">This helps us personalize your experience</p>
+                <p className="text-xs text-gray-400">This helps us personalize your experience</p>
               </div>
             </div>
 
             {/* Email Field */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="email" className="text-sm font-medium text-gray-200">
                 Email Address
               </Label>
               <Input
@@ -280,7 +278,7 @@ export default function RegisterPage() {
 
             {/* Username Field */}
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="username" className="text-sm font-medium text-gray-200">
                 Username
               </Label>
               <Input
@@ -302,7 +300,7 @@ export default function RegisterPage() {
 
             {/* Password Field */}
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="password" className="text-sm font-medium text-gray-200">
                 Password
               </Label>
               <div className="relative">
@@ -321,7 +319,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
                   disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -338,13 +336,13 @@ export default function RegisterPage() {
                         style={{ width: `${(passwordStrength.score / 4) * 100}%` }}
                       />
                     </div>
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-gray-200">
                       {getPasswordStrengthText(passwordStrength.score)}
                     </span>
                   </div>
                   
                   {passwordStrength.feedback.length > 0 && (
-                    <div className="text-xs text-gray-600">
+                    <div className="text-xs text-gray-300">
                       <p>Password should include:</p>
                       <ul className="list-disc list-inside space-y-1">
                         {passwordStrength.feedback.map((item, index) => (
@@ -363,7 +361,7 @@ export default function RegisterPage() {
 
             {/* Confirm Password Field */}
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-200">
                 Confirm Password
               </Label>
               <div className="relative">
@@ -382,7 +380,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
                   disabled={isLoading}
                 >
                   {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -403,7 +401,7 @@ export default function RegisterPage() {
                   className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                   disabled={isLoading}
                 />
-                <span className="text-sm text-gray-700">
+                <span className="text-sm text-gray-200">
                   I agree to the{' '}
                   <Link href="/terms" className="text-purple-600 hover:text-purple-700">
                     Terms of Service
@@ -442,7 +440,7 @@ export default function RegisterPage() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              <span className="px-2 bg-gray-800 text-gray-400">Or continue with</span>
             </div>
           </div>
 
@@ -458,12 +456,12 @@ export default function RegisterPage() {
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
-            <span className="text-gray-700 font-medium">Sign up with Google</span>
+            <span className="text-gray-200 font-medium">Sign up with Google</span>
           </button>
 
           {/* Sign In Link */}
           <div className="mt-8 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-300">
               Already have an account?{' '}
               <Link 
                 href="/login" 

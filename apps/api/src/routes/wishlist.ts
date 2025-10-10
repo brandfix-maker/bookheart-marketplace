@@ -4,7 +4,7 @@ import { asyncHandler } from '../middleware/error';
 import { uuidSchema } from '../utils/validation';
 import { ApiResponse } from '@bookheart/shared';
 
-const router = Router();
+const router: Router = Router();
 
 // Get user's wishlist
 router.get('/', authenticate, asyncHandler(async (_req, res) => {

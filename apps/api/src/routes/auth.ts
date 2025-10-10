@@ -10,7 +10,7 @@ import {
 } from '../utils/validation';
 // import rateLimit from 'express-rate-limit'; // DISABLED FOR TESTING
 
-const router = Router();
+const router: Router = Router();
 
 // Rate limiting for auth endpoints - DISABLED FOR TESTING
 // const authLimiter = rateLimit({

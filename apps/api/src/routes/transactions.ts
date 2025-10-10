@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { authenticate } from '../middleware/auth';
 import { asyncHandler } from '../middleware/error';
 
-const router = Router();
+const router: Router = Router();
 
 // Get user's transactions
 router.get('/', authenticate, asyncHandler(async (_req, res) => {

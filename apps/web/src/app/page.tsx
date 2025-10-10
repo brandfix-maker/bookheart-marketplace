@@ -57,7 +57,7 @@ function LandingBookCard({ book, onAddToWishlist, onAddToCart }: LandingBookCard
   const distanceText = book.city && book.state ? `${Math.floor(Math.random() * 50) + 1} miles away` : '';
 
   return (
-    <Card className="group relative flex-shrink-0 w-[280px] bg-white/80 backdrop-blur-sm rounded-lg shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">
+    <Card className="group relative flex-shrink-0 w-[280px] bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">
       {/* Image */}
       <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-purple-100 to-pink-100">
         <Image
@@ -112,22 +112,22 @@ function LandingBookCard({ book, onAddToWishlist, onAddToCart }: LandingBookCard
       <CardContent className="p-4 space-y-2">
         <Link href={`/books/${book.id}`} className="block">
           <h3 
-            className="font-serif font-semibold text-gray-900 hover:text-purple-600 transition-colors line-clamp-2"
+            className="font-serif font-semibold text-white hover:text-purple-400 transition-colors line-clamp-2"
             title={book.title}
           >
             {book.title}
           </h3>
-          <p className="text-sm text-gray-600 line-clamp-1">{book.author}</p>
+          <p className="text-sm text-gray-300 line-clamp-1">{book.author}</p>
         </Link>
 
         {/* Price and Location */}
         <div className="flex items-start justify-between">
           <div>
-            <div className="text-lg font-bold text-gray-900">
+            <div className="text-lg font-bold text-white">
               {formatPrice(book.priceCents)}
             </div>
             {book.shippingPriceCents > 0 && (
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-400">
                 +{formatPrice(book.shippingPriceCents)} shipping
               </div>
             )}
@@ -135,7 +135,7 @@ function LandingBookCard({ book, onAddToWishlist, onAddToCart }: LandingBookCard
           
           {/* Seller Rating */}
           {book.seller && (
-            <div className="flex items-center gap-1 text-xs text-gray-600">
+            <div className="flex items-center gap-1 text-xs text-gray-300">
               <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
               <span>4.8</span>
             </div>
@@ -143,7 +143,7 @@ function LandingBookCard({ book, onAddToWishlist, onAddToCart }: LandingBookCard
         </div>
 
         {distanceText && (
-          <div className="flex items-center gap-1 text-xs text-gray-500">
+          <div className="flex items-center gap-1 text-xs text-gray-400">
             <MapPin className="h-3 w-3" />
             {distanceText}
           </div>
@@ -226,11 +226,11 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-800">
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-400 via-purple-400 to-pink-300 animate-gradient-shift">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900/50 to-gray-900">
           <div className="absolute inset-0 opacity-30">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.3),transparent_50%)]"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.2),transparent_50%)]"></div>
@@ -308,7 +308,7 @@ export default function LandingPage() {
       </section>
 
       {/* JUST LISTED SECTION */}
-      <section className="py-20 bg-gradient-to-br from-pink-50 via-white to-purple-50">
+      <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
@@ -349,7 +349,7 @@ export default function LandingPage() {
                   />
                 ))
               ) : (
-                <div className="w-full text-center py-12 text-gray-500">
+                <div className="w-full text-center py-12 text-gray-400">
                   No books available yet. Check back soon!
                 </div>
               )}
@@ -367,13 +367,13 @@ export default function LandingPage() {
         </section>
 
       {/* TRENDING SECTION */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
               Trending in {userState}
             </h2>
-            <p className="text-gray-600">Based on recent views and purchases</p>
+            <p className="text-gray-300">Based on recent views and purchases</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -391,7 +391,7 @@ export default function LandingPage() {
                 />
               ))
             ) : (
-              <div className="col-span-4 text-center py-12 text-gray-500">
+              <div className="col-span-4 text-center py-12 text-gray-400">
                 No trending books yet. Check back soon!
               </div>
             )}
@@ -400,13 +400,13 @@ export default function LandingPage() {
         </section>
 
       {/* FEATURED SUBSCRIPTION BOXES */}
-      <section className="py-20 bg-gradient-to-br from-purple-50 via-pink-50 to-white">
+      <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
               Subscription Box Exclusives
           </h2>
-            <p className="text-gray-600">Find special editions from your favorite boxes</p>
+            <p className="text-gray-300">Find special editions from your favorite boxes</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -417,10 +417,10 @@ export default function LandingPage() {
                     <div className={`w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br ${box.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                       <Sparkles className="h-10 w-10 text-white" />
                   </div>
-                    <h3 className="font-serif font-bold text-lg mb-2 text-gray-900">
+                    <h3 className="font-serif font-bold text-lg mb-2 text-white">
                       {box.name}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-4">{box.description}</p>
+                    <p className="text-sm text-gray-300 mb-4">{box.description}</p>
                     <div className="text-purple-600 font-semibold group-hover:text-purple-700 flex items-center justify-center gap-2">
                       Shop Exclusives
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -434,7 +434,7 @@ export default function LandingPage() {
       </section>
 
       {/* EVENTS BULLETIN PREVIEW */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
@@ -460,9 +460,9 @@ export default function LandingPage() {
                       <Sparkles className="h-6 w-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-serif font-semibold text-lg mb-1">{event.title}</h3>
-                      <p className="text-sm text-gray-600 mb-2">{event.date}</p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <h3 className="font-serif font-semibold text-lg mb-1 text-white">{event.title}</h3>
+                      <p className="text-sm text-gray-300 mb-2">{event.date}</p>
+                      <div className="flex items-center gap-4 text-xs text-gray-400">
                         <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
                           {event.type}
                         </span>
@@ -481,7 +481,7 @@ export default function LandingPage() {
       </section>
 
       {/* TRUST BADGES */}
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+      <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="glass-morphism rounded-2xl p-12">
@@ -495,7 +495,7 @@ export default function LandingPage() {
                     <Sparkles className="h-10 w-10 text-white" />
                   </div>
                   <h3 className="font-serif font-semibold text-xl mb-2">10,000+ Happy Readers</h3>
-                  <p className="text-gray-600">Join our growing community of book lovers</p>
+                  <p className="text-gray-300">Join our growing community of book lovers</p>
                 </div>
 
                 <div className="text-center">
@@ -503,7 +503,7 @@ export default function LandingPage() {
                     <Shield className="h-10 w-10 text-white" />
               </div>
                   <h3 className="font-serif font-semibold text-xl mb-2">Secure Payments</h3>
-                  <p className="text-gray-600">Your transactions are protected and encrypted</p>
+                  <p className="text-gray-300">Your transactions are protected and encrypted</p>
                 </div>
 
                 <div className="text-center">
@@ -511,7 +511,7 @@ export default function LandingPage() {
                     <CheckCircle2 className="h-10 w-10 text-white" />
               </div>
                   <h3 className="font-serif font-semibold text-xl mb-2">Authenticated Editions</h3>
-                  <p className="text-gray-600">Every special edition verified by our team</p>
+                  <p className="text-gray-300">Every special edition verified by our team</p>
                 </div>
               </div>
             </div>

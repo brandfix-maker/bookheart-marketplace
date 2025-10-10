@@ -86,6 +86,33 @@ const config: Config = {
           800: '#9f1239',
           900: '#881337',
           950: '#4c0519',
+        },
+        // BookHeart Brand Colors - Extracted from logo files
+        'brand-purple': {
+          50: '#F7F5F9',   // Lightest tint
+          100: '#EFEBF4',  // Very light tint
+          200: '#DED8E9',  // Light tint
+          300: '#CEC4DD',  // Medium-light tint
+          400: '#BDB0D2',  // Light tint
+          500: '#5B3A8F',  // Base brand color (from Logo_isotype_purple.png)
+          600: '#492E72',  // Dark shade
+          700: '#372356',  // Darker shade
+          800: '#241739',  // Dark shade
+          900: '#120C1D',  // Darkest shade
+          950: '#09060E',  // Very dark shade
+        },
+        'brand-pink': {
+          50: '#FEFAFC',   // Lightest tint
+          100: '#FDF4FA',  // Very light tint
+          200: '#FBE9F5',  // Light tint
+          300: '#F8DEF0',  // Medium-light tint
+          400: '#F6D3EB',  // Light tint
+          500: '#E991CC',  // Base brand color (from Logo_Horizontal_Pink.png)
+          600: '#BA74A3',  // Dark shade
+          700: '#8C577A',  // Darker shade
+          800: '#5D3A52',  // Dark shade
+          900: '#2F1D29',  // Darkest shade
+          950: '#170F14',  // Very dark shade
         }
       },
       fontFamily: {

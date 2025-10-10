@@ -58,6 +58,9 @@ import transactionsRoutes from './routes/transactions';
 import reviewsRoutes from './routes/reviews';
 import imagesRoutes from './routes/images';
 import wishlistRoutes from './routes/wishlist';
+import offersRoutes from './routes/offers';
+import messagesRoutes from './routes/messages';
+import auctionsRoutes from './routes/auctions';
 
 // Import middleware
 import { errorHandler } from './middleware/error';
@@ -156,6 +159,9 @@ app.use('/api/transactions', transactionsRoutes);
 app.use('/api/reviews', reviewsRoutes);
 app.use('/api/images', imagesRoutes);
 app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/offers', offersRoutes);
+app.use('/api/messages', messagesRoutes);
+app.use('/api/auctions', auctionsRoutes);
 
 // 404 handler
 app.use(notFound);

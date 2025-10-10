@@ -7,6 +7,21 @@ This document outlines the complete color palette and design patterns implemente
 
 ## 🎨 Core Color Palette
 
+### Brand Colors
+```css
+/* BookHeart Brand Colors - Extracted from logo files */
+brand-purple-500: #5B3A8F    /* Primary brand purple (Logo_isotype_purple.png) */
+brand-purple-400: #BDB0D2    /* Light purple tint */
+brand-purple-600: #492E72    /* Dark purple shade */
+
+brand-pink-500: #E991CC      /* Primary brand pink (Logo_Horizontal_Pink.png) */
+brand-pink-400: #F6D3EB      /* Light pink tint */
+brand-pink-600: #BA74A3      /* Dark pink shade */
+
+/* Usage: Use brand-pink-500 and brand-purple-500 for primary brand elements */
+/* Gradients: from-brand-pink-500 to-brand-purple-500 */
+```
+
 ### Primary Backgrounds
 ```css
 /* Main Container Background */
@@ -54,11 +69,11 @@ text-gray-400        /* #9CA3AF - Standard icons (search, dollar signs, etc.) */
 className="sticky top-0 z-50 w-full border-b bg-gray-800/95 backdrop-blur-sm"
 
 // Navigation Links
-className="text-gray-200 hover:text-purple-400 transition-colors font-medium"
+className="text-gray-200 hover:text-brand-purple-400 transition-colors font-medium"
 
 // Search Input
 className="border-gray-600 bg-gray-700 text-white placeholder-gray-400 
-           focus:ring-purple-400 focus:border-purple-400"
+           focus:ring-brand-purple-400 focus:border-brand-purple-400"
 
 // Mobile Menu Buttons
 className="text-gray-200 hover:text-white hover:bg-gray-700"
@@ -79,14 +94,14 @@ className="p-6 md:p-8 mt-6 bg-gray-800/95 backdrop-blur-sm border-gray-700"
 className="w-full bg-gray-600 rounded-full h-2"
 
 // Active Progress Fill
-className="bg-gradient-to-r from-pink-500 to-purple-600 h-2 rounded-full"
+className="bg-gradient-to-r from-brand-pink-500 to-brand-purple-600 h-2 rounded-full"
 
 // Desktop Step Text
 className="text-sm font-medium text-gray-200"      // Active step
 className="text-sm text-gray-400"                  // Inactive step
 
 // Step Circle States
-className="bg-gradient-to-r from-pink-500 to-purple-600 text-white"  // Current
+className="bg-gradient-to-r from-brand-pink-500 to-brand-purple-600 text-white"  // Current
 className="bg-green-500 text-white"                                   // Completed
 className="bg-gray-600 text-gray-400"                                 // Inactive
 ```
@@ -123,7 +138,7 @@ className="text-sm text-red-500 mt-1"
 ### 6. **Condition Cards (Interactive)**
 ```tsx
 // Selected State
-className="border-pink-500 bg-pink-900/30 ring-2 ring-pink-400"
+className="border-brand-pink-500 bg-brand-pink-900/30 ring-2 ring-brand-pink-400"
 
 // Unselected State
 className="border-gray-600 bg-gray-700/50 hover:border-gray-500 hover:bg-gray-700"
@@ -136,7 +151,7 @@ className="mt-2 space-y-1 text-xs text-gray-300" // Details list
 ### 7. **Subscription Box Cards**
 ```tsx
 // Selected State
-className="border-pink-500 bg-pink-900/30"
+className="border-brand-pink-500 bg-brand-pink-900/30"
 
 // Unselected State
 className="border-gray-600 bg-gray-700/50"
@@ -162,40 +177,108 @@ className="p-4 bg-gray-700/50 border-gray-600"
 
 ---
 
-## 🎯 Accent Colors (Preserved)
+## 🎯 Accent Colors (Brand Colors)
 
-### Brand Gradient
+### BookHeart Brand Colors - Extracted from Logo Files
 ```css
-/* Primary Brand Gradient */
-bg-gradient-to-r from-pink-600 to-purple-600        /* Headings, CTAs */
-bg-gradient-to-r from-pink-500 to-purple-600        /* Progress bars */
+/* Brand Purple - Extracted from Logo_isotype_purple.png */
+brand-purple-500: #5B3A8F    /* Base brand purple */
+brand-purple-400: #BDB0D2    /* Light purple tint */
+brand-purple-600: #492E72    /* Dark purple shade */
+brand-purple-700: #372356    /* Darker purple shade */
 
-/* Logo Colors */
-text-purple-600      /* Heart icon */
-from-purple-600 to-pink-600  /* BookHeart text gradient */
+/* Brand Pink - Extracted from Logo_Horizontal_Pink.png */
+brand-pink-500: #E991CC      /* Base brand pink */
+brand-pink-400: #F6D3EB      /* Light pink tint */
+brand-pink-600: #BA74A3      /* Dark pink shade */
+brand-pink-700: #8C577A      /* Darker pink shade */
 ```
 
-### Interactive Accent Colors
+### Brand Gradients (Updated with Exact Brand Colors)
 ```css
-/* Hover States */
-hover:text-purple-400      /* Navigation links */
-hover:border-pink-400      /* Upload areas */
-hover:bg-pink-50           /* Upload areas (light mode remnant - consider updating) */
-hover:text-pink-600        /* Upload areas */
+/* Primary Brand Gradient - Using exact brand colors */
+bg-gradient-to-r from-brand-pink-500 to-brand-purple-500    /* Headings, CTAs */
+bg-gradient-to-r from-brand-pink-400 to-brand-purple-600    /* Progress bars */
 
-/* Selected States */
-border-pink-500            /* Selected cards */
-bg-pink-900/30            /* Selected card backgrounds */
-ring-pink-400             /* Selected card rings */
-text-pink-500             /* List bullets in selected states */
+/* Logo Colors */
+text-brand-purple-500        /* Heart icon */
+from-brand-purple-500 to-brand-pink-500  /* BookHeart text gradient */
+```
+
+### Interactive Accent Colors (Updated with Brand Colors)
+```css
+/* Hover States - Using Brand Colors */
+hover:text-brand-purple-400      /* Navigation links */
+hover:border-brand-pink-400      /* Upload areas */
+hover:bg-brand-pink-50           /* Upload areas (light mode remnant - consider updating) */
+hover:text-brand-pink-600        /* Upload areas */
+
+/* Selected States - Using Brand Colors */
+border-brand-pink-500            /* Selected cards */
+bg-brand-pink-900/30            /* Selected card backgrounds */
+ring-brand-pink-400             /* Selected card rings */
+text-brand-pink-500             /* List bullets in selected states */
 
 /* Success States */
 bg-green-500              /* Completed step indicators */
 text-green-400            /* Pricing confidence indicators */
 
-/* CTA Button */
-bg-gradient-to-r from-[#E91E63] to-[#9C27B0]  /* Sell Your Books button */
+/* CTA Button - Using Brand Colors */
+bg-gradient-to-r from-brand-pink-500 to-brand-purple-500  /* Sell Your Books button */
 ```
+
+### Complete Brand Color Scale Reference
+```css
+/* Brand Purple Scale */
+brand-purple-50: #F7F5F9    /* Lightest tint */
+brand-purple-100: #EFEBF4   /* Very light tint */
+brand-purple-200: #DED8E9   /* Light tint */
+brand-purple-300: #CEC4DD   /* Medium-light tint */
+brand-purple-400: #BDB0D2   /* Light tint */
+brand-purple-500: #5B3A8F   /* Base brand color */
+brand-purple-600: #492E72   /* Dark shade */
+brand-purple-700: #372356   /* Darker shade */
+brand-purple-800: #241739   /* Dark shade */
+brand-purple-900: #120C1D   /* Darkest shade */
+brand-purple-950: #09060E   /* Very dark shade */
+
+/* Brand Pink Scale */
+brand-pink-50: #FEFAFC      /* Lightest tint */
+brand-pink-100: #FDF4FA     /* Very light tint */
+brand-pink-200: #FBE9F5     /* Light tint */
+brand-pink-300: #F8DEF0     /* Medium-light tint */
+brand-pink-400: #F6D3EB     /* Light tint */
+brand-pink-500: #E991CC     /* Base brand color */
+brand-pink-600: #BA74A3     /* Dark shade */
+brand-pink-700: #8C577A     /* Darker shade */
+brand-pink-800: #5D3A52     /* Dark shade */
+brand-pink-900: #2F1D29     /* Darkest shade */
+brand-pink-950: #170F14     /* Very dark shade */
+```
+
+---
+
+## 🎨 Brand Color Implementation Notes
+
+### Color Extraction Process
+- **Brand Purple (#5B3A8F)**: Extracted from `Logo_isotype_purple.png` - represents the primary brand identity
+- **Brand Pink (#E991CC)**: Extracted from `Logo_Horizontal_Pink.png` - represents the secondary brand identity
+- **Full Scale Generation**: Each color includes 11 shades (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950)
+- **Tailwind Integration**: Available as `brand-purple-*` and `brand-pink-*` utilities
+
+### Usage Guidelines
+1. **Primary Brand Elements**: Use `brand-purple-500` and `brand-pink-500` for main brand elements
+2. **Gradients**: Use `from-brand-pink-500 to-brand-purple-500` for primary brand gradients
+3. **Interactive States**: Use lighter shades (400-300) for hover states, darker shades (600-700) for active states
+4. **Backgrounds**: Use very light shades (50-100) for subtle brand backgrounds
+5. **Text**: Use base colors (500) for brand text, lighter shades (400-300) for secondary brand text
+
+### Migration from Generic Colors
+- Replace `pink-500` with `brand-pink-500`
+- Replace `purple-500` with `brand-purple-500`
+- Replace `pink-600` with `brand-pink-600`
+- Replace `purple-600` with `brand-purple-600`
+- Update gradients to use `brand-` prefixed colors
 
 ---
 
@@ -211,7 +294,7 @@ Page Background:          bg-gray-800
 
 ### 2. **Text Hierarchy**
 ```
-H2 Headings:     bg-gradient-to-r from-pink-600 to-purple-600 (gradient text)
+H2 Headings:     bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 (gradient text)
 H3/Labels:       text-white
 Body Text:       text-gray-300
 Helper Text:     text-gray-400
@@ -223,7 +306,7 @@ Icons:           text-gray-400 (standard) or themed (blue-400, amber-400, green-
 Main Cards:      border-gray-700
 Info Panels:     border-gray-600
 Dividers:        border-gray-500
-Selected:        border-pink-500
+Selected:        border-brand-pink-500
 ```
 
 ### 4. **Transparency Strategy**
@@ -235,7 +318,7 @@ Selected:        border-pink-500
 ```
 Default:         gray-600/700
 Hover:           gray-500/700
-Selected:        pink-500/900
+Selected:        brand-pink-500/900
 Completed:       green-500
 Active:          pink-purple gradient
 Disabled:        gray-600
@@ -255,8 +338,8 @@ text-gray-500   →  text-gray-400
 text-gray-900   →  text-white
 text-gray-700   →  text-gray-300
 bg-gray-100     →  bg-gray-700/50
-bg-pink-100     →  bg-pink-900/30
-text-pink-700   →  text-pink-400
+bg-brand-pink-100     →  bg-brand-pink-900/30
+text-brand-pink-700   →  text-brand-pink-400
 ```
 
 ### 2. **Photo Upload Section - Partially Updated**
@@ -264,10 +347,10 @@ text-pink-700   →  text-pink-400
 // NEEDS UPDATE in photo upload areas:
 border-gray-200      →  border-gray-600
 border-gray-300      →  border-gray-600
-bg-pink-50          →  bg-pink-900/30
+bg-brand-pink-50          →  bg-brand-pink-900/30
 text-gray-500       →  text-gray-400
-border-pink-300     →  border-pink-500
-bg-pink-50/30       →  bg-pink-900/30
+border-brand-pink-300     →  border-brand-pink-500
+bg-brand-pink-50/30       →  bg-brand-pink-900/30
 ```
 
 ### 3. **Success Screen - Not Updated**
@@ -320,7 +403,7 @@ className="text-xs text-gray-400 mt-1"
 className="border-gray-600 bg-gray-700/50 hover:border-gray-500 hover:bg-gray-700"
 
 // Selected interactive card
-className="border-pink-500 bg-pink-900/30 ring-2 ring-pink-400"
+className="border-brand-pink-500 bg-brand-pink-900/30 ring-2 ring-brand-pink-400"
 
 // Section container
 className="space-y-3 p-4 bg-gray-700/50 rounded-lg"

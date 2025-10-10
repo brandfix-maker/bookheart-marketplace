@@ -61,13 +61,13 @@ function NavDropdown({ label, children, isOpen, onToggle }: NavDropdownProps) {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={onToggle}
-        className="flex items-center gap-1 text-base font-semibold text-gray-700 hover:text-transparent hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#9C27B0] hover:bg-clip-text transition-all duration-300"
+        className="flex items-center gap-1 text-base font-semibold text-gray-200 hover:text-purple-400 transition-all duration-300"
       >
         {label}
         <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-[12px] rounded-lg shadow-lg border border-pink-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="absolute top-full left-0 mt-2 w-56 bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-700 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
           {children}
         </div>
       )}
@@ -129,15 +129,12 @@ export function MarketplaceNav() {
   return (
     <>
       {/* Main Navigation Bar */}
-      <header className="fixed top-0 left-0 right-0 z-50 h-[72px] bg-white/80 backdrop-blur-[16px] border-b border-pink-100 shadow-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 h-[72px] bg-gray-800/95 backdrop-blur-sm border-b border-gray-700 shadow-sm">
         <div className="container mx-auto px-4 h-full">
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <Heart className="h-7 w-7 text-[#E91E63] group-hover:animate-pulse" />
-              <span className="text-[28px] font-serif bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text text-transparent">
-                BookHeart
-              </span>
+            <Link href="/" className="flex items-center group">
+              <img src="/Logo/Logo_Horizontal_Pink.png" alt="BookHeart" className="h-8 w-auto" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -151,7 +148,7 @@ export function MarketplaceNav() {
                 <Link
                   href="/marketplace"
                   onClick={() => setMarketplaceOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                 >
                   <LayoutList className="h-4 w-4" />
                   Browse All
@@ -159,13 +156,13 @@ export function MarketplaceNav() {
                 <Link
                   href="/marketplace/search"
                   onClick={() => setMarketplaceOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                 >
                   <Search className="h-4 w-4" />
                   Search
                 </Link>
-                <div className="border-t border-gray-100 my-1" />
-                <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                <div className="border-t border-gray-700 my-1" />
+                <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
                   Categories
                 </div>
                 {MARKETPLACE_CATEGORIES.map((category) => (
@@ -173,7 +170,7 @@ export function MarketplaceNav() {
                     key={category.href}
                     href={category.href}
                     onClick={() => setMarketplaceOpen(false)}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                    className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                   >
                     {category.label}
                   </Link>
@@ -185,8 +182,8 @@ export function MarketplaceNav() {
                 href="/events"
                 className={`text-base font-semibold transition-all duration-300 ${
                   isActivePath('/events')
-                    ? 'text-transparent bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text border-b-[3px] border-[#E91E63] pb-[2px]'
-                    : 'text-gray-700 hover:text-transparent hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#9C27B0] hover:bg-clip-text'
+                    ? 'text-purple-400 border-b-[3px] border-purple-400 pb-[2px]'
+                    : 'text-gray-200 hover:text-purple-400'
                 }`}
               >
                 Events Bulletin
@@ -197,8 +194,8 @@ export function MarketplaceNav() {
                 href="/forums"
                 className={`text-base font-semibold transition-all duration-300 ${
                   isActivePath('/forums')
-                    ? 'text-transparent bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text border-b-[3px] border-[#E91E63] pb-[2px]'
-                    : 'text-gray-700 hover:text-transparent hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#9C27B0] hover:bg-clip-text'
+                    ? 'text-purple-400 border-b-[3px] border-purple-400 pb-[2px]'
+                    : 'text-gray-200 hover:text-purple-400'
                 }`}
               >
                 Forums
@@ -210,8 +207,8 @@ export function MarketplaceNav() {
                   href="/dashboard"
                   className={`text-base font-semibold transition-all duration-300 ${
                     isActivePath('/dashboard')
-                      ? 'text-transparent bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text border-b-[3px] border-[#E91E63] pb-[2px]'
-                      : 'text-gray-700 hover:text-transparent hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#9C27B0] hover:bg-clip-text'
+                      ? 'text-purple-400 border-b-[3px] border-purple-400 pb-[2px]'
+                      : 'text-gray-200 hover:text-purple-400'
                   }`}
                 >
                   My Listings
@@ -238,13 +235,13 @@ export function MarketplaceNav() {
 
               {/* Cart */}
               <Link href="/cart" className="relative p-2 hover:bg-pink-50 rounded-full transition-all duration-300">
-                <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-[#E91E63]" />
+                <ShoppingCart className="h-6 w-6 text-gray-200 hover:text-[#E91E63]" />
                 <BadgeCount count={cartCount} />
               </Link>
 
               {/* Wishlist */}
               <Link href="/wishlist" className="relative p-2 hover:bg-pink-50 rounded-full transition-all duration-300">
-                <Heart className="h-6 w-6 text-gray-700 hover:text-[#E91E63]" />
+                <Heart className="h-6 w-6 text-gray-200 hover:text-[#E91E63]" />
                 <BadgeCount count={wishlistCount} />
               </Link>
 
@@ -266,16 +263,16 @@ export function MarketplaceNav() {
                         </div>
                       </button>
                       {profileOpen && (
-                        <div className="absolute right-0 mt-2 w-64 bg-white/95 backdrop-blur-[12px] rounded-lg shadow-lg border border-pink-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                          <div className="px-4 py-3 border-b border-gray-100">
-                            <p className="font-semibold text-gray-900">{getDisplayName()}</p>
-                            <p className="text-sm text-gray-500">{user.email}</p>
+                        <div className="absolute right-0 mt-2 w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-700 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                          <div className="px-4 py-3 border-b border-gray-700">
+                            <p className="font-semibold text-white">{getDisplayName()}</p>
+                            <p className="text-sm text-gray-300">{user.email}</p>
                           </div>
                           <div className="py-2">
                             <Link
                               href={`/profile/${user.username}`}
                               onClick={() => setProfileOpen(false)}
-                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                             >
                               <User className="h-4 w-4" />
                               My Profile
@@ -283,7 +280,7 @@ export function MarketplaceNav() {
                             <Link
                               href="/purchases"
                               onClick={() => setProfileOpen(false)}
-                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                             >
                               <ShoppingBag className="h-4 w-4" />
                               My Purchases
@@ -292,7 +289,7 @@ export function MarketplaceNav() {
                               <Link
                                 href="/sales"
                                 onClick={() => setProfileOpen(false)}
-                                className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                                className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                               >
                                 <Store className="h-4 w-4" />
                                 My Sales
@@ -301,7 +298,7 @@ export function MarketplaceNav() {
                             <Link
                               href="/wishlist"
                               onClick={() => setProfileOpen(false)}
-                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                             >
                               <Heart className="h-4 w-4" />
                               Wishlists
@@ -309,7 +306,7 @@ export function MarketplaceNav() {
                             <Link
                               href="/messages"
                               onClick={() => setProfileOpen(false)}
-                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                             >
                               <MessageSquare className="h-4 w-4" />
                               <span>Messages</span>
@@ -322,13 +319,13 @@ export function MarketplaceNav() {
                             <Link
                               href="/profile/settings"
                               onClick={() => setProfileOpen(false)}
-                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors"
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
                             >
                               <Settings className="h-4 w-4" />
                               Settings
                             </Link>
                           </div>
-                          <div className="border-t border-gray-100 my-1" />
+                          <div className="border-t border-gray-700 my-1" />
                           <button
                             onClick={handleLogout}
                             className="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
@@ -342,7 +339,7 @@ export function MarketplaceNav() {
                   ) : (
                     <div className="hidden lg:flex items-center gap-3">
                       <Link href="/login">
-                        <Button variant="ghost" className="font-semibold text-gray-700 hover:text-[#E91E63]">
+                        <Button variant="ghost" className="font-semibold text-gray-200 hover:text-[#E91E63]">
                           Sign In
                         </Button>
                       </Link>
@@ -362,9 +359,9 @@ export function MarketplaceNav() {
                 className="lg:hidden p-2 hover:bg-pink-50 rounded-full transition-all duration-300"
               >
                 {mobileMenuOpen ? (
-                  <X className="h-6 w-6 text-gray-700" />
+                  <X className="h-6 w-6 text-gray-200" />
                 ) : (
-                  <Menu className="h-6 w-6 text-gray-700" />
+                  <Menu className="h-6 w-6 text-gray-200" />
                 )}
               </button>
             </div>
@@ -381,11 +378,11 @@ export function MarketplaceNav() {
             onClick={() => setMobileMenuOpen(false)}
           />
           {/* Drawer */}
-          <div className="fixed top-[72px] right-0 bottom-0 w-80 bg-white shadow-xl z-50 lg:hidden animate-in slide-in-from-right duration-300">
+          <div className="fixed top-[72px] right-0 bottom-0 w-80 bg-gray-800 shadow-xl z-50 lg:hidden animate-in slide-in-from-right duration-300">
             <div className="h-full overflow-y-auto p-6">
               {/* User Info or Auth Buttons */}
               {user ? (
-                <div className="mb-6 pb-6 border-b border-gray-200">
+                <div className="mb-6 pb-6 border-b border-gray-700">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] rounded-full flex items-center justify-center text-white font-semibold">
                       {user.avatarUrl ? (
@@ -395,13 +392,13 @@ export function MarketplaceNav() {
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">{getDisplayName()}</p>
-                      <p className="text-sm text-gray-500">{user.email}</p>
+                      <p className="font-semibold text-white">{getDisplayName()}</p>
+                      <p className="text-sm text-gray-400">{user.email}</p>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="mb-6 pb-6 border-b border-gray-200 space-y-3">
+                <div className="mb-6 pb-6 border-b border-gray-700 space-y-3">
                   <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="outline" className="w-full font-semibold">
                       Sign In
@@ -430,7 +427,7 @@ export function MarketplaceNav() {
                 <Link
                   href="/marketplace"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                 >
                   <LayoutList className="h-5 w-5" />
                   <span className="font-semibold">Browse Marketplace</span>
@@ -438,7 +435,7 @@ export function MarketplaceNav() {
                 <Link
                   href="/marketplace/search"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                 >
                   <Search className="h-5 w-5" />
                   <span className="font-semibold">Search</span>
@@ -446,7 +443,7 @@ export function MarketplaceNav() {
                 <Link
                   href="/events"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                 >
                   <Calendar className="h-5 w-5" />
                   <span className="font-semibold">Events Bulletin</span>
@@ -454,7 +451,7 @@ export function MarketplaceNav() {
                 <Link
                   href="/forums"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                 >
                   <MessageCircle className="h-5 w-5" />
                   <span className="font-semibold">Forums</span>
@@ -466,7 +463,7 @@ export function MarketplaceNav() {
                     <Link
                       href={`/profile/${user.username}`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       <User className="h-5 w-5" />
                       <span className="font-semibold">My Profile</span>
@@ -474,7 +471,7 @@ export function MarketplaceNav() {
                     <Link
                       href="/purchases"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       <ShoppingBag className="h-5 w-5" />
                       <span className="font-semibold">My Purchases</span>
@@ -484,7 +481,7 @@ export function MarketplaceNav() {
                         <Link
                           href="/sales"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                          className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                         >
                           <Store className="h-5 w-5" />
                           <span className="font-semibold">My Sales</span>
@@ -492,7 +489,7 @@ export function MarketplaceNav() {
                         <Link
                           href="/dashboard"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                          className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                         >
                           <BookOpen className="h-5 w-5" />
                           <span className="font-semibold">My Listings</span>
@@ -502,7 +499,7 @@ export function MarketplaceNav() {
                     <Link
                       href="/messages"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       <MessageSquare className="h-5 w-5" />
                       <span className="font-semibold">Messages</span>
@@ -515,7 +512,7 @@ export function MarketplaceNav() {
                     <Link
                       href="/profile/settings"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       <Settings className="h-5 w-5" />
                       <span className="font-semibold">Settings</span>
@@ -534,7 +531,7 @@ export function MarketplaceNav() {
 
               {/* Categories */}
               <div className="mt-6 pt-6 border-t border-gray-200">
-                <h3 className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
+                <h3 className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
                   Categories
                 </h3>
                 <div className="space-y-1">
@@ -543,7 +540,7 @@ export function MarketplaceNav() {
                       key={category.href}
                       href={category.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 rounded-lg transition-colors"
+                      className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       {category.label}
                     </Link>
@@ -556,12 +553,12 @@ export function MarketplaceNav() {
       )}
 
       {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden h-16 bg-white border-t border-pink-100 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden h-16 bg-gray-800 border-t border-gray-700 shadow-lg">
         <div className="h-full flex items-center justify-around px-2">
           <Link
             href="/"
             className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              pathname === '/' ? 'text-[#E91E63]' : 'text-gray-600'
+              pathname === '/' ? 'text-[#E91E63]' : 'text-gray-300'
             }`}
           >
             <Home className="h-5 w-5" />
@@ -570,7 +567,7 @@ export function MarketplaceNav() {
           <Link
             href="/marketplace/search"
             className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              isActivePath('/marketplace/search') ? 'text-[#E91E63]' : 'text-gray-600'
+              isActivePath('/marketplace/search') ? 'text-[#E91E63]' : 'text-gray-300'
             }`}
           >
             <Search className="h-5 w-5" />
@@ -583,12 +580,12 @@ export function MarketplaceNav() {
             <div className="w-14 h-14 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300">
               <Plus className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xs font-medium text-gray-600 mt-1">Sell</span>
+            <span className="text-xs font-medium text-gray-300 mt-1">Sell</span>
           </Link>
           <Link
             href="/messages"
             className={`relative flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              isActivePath('/messages') ? 'text-[#E91E63]' : 'text-gray-600'
+              isActivePath('/messages') ? 'text-[#E91E63]' : 'text-gray-300'
             }`}
           >
             <MessageSquare className="h-5 w-5" />
@@ -602,7 +599,7 @@ export function MarketplaceNav() {
           <Link
             href={user ? `/profile/${user.username}` : '/login'}
             className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              isActivePath('/profile') ? 'text-[#E91E63]' : 'text-gray-600'
+              isActivePath('/profile') ? 'text-[#E91E63]' : 'text-gray-300'
             }`}
           >
             <User className="h-5 w-5" />

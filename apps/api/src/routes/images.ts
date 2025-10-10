@@ -5,7 +5,7 @@ import { ImageService } from '../services/image.service';
 import { ApiResponse } from '@bookheart/shared';
 import multer from 'multer';
 
-const router = Router();
+const router: Router = Router();
 
 // Configure multer for memory storage
 const upload = multer({

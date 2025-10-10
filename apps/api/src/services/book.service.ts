@@ -865,4 +865,127 @@ export class BookService {
       throw error;
     }
   }
+
+  /**
+   * Increment view count for a book
+   */
+  static async incrementViewCount(bookId: string): Promise<void> {
+    try {
+      await db
+        .update(books)
+        .set({
+          viewCount: sql`${books.viewCount} + 1`,
+          updatedAt: new Date(),
+        })
+        .where(eq(books.id, bookId));
+      
+      console.log('📚 BookService.incrementViewCount: View count incremented for book:', bookId);
+    } catch (error) {
+      console.error('📚 BookService.incrementViewCount: Error incrementing view count:', error);
+      // Don't throw - view count increment should not break the request
+    }
+  }
+
+  /**
+   * Get similar books based on series, subscription box, and tropes
+   */
+  static async getSimilarBooks(bookId: string, limit: number = 6): Promise<Book[]> {
+    console.log('📚 BookService.getSimilarBooks: Finding similar books for:', bookId);
+
+    try {
+      // Get the source book
+      const sourceBook = await this.getBookById(bookId);
+      if (!sourceBook) {
+        return [];
+      }
+
+      // Priority 1: Same series (if exists)
+      if (sourceBook.seriesName) {
+        const seriesBooks = await db
+          .select()
+          .from(books)
+          .where(
+            and(
+              eq(books.seriesName, sourceBook.seriesName),
+              eq(books.status, 'active'),
+              sql`${books.id} != ${bookId}` // Exclude current book
+            )
+          )
+          .orderBy(asc(books.seriesNumber))
+          .limit(limit);
+
+        if (seriesBooks.length >= limit) {
+          return await this.addImagesToBooks(seriesBooks.map(b => this.formatBook(b as any)));
+        }
+      }
+
+      // Priority 2: Same subscription box
+      const similarBooks: any[] = [];
+      if (sourceBook.subscriptionBox) {
+        const boxBooks = await db
+          .select()
+          .from(books)
+          .where(
+            and(
+              eq(books.subscriptionBox, sourceBook.subscriptionBox),
+              eq(books.status, 'active'),
+              sql`${books.id} != ${bookId}`
+            )
+          )
+          .orderBy(desc(books.viewCount))
+          .limit(limit);
+
+        similarBooks.push(...boxBooks);
+      }
+
+      // Priority 3: Similar tropes (if not enough books yet)
+      if (similarBooks.length < limit && sourceBook.tropes.length > 0) {
+        const tropeBooks = await db
+          .select()
+          .from(books)
+          .where(
+            and(
+              eq(books.status, 'active'),
+              sql`${books.id} != ${bookId}`,
+              sql`${books.tropes} && ARRAY[${sql.raw(sourceBook.tropes.map(t => `'${t}'`).join(','))}]::text[]`
+            )
+          )
+          .orderBy(desc(books.viewCount))
+          .limit(limit - similarBooks.length);
+
+        similarBooks.push(...tropeBooks);
+      }
+
+      // Remove duplicates by ID
+      const uniqueBooks = Array.from(
+        new Map(similarBooks.map(book => [book.id, book])).values()
+      ).slice(0, limit);
+
+      // Add images to books
+      return await this.addImagesToBooks(uniqueBooks.map(b => this.formatBook(b as any)));
+    } catch (error) {
+      console.error('📚 BookService.getSimilarBooks: Error finding similar books:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Helper method to add images to books
+   */
+  private static async addImagesToBooks(books: Book[]): Promise<Book[]> {
+    return await Promise.all(
+      books.map(async (book) => {
+        const images = await db
+          .select()
+          .from(bookImages)
+          .where(eq(bookImages.bookId, book.id))
+          .orderBy(asc(bookImages.order));
+
+        return {
+          ...book,
+          images: images.map(img => this.formatBookImage(img as any)),
+        };
+      })
+    );
+  }
 }

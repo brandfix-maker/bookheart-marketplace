@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { ApiResponse, AuthResponse } from '@bookheart/shared';
 import { z } from 'zod';
 
-const router = Router();
+const router: Router = Router();
 
 const googleSignInSchema = z.object({
   email: z.string().email(),

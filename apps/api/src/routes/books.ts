@@ -6,7 +6,7 @@ import { BookService } from '../services/book.service';
 import { createBookSchema, updateBookSchema, uuidSchema } from '../utils/validation';
 import { ApiResponse } from '@bookheart/shared';
 
-const router = Router();
+const router: Router = Router();
 
 // Get all books (public)
 router.get('/', optionalAuth, asyncHandler(async (req, res) => {
@@ -411,12 +411,39 @@ router.get('/:id', optionalAuth, asyncHandler(async (req, res) => {
     return;
   }
 
-  // Increment view count
-  // TODO: Implement view count increment
+  // Increment view count (fire and forget - don't wait for it)
+  BookService.incrementViewCount(id).catch((err) => 
+    console.error('Failed to increment view count:', err)
+  );
 
   const response: ApiResponse = {
     success: true,
     data: book,
+  };
+
+  res.json(response);
+}));
+
+// Get similar books
+router.get('/:id/similar', optionalAuth, asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const limit = req.query.limit ? Number(req.query.limit) : 6;
+
+  // Validate UUID
+  const validation = uuidSchema.safeParse(id);
+  if (!validation.success) {
+    res.status(400).json({
+      success: false,
+      error: 'Invalid book ID format',
+    });
+    return;
+  }
+
+  const similarBooks = await BookService.getSimilarBooks(id, limit);
+
+  const response: ApiResponse = {
+    success: true,
+    data: similarBooks,
   };
 
   res.json(response);

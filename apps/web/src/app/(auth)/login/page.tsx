@@ -58,32 +58,30 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
       </div>
 
-      <Card className="relative w-full max-w-md p-8 shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+      <Card className="relative w-full max-w-md p-8 shadow-2xl border-0 bg-gray-800/90 backdrop-blur-sm border-gray-700">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Heart className="h-8 w-8 text-purple-600 mr-2" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              BookHeart
-            </span>
+            <img src="/Logo.png" alt="BookHeart Logo" className="h-8 w-8 mr-2" />
+            <img src="/Logo/Text_purple.png" alt="BookHeart" className="h-6 w-auto" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Cinzel, serif' }}>
+          <h1 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: 'Cinzel, serif' }}>
             Welcome Back
           </h1>
-          <p className="text-gray-600">Sign in to your account to continue</p>
+          <p className="text-gray-300">Sign in to your account to continue</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
           {/* Email Field */}
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="email" className="text-sm font-medium text-gray-200">
               Email Address
             </Label>
             <Input
@@ -105,7 +103,7 @@ export default function LoginPage() {
 
           {/* Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="password" className="text-sm font-medium text-gray-200">
               Password
             </Label>
             <div className="relative">
@@ -124,7 +122,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
                 disabled={isLoading}
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -145,7 +143,7 @@ export default function LoginPage() {
                 className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                 disabled={isLoading}
               />
-              <span className="ml-2 text-sm text-gray-700">Remember me</span>
+              <span className="ml-2 text-sm text-gray-200">Remember me</span>
             </label>
             <Link 
               href="/forgot-password" 
@@ -177,7 +175,7 @@ export default function LoginPage() {
 
         {/* Sign Up Link */}
         <div className="mt-8 text-center">
-          <p className="text-gray-600">
+          <p className="text-gray-300">
             Don't have an account?{' '}
             <Link 
               href="/register" 
