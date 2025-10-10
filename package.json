@@ -1,18 +1,14 @@
 {
   "name": "bookheart-marketplace",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
-    "db:push": "npm run db:push --workspace=packages/database",
-    "db:studio": "npm run db:studio --workspace=packages/database",
-    "db:generate": "npm run db:generate --workspace=packages/database",
+    "db:push": "pnpm --filter @bookheart/database db:push",
+    "db:studio": "pnpm --filter @bookheart/database db:studio",
+    "db:generate": "pnpm --filter @bookheart/database db:generate",
     "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules",
     "clean:windows": "rmdir /s /q node_modules && rmdir /s /q apps\\api\\node_modules && rmdir /s /q apps\\web\\node_modules && rmdir /s /q packages\\database\\node_modules && rmdir /s /q packages\\shared\\node_modules"
   },
@@ -28,10 +24,10 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9"
   },
-  "packageManager": "npm@9.0.0",
+  "packageManager": "pnpm@10.18.0",
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "pnpm": ">=8.0.0"
   },
   "overrides": {
     "drizzle-orm": "0.29.4"

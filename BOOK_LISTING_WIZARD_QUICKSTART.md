@@ -1,4 +1,4 @@
-# 🚀 Quick Start: Book Listing Wizard
+image.png# 🚀 Quick Start: Book Listing Wizard
 
 ## Prerequisites
 - Node.js installed

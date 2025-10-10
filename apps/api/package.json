@@ -9,8 +9,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@bookheart/database": "*",
-    "@bookheart/shared": "*",
+    "@bookheart/database": "workspace:*",
+    "@bookheart/shared": "workspace:*",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.17",
