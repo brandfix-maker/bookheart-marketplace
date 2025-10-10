@@ -62,15 +62,15 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
         <h2 className="text-2xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
           Your Story
         </h2>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           Tell buyers why you're parting with this treasure
         </p>
       </div>
 
-      <Card className="p-4 bg-primary/10 border-primary/30 backdrop-blur-sm">
+      <Card className="p-4 bg-gray-700/50 border-gray-600">
         <div className="flex items-start gap-2">
-          <Info className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-          <div className="text-sm text-foreground">
+          <Info className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+          <div className="text-sm text-gray-300">
             <p>
               <strong>Share your connection:</strong> Was this your favorite cozy read? A
               reread you're ready to pass on? Personal stories help buyers connect with
@@ -158,13 +158,13 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
           onChange={(e) => onChange({ ...data, description: e.target.value })}
           rows={8}
           maxLength={1000}
-          className={`bg-input/50 backdrop-blur-sm border-border/50 ${errors?.description ? 'border-red-500' : ''}`}
+          className={`bg-gray-700 border-gray-600 text-white placeholder-gray-400 ${errors?.description ? 'border-red-500' : ''}`}
         />
         <div className="flex justify-between text-xs">
           {errors?.description ? (
             <p className="text-red-500">{errors.description.message}</p>
           ) : (
-            <p className="text-gray-500">Minimum 50 characters, maximum 1000</p>
+            <p className="text-gray-400">Minimum 50 characters, maximum 1000</p>
           )}
           <p
             className={
@@ -192,7 +192,7 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
 
       {/* Preview Pane */}
       {showPreview && (
-        <Card className="p-6 bg-card/80 backdrop-blur-sm border-2 border-primary/30">
+        <Card className="p-6 bg-gray-700/50 border-gray-600">
           <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-pink-600" />
             How Your Listing Will Appear
@@ -201,11 +201,11 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
             {/* Book Title Preview */}
             {previewData?.title && (
               <div>
-                <h4 className="text-2xl font-serif font-bold text-gray-900">
+                <h4 className="text-2xl font-serif font-bold text-white">
                   {previewData.title}
                 </h4>
                 {previewData.author && (
-                  <p className="text-lg text-gray-600">by {previewData.author}</p>
+                  <p className="text-lg text-gray-300">by {previewData.author}</p>
                 )}
               </div>
             )}
@@ -217,7 +217,7 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
                   ${parseFloat(previewData.price).toFixed(2)}
                 </span>
                 {previewData.shippingPrice && (
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-gray-400">
                     + ${parseFloat(previewData.shippingPrice).toFixed(2)} shipping
                   </span>
                 )}
@@ -226,7 +226,7 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
 
             {/* Condition Preview */}
             {previewData?.condition && (
-              <div className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+              <div className="inline-block px-3 py-1 bg-green-900/30 text-green-400 rounded-full text-sm font-medium">
                 {previewData.condition.replace('-', ' ').toUpperCase()}
               </div>
             )}
@@ -234,9 +234,9 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
             {/* Description Preview */}
             {data.description && (
               <div className="space-y-2">
-                <h5 className="font-semibold text-gray-900">Seller's Story:</h5>
+                <h5 className="font-semibold text-white">Seller's Story:</h5>
                 <div
-                  className="text-gray-700 leading-relaxed"
+                  className="text-gray-300 leading-relaxed"
                   dangerouslySetInnerHTML={{
                     __html: renderFormattedText(data.description),
                   }}
@@ -247,18 +247,18 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
             {/* Tropes Preview */}
             {previewData?.tropes && previewData.tropes.length > 0 && (
               <div className="space-y-2">
-                <h5 className="font-semibold text-gray-900">Tropes:</h5>
+                <h5 className="font-semibold text-white">Tropes:</h5>
                 <div className="flex flex-wrap gap-2">
                   {previewData.tropes.slice(0, 8).map((trope: string) => (
                     <span
                       key={trope}
-                      className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-medium"
+                      className="px-3 py-1 bg-pink-900/30 text-pink-400 rounded-full text-xs font-medium"
                     >
                       {trope}
                     </span>
                   ))}
                   {previewData.tropes.length > 8 && (
-                    <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
+                    <span className="px-3 py-1 bg-gray-700 text-gray-400 rounded-full text-xs">
                       +{previewData.tropes.length - 8} more
                     </span>
                   )}
@@ -270,17 +270,17 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
       )}
 
       {/* Final Review Summary */}
-      <Card className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/30 backdrop-blur-sm">
+      <Card className="p-6 bg-gray-700/50 border-gray-600">
         <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-          <Heart className="w-5 h-5 text-primary" />
+          <Heart className="w-5 h-5 text-pink-400" />
           Ready to Publish?
         </h3>
-        <div className="space-y-2 text-sm text-foreground">
+        <div className="space-y-2 text-sm text-gray-300">
           <p>✓ Book details complete</p>
           <p>✓ Photos uploaded</p>
           <p>✓ Pricing set</p>
           <p>✓ Story written</p>
-          <p className="text-primary font-medium mt-4">
+          <p className="text-pink-400 font-medium mt-4">
             Your listing will go live as soon as you click "Publish Listing"!
           </p>
         </div>

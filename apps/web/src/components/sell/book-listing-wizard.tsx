@@ -342,14 +342,14 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <Confetti width={width} height={height} recycle={false} numberOfPieces={500} />
-        <Card className="max-w-2xl w-full p-8 text-center space-y-6">
+        <Card className="max-w-2xl w-full p-8 text-center space-y-6 bg-gray-800/95 backdrop-blur-sm border-gray-700">
           <div className="flex justify-center">
             <Sparkles className="w-20 h-20 text-pink-500" />
           </div>
           <h1 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
             ✨ Your listing is live! ✨
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-300">
             Listing ID: <span className="font-mono font-semibold">BH-2025-{listingId.slice(0, 6)}</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -377,7 +377,7 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
             </Button>
           </div>
           <div className="pt-6 border-t">
-            <p className="text-sm text-gray-500">Share your listing:</p>
+            <p className="text-sm text-gray-400">Share your listing:</p>
             <Button
               variant="outline"
               size="sm"

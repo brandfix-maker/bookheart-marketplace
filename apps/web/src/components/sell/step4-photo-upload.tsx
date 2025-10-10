@@ -134,7 +134,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
               key={slot.type}
               className={cn(
                 'p-4',
-                slot.required && !hasImage && 'border-pink-300 bg-pink-50/30'
+                slot.required && !hasImage && 'border-pink-500 bg-pink-900/30'
               )}
             >
               <div className="space-y-3">
@@ -144,7 +144,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
                       {slot.label}
                       {slot.required && <span className="text-red-500 ml-1">*</span>}
                     </Label>
-                    <p className="text-sm text-gray-500">{slot.description}</p>
+                    <p className="text-sm text-gray-400">{slot.description}</p>
                   </div>
                 </div>
 
@@ -154,7 +154,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
                       <img
                         src={image.preview}
                         alt={slot.label}
-                        className="w-full aspect-[3/4] object-cover rounded-lg border-2 border-gray-200"
+                        className="w-full aspect-[3/4] object-cover rounded-lg border-2 border-gray-600"
                       />
                       <button
                         type="button"
@@ -175,7 +175,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
                   <button
                     type="button"
                     onClick={() => openFilePicker(slot.type)}
-                    className="w-full aspect-[3/4] border-2 border-dashed border-gray-300 rounded-lg hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2 text-gray-500 hover:text-pink-600"
+                    className="w-full aspect-[3/4] border-2 border-dashed border-gray-600 rounded-lg hover:border-pink-400 hover:bg-pink-900/30 transition-all flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-pink-400"
                   >
                     <div className="flex gap-2">
                       <Camera className="w-5 h-5" />
@@ -193,13 +193,13 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
       </div>
 
       {/* Additional Photos */}
-      <Card className="p-4">
+      <Card className="p-4 bg-gray-700/50 border-gray-600">
         <div className="space-y-3">
           <div>
             <Label className="text-base font-semibold">
               Additional Photos (Optional)
             </Label>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-400">
               Show any additional details, special features, or unique aspects
             </p>
           </div>
@@ -210,7 +210,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
                 <img
                   src={image.preview}
                   alt="Additional"
-                  className="w-full aspect-[3/4] object-cover rounded-lg border-2 border-gray-200"
+                  className="w-full aspect-[3/4] object-cover rounded-lg border-2 border-gray-600"
                 />
                 <button
                   type="button"
@@ -225,7 +225,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
             <button
               type="button"
               onClick={() => openFilePicker('additional')}
-              className="w-full aspect-[3/4] border-2 border-dashed border-gray-300 rounded-lg hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2 text-gray-500 hover:text-pink-600"
+              className="w-full aspect-[3/4] border-2 border-dashed border-gray-600 rounded-lg hover:border-pink-400 hover:bg-pink-900/30 transition-all flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-pink-400"
             >
               <div className="flex gap-2">
                 <Camera className="w-5 h-5" />
@@ -241,7 +241,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
         <p className="text-sm text-red-500">{errors.images.message}</p>
       )}
 
-      <div className="text-sm text-gray-500 text-center">
+      <div className="text-sm text-gray-400 text-center">
         <p>
           {data.images.length} photo{data.images.length !== 1 ? 's' : ''} added
           {requiredSlots.length > 0 && ` • ${requiredSlots.length} required photos`}

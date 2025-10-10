@@ -260,7 +260,7 @@ export default function LandingPage() {
 
         {/* Hero Content */}
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <h1 className="font-dancing text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in-up">
+          <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in-up">
             Where BookTok Finds Its
             <br />
             <span className="bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent">
@@ -311,7 +311,7 @@ export default function LandingPage() {
       <section className="py-20 bg-gradient-to-br from-pink-50 via-white to-purple-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-4xl font-dancing font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
               Just Listed
             </h2>
             <Link href="/marketplace" className="text-purple-600 hover:text-purple-700 font-semibold flex items-center gap-2 group">
@@ -370,7 +370,7 @@ export default function LandingPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-dancing font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
               Trending in {userState}
             </h2>
             <p className="text-gray-600">Based on recent views and purchases</p>
@@ -403,7 +403,7 @@ export default function LandingPage() {
       <section className="py-20 bg-gradient-to-br from-purple-50 via-pink-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-dancing font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
               Subscription Box Exclusives
           </h2>
             <p className="text-gray-600">Find special editions from your favorite boxes</p>
@@ -437,7 +437,7 @@ export default function LandingPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-4xl font-dancing font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
               Upcoming Events
             </h2>
             <Link href="/events" className="text-purple-600 hover:text-purple-700 font-semibold flex items-center gap-2 group">
@@ -485,7 +485,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="glass-morphism rounded-2xl p-12">
-              <h2 className="text-3xl font-dancing font-bold text-center mb-12 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-serif font-bold text-center mb-12 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                 Shop with Confidence
             </h2>
               
@@ -527,7 +527,7 @@ export default function LandingPage() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="h-8 w-8 text-pink-400" />
-                <span className="text-2xl font-dancing font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="text-2xl font-serif font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                   BookHeart
                 </span>
               </div>

@@ -135,7 +135,7 @@ export function MarketplaceNav() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <Heart className="h-7 w-7 text-[#E91E63] group-hover:animate-pulse" />
-              <span className="text-[28px] font-dancing bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text text-transparent">
+              <span className="text-[28px] font-serif bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text text-transparent">
                 BookHeart
               </span>
             </Link>
