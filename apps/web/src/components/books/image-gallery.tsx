@@ -100,7 +100,7 @@ export function ImageGallery({ images, bookTitle }: ImageGalleryProps) {
                 flex-shrink-0 w-20 h-28 rounded overflow-hidden border-2 cursor-pointer transition-all
                 ${
                   index === selectedIndex
-                    ? 'border-pink-500 ring-2 ring-pink-400'
+                    ? 'border-brand-pink-500 ring-2 ring-brand-pink-400'
                     : 'border-gray-600 hover:border-gray-500'
                 }
               `}

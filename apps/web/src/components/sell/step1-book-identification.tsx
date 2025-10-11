@@ -90,7 +90,7 @@ export function Step1BookIdentification({ data, onChange, errors }: Step1Props) 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+        <h2 className="text-2xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent mb-2">
           Find Your Book
         </h2>
         <p className="text-gray-300">
@@ -115,7 +115,7 @@ export function Step1BookIdentification({ data, onChange, errors }: Step1Props) 
             {/* Search Results */}
             {isSearching && (
               <div className="text-center py-8 text-gray-400">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600 mx-auto mb-2"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-pink-600 mx-auto mb-2"></div>
                 Searching...
               </div>
             )}

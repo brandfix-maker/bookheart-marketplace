@@ -6,11 +6,11 @@ export default function SettingsPage() {
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto text-center space-y-8">
         <div className="flex justify-center">
-          <Settings className="h-24 w-24 text-transparent bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text" />
+          <Settings className="h-24 w-24 text-transparent bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 bg-clip-text" />
         </div>
         
         <div>
-          <h1 className="text-5xl font-serif font-bold bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl font-serif font-bold bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 bg-clip-text text-transparent mb-4">
             Account Settings
           </h1>
           <p className="text-xl text-gray-600">

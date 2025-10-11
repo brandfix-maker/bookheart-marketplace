@@ -130,7 +130,7 @@ export function BookCard({
           {/* Special Edition Badge - Top Right */}
           {book.isSpecialEdition && (
             <div className="absolute top-2 right-2">
-              <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center shadow-lg">
+              <div className="bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center shadow-lg">
                 <Sparkles className="h-3 w-3 mr-1" />
                 Special Edition
               </div>
@@ -177,7 +177,7 @@ export function BookCard({
 
         {/* Series Info */}
         {book.seriesName && (
-          <div className="text-xs text-purple-600 font-medium">
+          <div className="text-xs text-brand-purple-600 font-medium">
             {book.seriesName}
             {book.seriesNumber && ` #${book.seriesNumber}`}
           </div>
@@ -189,7 +189,7 @@ export function BookCard({
             {book.tropes.slice(0, 3).map((trope, index) => (
               <span
                 key={index}
-                className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+                className="px-2 py-1 bg-purple-100 text-brand-purple-700 text-xs rounded-full"
               >
                 {trope.replace(/-/g, ' ')}
               </span>
@@ -206,7 +206,7 @@ export function BookCard({
         {showSeller && book.seller && (
           <div className="flex items-center space-x-2 text-sm text-gray-600">
             <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
-              <BookOpen className="h-3 w-3 text-purple-600" />
+              <BookOpen className="h-3 w-3 text-brand-purple-600" />
             </div>
             <span>{book.seller.displayName || book.seller.username}</span>
             {book.seller.sellerVerified && (
@@ -253,7 +253,7 @@ export function BookCard({
           {/* View Details Button - Full width */}
           <Button 
             asChild 
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white transition-all duration-300 group-hover:shadow-lg"
+            className="w-full bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 hover:from-brand-purple-700 hover:to-brand-pink-700 text-white transition-all duration-300 group-hover:shadow-lg"
             aria-label={`View details for ${book.title}`}
           >
             <Link href={`/books/${book.id}`}>

@@ -103,7 +103,7 @@ export function Step5TropesAndTags({ data, onChange, errors, subscriptionBoxes }
       {/* Selected Tropes */}
       {data.tropes.length > 0 && (
         <Card className="p-4 bg-pink-50 border-pink-200">
-          <Label className="text-sm font-medium text-pink-900 mb-2 block">
+          <Label className="text-sm font-medium text-brand-pink-900 mb-2 block">
             Selected Tropes ({data.tropes.length}):
           </Label>
           <div className="flex flex-wrap gap-2">
@@ -117,7 +117,7 @@ export function Step5TropesAndTags({ data, onChange, errors, subscriptionBoxes }
                   onClick={() => toggleTrope(tropeValue)}
                 >
                   {trope?.label || tropeValue}
-                  <span className="ml-1 text-pink-900">×</span>
+                  <span className="ml-1 text-brand-pink-900">×</span>
                 </Badge>
               );
             })}

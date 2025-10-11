@@ -178,7 +178,7 @@ export default function RegisterPage() {
       {/* Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-pink-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
       </div>
 
       <div className="relative w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -200,7 +200,7 @@ export default function RegisterPage() {
           <div className="space-y-6">
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                <Heart className="h-4 w-4 text-purple-600" />
+                <Heart className="h-4 w-4 text-brand-purple-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-white">Curated Collection</h3>
@@ -210,7 +210,7 @@ export default function RegisterPage() {
 
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                <Heart className="h-4 w-4 text-purple-600" />
+                <Heart className="h-4 w-4 text-brand-purple-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-white">Community Driven</h3>
@@ -220,7 +220,7 @@ export default function RegisterPage() {
 
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                <Heart className="h-4 w-4 text-purple-600" />
+                <Heart className="h-4 w-4 text-brand-purple-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-white">Secure Trading</h3>
@@ -398,16 +398,16 @@ export default function RegisterPage() {
                   type="checkbox"
                   checked={acceptTerms}
                   onChange={(e) => setAcceptTerms(e.target.checked)}
-                  className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 text-brand-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                   disabled={isLoading}
                 />
                 <span className="text-sm text-gray-200">
                   I agree to the{' '}
-                  <Link href="/terms" className="text-purple-600 hover:text-purple-700">
+                  <Link href="/terms" className="text-brand-purple-600 hover:text-brand-purple-700">
                     Terms of Service
                   </Link>{' '}
                   and{' '}
-                  <Link href="/privacy" className="text-purple-600 hover:text-purple-700">
+                  <Link href="/privacy" className="text-brand-purple-600 hover:text-brand-purple-700">
                     Privacy Policy
                   </Link>
                 </span>
@@ -421,7 +421,7 @@ export default function RegisterPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full py-3 bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 hover:from-brand-purple-700 hover:to-brand-pink-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -465,7 +465,7 @@ export default function RegisterPage() {
               Already have an account?{' '}
               <Link 
                 href="/login" 
-                className="text-purple-600 hover:text-purple-700 font-semibold transition-colors"
+                className="text-brand-purple-600 hover:text-brand-purple-700 font-semibold transition-colors"
               >
                 Sign in here
               </Link>

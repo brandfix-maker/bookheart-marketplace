@@ -1,9 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useWishlist } from '@/contexts/wishlist-context';
 import { toast } from '@/components/ui/use-toast';
+import { OfferModal } from './offer-modal';
+import { MessageModal } from './message-modal';
+import { BidModal } from './bid-modal';
 import Link from 'next/link';
 
 interface Book {
@@ -23,12 +27,19 @@ interface Book {
   signatureType?: string;
   subscriptionBox?: string;
   spiceLevel?: number;
+  seller?: {
+    id: string;
+    username: string;
+    displayName?: string;
+  };
 }
 
 interface Auction {
   id: string;
   currentBidCents: number;
   status: string;
+  bidCount: number;
+  endTime: string;
 }
 
 interface BookInfoSectionProps {
@@ -47,6 +58,11 @@ const CONDITION_COLORS: Record<string, string> = {
 export function BookInfoSection({ book, auction }: BookInfoSectionProps) {
   const { isInWishlist, toggleItem } = useWishlist();
   const isBookInWishlist = isInWishlist(book.id);
+  
+  // Modal states
+  const [showOfferModal, setShowOfferModal] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [showBidModal, setShowBidModal] = useState(false);
 
   const formatPrice = (cents: number) => `$${(cents / 100).toFixed(2)}`;
 
@@ -86,10 +102,7 @@ export function BookInfoSection({ book, auction }: BookInfoSectionProps) {
     <div>
       {/* Title & Author */}
       <div>
-        <h1 
-          className="text-4xl font-bold text-white mb-2"
-          style={{ fontFamily: 'Dancing Script, cursive' }}
-        >
+        <h1 className="text-4xl font-serif font-bold text-white mb-2">
           {book.title}
         </h1>
         <p className="text-xl text-gray-300">by {book.author}</p>
@@ -195,7 +208,8 @@ export function BookInfoSection({ book, auction }: BookInfoSectionProps) {
         <div className="mt-6 space-y-3">
           {auction && auction.status === 'active' ? (
             <Button 
-              className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-6 text-lg font-semibold"
+              onClick={() => setShowBidModal(true)}
+              className="w-full bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white py-6 text-lg font-semibold"
             >
               Place Bid
             </Button>
@@ -203,7 +217,7 @@ export function BookInfoSection({ book, auction }: BookInfoSectionProps) {
             <>
               <Button 
                 asChild
-                className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-6 text-lg font-semibold"
+                className="w-full bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white py-6 text-lg font-semibold"
               >
                 <Link href={`/checkout?bookId=${book.id}`}>
                   <ShoppingCart className="w-5 h-5 mr-2" />
@@ -213,6 +227,7 @@ export function BookInfoSection({ book, auction }: BookInfoSectionProps) {
 
               {book.acceptsOffers && (
                 <Button 
+                  onClick={() => setShowOfferModal(true)}
                   className="w-full border-2 border-gray-600 bg-gray-700/50 hover:bg-gray-700 text-white py-6 text-lg"
                 >
                   Make an Offer
@@ -227,15 +242,49 @@ export function BookInfoSection({ book, auction }: BookInfoSectionProps) {
             className={`
               w-full p-3 rounded-lg flex items-center justify-center gap-2 transition-all
               ${isBookInWishlist 
-                ? 'border border-pink-500 bg-pink-900/30 hover:bg-pink-900/50 text-pink-400' 
+                ? 'border border-brand-pink-500 bg-brand-pink-900/30 hover:bg-brand-pink-900/50 text-brand-pink-400' 
                 : 'border border-gray-600 bg-gray-700/50 hover:bg-gray-700 text-gray-300'
               }
             `}
           >
-            <Heart className={`w-5 h-5 ${isBookInWishlist ? 'fill-pink-500' : ''}`} />
+            <Heart className={`w-5 h-5 ${isBookInWishlist ? 'fill-brand-pink-500' : ''}`} />
             {isBookInWishlist ? 'In Wishlist' : 'Add to Wishlist'}
           </button>
         </div>
+      )}
+
+      {/* Modals */}
+      {showOfferModal && book.seller && (
+        <OfferModal
+          isOpen={showOfferModal}
+          onClose={() => setShowOfferModal(false)}
+          bookId={book.id}
+          askingPrice={book.priceCents / 100}
+          sellerId={book.seller.id}
+        />
+      )}
+
+      {showMessageModal && book.seller && (
+        <MessageModal
+          isOpen={showMessageModal}
+          onClose={() => setShowMessageModal(false)}
+          bookId={book.id}
+          sellerId={book.seller.id}
+          sellerUsername={book.seller.username}
+          bookTitle={book.title}
+        />
+      )}
+
+      {showBidModal && auction && (
+        <BidModal
+          isOpen={showBidModal}
+          onClose={() => setShowBidModal(false)}
+          auctionId={auction.id}
+          currentBid={auction.currentBidCents / 100}
+          minimumBid={(auction.currentBidCents / 100) + 0.01}
+          timeRemaining="2 days 5 hours"
+          bidCount={auction.bidCount}
+        />
       )}
     </div>
   );

@@ -118,7 +118,7 @@ export function SearchBar({
 
   const handleAutocompleteClick = (type: string, value: string) => {
     if (type === 'book') {
-      router.push(`/book/${value}`);
+      router.push(`/books/${value}`);
     } else if (type === 'author') {
       router.push(`/marketplace?author=${encodeURIComponent(value)}`);
     } else if (type === 'trope') {

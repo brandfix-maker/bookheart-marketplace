@@ -27,6 +27,13 @@ import {
   Home,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const MARKETPLACE_CATEGORIES = [
   { label: 'Special Editions', href: '/marketplace/categories/special-editions' },
@@ -82,7 +89,7 @@ interface BadgeCountProps {
 function BadgeCount({ count }: BadgeCountProps) {
   if (count === 0) return null;
   return (
-    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
       {count > 99 ? '99+' : count}
     </span>
   );
@@ -134,7 +141,7 @@ export function MarketplaceNav() {
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
             <Link href="/" className="flex items-center group">
-              <img src="/Logo/Logo_Horizontal_Pink.png" alt="BookHeart" className="h-8 w-auto" />
+              <img src="/Logo/Logo_Horizontal_Pink.png" alt="BookHeart" className="h-10 w-auto" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -201,6 +208,46 @@ export function MarketplaceNav() {
                 Forums
               </Link>
 
+              {/* About Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center text-base font-semibold text-gray-200 hover:text-purple-400 transition-all duration-300">
+                  About
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-gray-800 border-gray-700" align="start">
+                  <DropdownMenuItem asChild>
+                    <Link href="/about/founder" className="w-full text-gray-200 hover:bg-gray-700">
+                      Message from Our Founder
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/about/mission" className="w-full text-gray-200 hover:bg-gray-700">
+                      Our Mission
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/about/how-it-works" className="w-full text-gray-200 hover:bg-gray-700">
+                      How It Works
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/about/trust-safety" className="w-full text-gray-200 hover:bg-gray-700">
+                      Trust & Safety
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Search Bar */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="search"
+                  placeholder="Search books, authors, series..."
+                  className="pl-10 pr-4 py-2 w-64 border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:ring-purple-400 focus:border-purple-400"
+                />
+              </div>
+
               {/* My Listings (visible after first listing) */}
               {user && user.hasListedItem && (
                 <Link
@@ -220,7 +267,7 @@ export function MarketplaceNav() {
             <div className="flex items-center gap-4">
               {/* Sell Your Books Button */}
               <Link href="/sell">
-                <Button className="hidden md:flex items-center gap-2 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 min-w-[160px] group">
+                <Button className="hidden md:flex items-center gap-2 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 min-w-[160px] group">
                   <Heart className="h-4 w-4 group-hover:animate-pulse" />
                   Sell Your Books
                 </Button>
@@ -228,20 +275,20 @@ export function MarketplaceNav() {
               
               {/* Mobile Sell Button */}
               <Link href="/sell" className="md:hidden">
-                <Button size="icon" className="bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-10 h-10 group">
+                <Button size="icon" className="bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-10 h-10 group">
                   <Heart className="h-4 w-4 group-hover:animate-pulse" />
                 </Button>
               </Link>
 
               {/* Cart */}
-              <Link href="/cart" className="relative p-2 hover:bg-pink-50 rounded-full transition-all duration-300">
-                <ShoppingCart className="h-6 w-6 text-gray-200 hover:text-[#E91E63]" />
+              <Link href="/cart" className="relative p-2 hover:bg-brand-pink-50 rounded-full transition-all duration-300">
+                <ShoppingCart className="h-6 w-6 text-gray-200 hover:text-brand-pink-500" />
                 <BadgeCount count={cartCount} />
               </Link>
 
               {/* Wishlist */}
-              <Link href="/wishlist" className="relative p-2 hover:bg-pink-50 rounded-full transition-all duration-300">
-                <Heart className="h-6 w-6 text-gray-200 hover:text-[#E91E63]" />
+              <Link href="/wishlist" className="relative p-2 hover:bg-brand-pink-50 rounded-full transition-all duration-300">
+                <Heart className="h-6 w-6 text-gray-200 hover:text-brand-pink-500" />
                 <BadgeCount count={wishlistCount} />
               </Link>
 
@@ -252,9 +299,9 @@ export function MarketplaceNav() {
                     <div className="relative">
                       <button
                         onClick={() => setProfileOpen(!profileOpen)}
-                        className="flex items-center gap-2 p-2 hover:bg-pink-50 rounded-full transition-all duration-300"
+                        className="flex items-center gap-2 p-2 hover:bg-brand-pink-50 rounded-full transition-all duration-300"
                       >
-                        <div className="w-8 h-8 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                        <div className="w-8 h-8 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                           {user.avatarUrl ? (
                             <img src={user.avatarUrl} alt={getDisplayName()} className="w-8 h-8 rounded-full object-cover" />
                           ) : (
@@ -311,7 +358,7 @@ export function MarketplaceNav() {
                               <MessageSquare className="h-4 w-4" />
                               <span>Messages</span>
                               {unreadMessages > 0 && (
-                                <span className="ml-auto bg-gradient-to-r from-[#E91E63] to-[#9C27B0] text-white text-xs font-bold rounded-full px-2 py-0.5">
+                                <span className="ml-auto bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
                                   {unreadMessages}
                                 </span>
                               )}
@@ -339,12 +386,12 @@ export function MarketplaceNav() {
                   ) : (
                     <div className="hidden lg:flex items-center gap-3">
                       <Link href="/login">
-                        <Button variant="ghost" className="font-semibold text-gray-200 hover:text-[#E91E63]">
+                        <Button variant="ghost" className="font-semibold text-gray-200 hover:text-brand-pink-500">
                           Sign In
                         </Button>
                       </Link>
                       <Link href="/register">
-                        <Button className="bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                        <Button className="bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
                           Join
                         </Button>
                       </Link>
@@ -356,7 +403,7 @@ export function MarketplaceNav() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 hover:bg-pink-50 rounded-full transition-all duration-300"
+                className="lg:hidden p-2 hover:bg-brand-pink-50 rounded-full transition-all duration-300"
               >
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6 text-gray-200" />
@@ -384,7 +431,7 @@ export function MarketplaceNav() {
               {user ? (
                 <div className="mb-6 pb-6 border-b border-gray-700">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] rounded-full flex items-center justify-center text-white font-semibold">
+                    <div className="w-12 h-12 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
                       {user.avatarUrl ? (
                         <img src={user.avatarUrl} alt={getDisplayName()} className="w-12 h-12 rounded-full object-cover" />
                       ) : (
@@ -405,7 +452,7 @@ export function MarketplaceNav() {
                     </Button>
                   </Link>
                   <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white font-semibold">
+                    <Button className="w-full bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white font-semibold">
                       Join Now
                     </Button>
                   </Link>
@@ -418,7 +465,7 @@ export function MarketplaceNav() {
                 <Link
                   href="/sell"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] text-white rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] group"
+                  className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 text-white rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] group"
                 >
                   <Heart className="h-5 w-5 group-hover:animate-pulse" />
                   <span className="font-semibold">Sell Your Books</span>
@@ -504,7 +551,7 @@ export function MarketplaceNav() {
                       <MessageSquare className="h-5 w-5" />
                       <span className="font-semibold">Messages</span>
                       {unreadMessages > 0 && (
-                        <span className="ml-auto bg-gradient-to-r from-[#E91E63] to-[#9C27B0] text-white text-xs font-bold rounded-full px-2 py-0.5">
+                        <span className="ml-auto bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
                           {unreadMessages}
                         </span>
                       )}
@@ -558,7 +605,7 @@ export function MarketplaceNav() {
           <Link
             href="/"
             className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              pathname === '/' ? 'text-[#E91E63]' : 'text-gray-300'
+              pathname === '/' ? 'text-brand-pink-500' : 'text-gray-300'
             }`}
           >
             <Home className="h-5 w-5" />
@@ -567,7 +614,7 @@ export function MarketplaceNav() {
           <Link
             href="/marketplace/search"
             className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              isActivePath('/marketplace/search') ? 'text-[#E91E63]' : 'text-gray-300'
+              isActivePath('/marketplace/search') ? 'text-brand-pink-500' : 'text-gray-300'
             }`}
           >
             <Search className="h-5 w-5" />
@@ -577,7 +624,7 @@ export function MarketplaceNav() {
             href="/sell"
             className="flex flex-col items-center justify-center -mt-8"
           >
-            <div className="w-14 h-14 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="w-14 h-14 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300">
               <Plus className="h-6 w-6 text-white" />
             </div>
             <span className="text-xs font-medium text-gray-300 mt-1">Sell</span>
@@ -585,13 +632,13 @@ export function MarketplaceNav() {
           <Link
             href="/messages"
             className={`relative flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              isActivePath('/messages') ? 'text-[#E91E63]' : 'text-gray-300'
+              isActivePath('/messages') ? 'text-brand-pink-500' : 'text-gray-300'
             }`}
           >
             <MessageSquare className="h-5 w-5" />
             <span className="text-xs font-medium">Messages</span>
             {unreadMessages > 0 && (
-              <span className="absolute top-0 right-1 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+              <span className="absolute top-0 right-1 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
                 {unreadMessages > 9 ? '9+' : unreadMessages}
               </span>
             )}
@@ -599,7 +646,7 @@ export function MarketplaceNav() {
           <Link
             href={user ? `/profile/${user.username}` : '/login'}
             className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
-              isActivePath('/profile') ? 'text-[#E91E63]' : 'text-gray-300'
+              isActivePath('/profile') ? 'text-brand-pink-500' : 'text-gray-300'
             }`}
           >
             <User className="h-5 w-5" />

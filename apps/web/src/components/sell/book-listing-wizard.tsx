@@ -344,16 +344,16 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
         <Confetti width={width} height={height} recycle={false} numberOfPieces={500} />
         <Card className="max-w-2xl w-full p-8 text-center space-y-6 bg-gray-800/95 backdrop-blur-sm border-gray-700">
           <div className="flex justify-center">
-            <Sparkles className="w-20 h-20 text-pink-500" />
+            <Sparkles className="w-20 h-20 text-brand-pink-500" />
           </div>
-          <h1 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent">
             ✨ Your listing is live! ✨
           </h1>
           <p className="text-xl text-gray-300">
             Listing ID: <span className="font-mono font-semibold">BH-2025-{listingId.slice(0, 6)}</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Button onClick={() => router.push(`/book/${listingId}`)} size="lg">
+            <Button onClick={() => router.push(`/books/${listingId}`)} size="lg">
               View Your Listing
             </Button>
             <Button
@@ -384,7 +384,7 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
               className="mt-2"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `${window.location.origin}/book/${listingId}`
+                  `${window.location.origin}/books/${listingId}`
                 );
                 toast({ title: 'Link copied!', description: 'Share with your community' });
               }}
@@ -511,7 +511,7 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
             <Button
               onClick={handlePublish}
               disabled={isSubmitting}
-              className="flex-1 sm:flex-none bg-gradient-to-r from-pink-600 to-purple-600"
+              className="flex-1 sm:flex-none bg-gradient-to-r from-brand-pink-600 to-brand-purple-600"
             >
               {isSubmitting ? 'Publishing...' : 'Publish Listing'}
               <Sparkles className="w-4 h-4 ml-2" />

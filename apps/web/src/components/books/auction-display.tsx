@@ -118,7 +118,7 @@ export function AuctionDisplay({ auction }: AuctionDisplayProps) {
 
       {/* Place Bid Button */}
       <Button 
-        className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-3 font-semibold"
+        className="w-full bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white py-3 font-semibold"
         disabled={auction.status !== 'active' || timeRemaining === 'Ended'}
       >
         <Gavel className="w-5 h-5 mr-2" />

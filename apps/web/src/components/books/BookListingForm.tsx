@@ -626,14 +626,14 @@ export function BookListingForm({ initialData, bookId, onSuccess }: BookListingF
               <div key={step.number} className="flex items-center">
                 <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                   currentStep >= step.number
-                    ? 'bg-purple-600 border-purple-600 text-white'
+                    ? 'bg-brand-purple-600 border-brand-purple-600 text-white'
                     : 'border-gray-300 text-gray-500'
                 }`}>
                   <step.icon className="h-5 w-5" />
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`w-16 h-0.5 mx-4 ${
-                    currentStep > step.number ? 'bg-purple-600' : 'bg-gray-300'
+                    currentStep > step.number ? 'bg-brand-purple-600' : 'bg-gray-300'
                   }`} />
                 )}
               </div>
@@ -642,7 +642,7 @@ export function BookListingForm({ initialData, bookId, onSuccess }: BookListingF
           <div className="flex justify-between mt-2">
             {steps.map((step) => (
               <span key={step.number} className={`text-sm ${
-                currentStep >= step.number ? 'text-purple-600 font-medium' : 'text-gray-500'
+                currentStep >= step.number ? 'text-brand-purple-600 font-medium' : 'text-gray-500'
               }`}>
                 {step.title}
               </span>
@@ -691,7 +691,7 @@ export function BookListingForm({ initialData, bookId, onSuccess }: BookListingF
                     type="button"
                     onClick={() => handleSubmit('active')}
                     disabled={isSubmitting}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    className="bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 hover:from-purple-700 hover:to-pink-700"
                   >
                     {isSubmitting ? 'Publishing...' : 'Publish Book'}
                   </Button>

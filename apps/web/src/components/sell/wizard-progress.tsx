@@ -34,7 +34,7 @@ export function WizardProgress({ currentStep, completedSteps }: WizardProgressPr
         </div>
         <div className="w-full bg-gray-600 rounded-full h-2">
           <div
-            className="bg-gradient-to-r from-pink-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-brand-pink-500 to-purple-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / STEPS.length) * 100}%` }}
           />
         </div>
@@ -51,7 +51,7 @@ export function WizardProgress({ currentStep, completedSteps }: WizardProgressPr
                   className={cn(
                     'w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all',
                     currentStep === step.number &&
-                      'bg-gradient-to-r from-pink-500 to-purple-600 text-white ring-4 ring-pink-100',
+                      'bg-gradient-to-r from-brand-pink-500 to-purple-600 text-white ring-4 ring-pink-100',
                     completedSteps.includes(step.number) &&
                       currentStep !== step.number &&
                       'bg-green-500 text-white',

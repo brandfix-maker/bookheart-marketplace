@@ -110,7 +110,7 @@ export function Step6PricingAndShipping({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+        <h2 className="text-2xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent mb-2">
           Pricing & Shipping
         </h2>
         <p className="text-gray-300">Set your price and shipping options</p>

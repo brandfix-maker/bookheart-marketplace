@@ -116,7 +116,7 @@ export function FeaturedBooksCarousel({
               {/* Special Edition Badge */}
               {currentBook.isSpecialEdition && (
                 <div className="absolute top-4 left-4">
-                  <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                  <div className="bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
                     <Sparkles className="h-4 w-4 mr-1" />
                     Special Edition
                   </div>
@@ -164,7 +164,7 @@ export function FeaturedBooksCarousel({
                   <p className="text-lg text-gray-600 mb-2">by {currentBook.author}</p>
                   
                   {currentBook.seriesName && (
-                    <p className="text-purple-600 font-medium">
+                    <p className="text-brand-purple-600 font-medium">
                       {currentBook.seriesName}
                       {currentBook.seriesNumber && ` #${currentBook.seriesNumber}`}
                     </p>
@@ -177,7 +177,7 @@ export function FeaturedBooksCarousel({
                     {currentBook.tropes.slice(0, 4).map((trope, index) => (
                       <span
                         key={index}
-                        className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+                        className="px-2 py-1 bg-purple-100 text-brand-purple-700 text-xs rounded-full"
                       >
                         {trope.replace(/-/g, ' ')}
                       </span>
@@ -209,7 +209,7 @@ export function FeaturedBooksCarousel({
 
                 {/* Action Buttons */}
                 <div className="flex space-x-3 pt-4">
-                  <Button asChild className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                  <Button asChild className="flex-1 bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 hover:from-brand-purple-700 hover:to-brand-pink-700">
                     <Link href={`/books/${currentBook.id}`}>
                       <ShoppingCart className="h-4 w-4 mr-2" />
                       View Details
@@ -237,7 +237,7 @@ export function FeaturedBooksCarousel({
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentIndex
-                  ? 'bg-purple-600 w-8'
+                  ? 'bg-brand-purple-600 w-8'
                   : 'bg-gray-300 hover:bg-gray-400'
               }`}
             />
@@ -249,7 +249,7 @@ export function FeaturedBooksCarousel({
       {isAutoRotating && books.length > 1 && (
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200">
           <div 
-            className="h-full bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-100 ease-linear"
+            className="h-full bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 transition-all duration-100 ease-linear"
             style={{
               width: `${((currentIndex + 1) / books.length) * 100}%`
             }}

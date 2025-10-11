@@ -7,13 +7,13 @@ export default function ForumsPage() {
       <div className="max-w-4xl mx-auto text-center space-y-8">
         <div className="flex justify-center">
           <div className="relative">
-            <MessageCircle className="h-24 w-24 text-transparent bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text" />
-            <Users className="h-8 w-8 text-[#9C27B0] absolute -bottom-2 -right-2" />
+            <MessageCircle className="h-24 w-24 text-transparent bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 bg-clip-text" />
+            <Users className="h-8 w-8 text-brand-purple-500 absolute -bottom-2 -right-2" />
           </div>
         </div>
         
         <div>
-          <h1 className="text-5xl font-serif font-bold bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl font-serif font-bold bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 bg-clip-text text-transparent mb-4">
             Community Forums
           </h1>
           <p className="text-xl text-gray-600">

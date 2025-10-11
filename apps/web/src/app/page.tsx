@@ -31,14 +31,14 @@ const SUBSCRIPTION_BOXES: Array<{
   description: string;
   color: string;
 }> = [
-  { name: 'FairyLoot', description: 'Young Adult Fantasy', color: 'from-purple-400 to-pink-400' },
+  { name: 'FairyLoot', description: 'Young Adult Fantasy', color: 'from-brand-purple-400 to-brand-pink-400' },
   { name: 'OwlCrate', description: 'Young Adult Fiction', color: 'from-amber-400 to-orange-400' },
-  { name: 'IllumiCrate', description: 'Fantasy & Sci-Fi', color: 'from-blue-400 to-purple-400' },
-  { name: 'Locked Library', description: 'Adult Romance', color: 'from-rose-400 to-pink-400' },
-  { name: 'Alluria', description: 'Romantasy Deluxe', color: 'from-pink-400 to-purple-400' },
-  { name: 'Acrylipics', description: 'New Adult Romance', color: 'from-red-400 to-pink-400' },
-  { name: 'Bookish', description: 'Romance & Fantasy', color: 'from-fuchsia-400 to-purple-400' },
-  { name: 'Bookish Darkly', description: 'Dark Romance', color: 'from-gray-600 to-purple-600' },
+  { name: 'IllumiCrate', description: 'Fantasy & Sci-Fi', color: 'from-blue-400 to-brand-purple-400' },
+  { name: 'Locked Library', description: 'Adult Romance', color: 'from-rose-400 to-brand-pink-400' },
+  { name: 'Alluria', description: 'Romantasy Deluxe', color: 'from-brand-pink-400 to-brand-purple-400' },
+  { name: 'Acrylipics', description: 'New Adult Romance', color: 'from-red-400 to-brand-pink-400' },
+  { name: 'Bookish', description: 'Romance & Fantasy', color: 'from-fuchsia-400 to-brand-purple-400' },
+  { name: 'Bookish Darkly', description: 'Dark Romance', color: 'from-gray-600 to-brand-purple-600' },
 ];
 
 // Book Card Component for Landing Page
@@ -59,7 +59,7 @@ function LandingBookCard({ book, onAddToWishlist, onAddToCart }: LandingBookCard
   return (
     <Card className="group relative flex-shrink-0 w-[280px] bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">
       {/* Image */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-purple-100 to-pink-100">
+      <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-brand-purple-100 to-brand-pink-100">
         <Image
           src={imageUrl}
           alt={book.title}
@@ -95,7 +95,7 @@ function LandingBookCard({ book, onAddToWishlist, onAddToCart }: LandingBookCard
         {/* Badges */}
         {book.subscriptionBox && (
           <div className="absolute top-2 left-2">
-            <span className="px-2 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-bold rounded-full shadow-lg">
+            <span className="px-2 py-1 bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 text-white text-xs font-bold rounded-full shadow-lg">
               {book.subscriptionBox}
             </span>
           </div>
@@ -112,7 +112,7 @@ function LandingBookCard({ book, onAddToWishlist, onAddToCart }: LandingBookCard
       <CardContent className="p-4 space-y-2">
         <Link href={`/books/${book.id}`} className="block">
           <h3 
-            className="font-serif font-semibold text-white hover:text-purple-400 transition-colors line-clamp-2"
+            className="font-serif font-semibold text-white hover:text-brand-purple-400 transition-colors line-clamp-2"
             title={book.title}
           >
             {book.title}
@@ -230,7 +230,7 @@ export default function LandingPage() {
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900/50 to-gray-900">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-brand-purple-900/50 to-gray-900">
           <div className="absolute inset-0 opacity-30">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.3),transparent_50%)]"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.2),transparent_50%)]"></div>
@@ -239,13 +239,13 @@ export default function LandingPage() {
 
         {/* Animated Book Spines */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-16 h-64 bg-gradient-to-r from-purple-600 to-purple-700 transform -rotate-12 animate-slide-in-left shadow-2xl">
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-16 h-64 bg-gradient-to-r from-brand-purple-600 to-brand-purple-700 transform -rotate-12 animate-slide-in-left shadow-2xl">
             <div className="p-2 text-white text-xs font-serif writing-vertical">Fourth Wing</div>
           </div>
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-16 h-72 bg-gradient-to-r from-pink-600 to-rose-700 transform rotate-12 animate-slide-in-right shadow-2xl">
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-16 h-72 bg-gradient-to-r from-brand-pink-600 to-rose-700 transform rotate-12 animate-slide-in-right shadow-2xl">
             <div className="p-2 text-white text-xs font-serif writing-vertical">A Court of Thorns</div>
           </div>
-          <div className="absolute left-20 bottom-20 w-12 h-48 bg-gradient-to-r from-indigo-600 to-purple-700 transform -rotate-6 animate-slide-in-bottom shadow-2xl opacity-70">
+          <div className="absolute left-20 bottom-20 w-12 h-48 bg-gradient-to-r from-indigo-600 to-brand-purple-700 transform -rotate-6 animate-slide-in-bottom shadow-2xl opacity-70">
             <div className="p-2 text-white text-xs font-serif writing-vertical">Crescent City</div>
           </div>
         </div>
@@ -263,7 +263,7 @@ export default function LandingPage() {
           <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in-up">
             Where BookTok Finds Its
             <br />
-            <span className="bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-yellow-200 via-brand-pink-200 to-purple-200 bg-clip-text text-transparent">
               Next Obsession
             </span>
             </h1>
@@ -277,7 +277,7 @@ export default function LandingPage() {
             <Link href="/marketplace">
                   <Button
                 size="lg" 
-                className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-semibold text-lg px-8 py-6 shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white font-semibold text-lg px-8 py-6 shadow-2xl hover:shadow-brand-brand-pink-500/50 transition-all duration-300 hover:scale-105"
               >
                 Browse as Guest
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -293,7 +293,7 @@ export default function LandingPage() {
                   Join the Inner Circle
                   <Sparkles className="ml-2 h-5 w-5 group-hover:animate-spin" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/20 to-pink-200/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/20 to-brand-pink-200/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Button>
             </Link>
           </div>
@@ -311,10 +311,10 @@ export default function LandingPage() {
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent">
               Just Listed
             </h2>
-            <Link href="/marketplace" className="text-purple-600 hover:text-purple-700 font-semibold flex items-center gap-2 group">
+            <Link href="/marketplace" className="text-brand-purple-600 hover:text-brand-purple-700 font-semibold flex items-center gap-2 group">
               View All
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
@@ -327,7 +327,7 @@ export default function LandingPage() {
               className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-110"
               aria-label="Scroll left"
             >
-              <ChevronLeft className="h-6 w-6 text-purple-600" />
+              <ChevronLeft className="h-6 w-6 text-brand-purple-600" />
             </button>
 
             <div
@@ -360,7 +360,7 @@ export default function LandingPage() {
               className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-110"
               aria-label="Scroll right"
             >
-              <ChevronRight className="h-6 w-6 text-purple-600" />
+              <ChevronRight className="h-6 w-6 text-brand-purple-600" />
             </button>
           </div>
           </div>
@@ -370,7 +370,7 @@ export default function LandingPage() {
       <section className="py-20 bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent mb-2">
               Trending in {userState}
             </h2>
             <p className="text-gray-300">Based on recent views and purchases</p>
@@ -403,7 +403,7 @@ export default function LandingPage() {
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent mb-2">
               Subscription Box Exclusives
           </h2>
             <p className="text-gray-300">Find special editions from your favorite boxes</p>
@@ -421,7 +421,7 @@ export default function LandingPage() {
                       {box.name}
                     </h3>
                     <p className="text-sm text-gray-300 mb-4">{box.description}</p>
-                    <div className="text-purple-600 font-semibold group-hover:text-purple-700 flex items-center justify-center gap-2">
+                    <div className="text-brand-purple-600 font-semibold group-hover:text-brand-purple-700 flex items-center justify-center gap-2">
                       Shop Exclusives
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -437,10 +437,10 @@ export default function LandingPage() {
       <section className="py-20 bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent">
               Upcoming Events
             </h2>
-            <Link href="/events" className="text-purple-600 hover:text-purple-700 font-semibold flex items-center gap-2 group">
+            <Link href="/events" className="text-brand-purple-600 hover:text-brand-purple-700 font-semibold flex items-center gap-2 group">
               See All Events
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
@@ -456,14 +456,14 @@ export default function LandingPage() {
               <Card key={index} className="glass-morphism hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-purple-400 to-brand-pink-400 flex items-center justify-center flex-shrink-0">
                       <Sparkles className="h-6 w-6 text-white" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-serif font-semibold text-lg mb-1 text-white">{event.title}</h3>
                       <p className="text-sm text-gray-300 mb-2">{event.date}</p>
                       <div className="flex items-center gap-4 text-xs text-gray-400">
-                        <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                        <span className="bg-brand-purple-100 text-brand-purple-700 px-2 py-1 rounded-full">
                           {event.type}
                         </span>
                         <span className="flex items-center gap-1">
@@ -485,13 +485,13 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="glass-morphism rounded-2xl p-12">
-              <h2 className="text-3xl font-serif font-bold text-center mb-12 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-serif font-bold text-center mb-12 bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent">
                 Shop with Confidence
             </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-brand-purple-400 to-brand-purple-600 rounded-full flex items-center justify-center shadow-lg">
                     <Sparkles className="h-10 w-10 text-white" />
                   </div>
                   <h3 className="font-serif font-semibold text-xl mb-2">10,000+ Happy Readers</h3>
@@ -499,7 +499,7 @@ export default function LandingPage() {
                 </div>
 
                 <div className="text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-brand-pink-400 to-brand-pink-600 rounded-full flex items-center justify-center shadow-lg">
                     <Shield className="h-10 w-10 text-white" />
               </div>
                   <h3 className="font-serif font-semibold text-xl mb-2">Secure Payments</h3>
@@ -507,7 +507,7 @@ export default function LandingPage() {
                 </div>
 
                 <div className="text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-brand-purple-500 to-brand-brand-pink-500 rounded-full flex items-center justify-center shadow-lg">
                     <CheckCircle2 className="h-10 w-10 text-white" />
               </div>
                   <h3 className="font-serif font-semibold text-xl mb-2">Authenticated Editions</h3>
@@ -520,14 +520,14 @@ export default function LandingPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white py-16">
+      <footer className="bg-gradient-to-br from-gray-900 via-brand-purple-900 to-gray-900 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             {/* Brand */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Heart className="h-8 w-8 text-pink-400" />
-                <span className="text-2xl font-serif font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                <Heart className="h-8 w-8 text-brand-pink-400" />
+                <span className="text-2xl font-serif font-bold bg-gradient-to-r from-brand-pink-400 to-brand-purple-400 bg-clip-text text-transparent">
                   BookHeart
                 </span>
               </div>
@@ -540,10 +540,10 @@ export default function LandingPage() {
             <div>
               <h3 className="font-serif font-semibold text-lg mb-4">Quick Links</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/about" className="hover:text-pink-400 transition-colors">About</Link></li>
-                <li><Link href="/how-it-works" className="hover:text-pink-400 transition-colors">How It Works</Link></li>
-                <li><Link href="/trust-safety" className="hover:text-pink-400 transition-colors">Trust & Safety</Link></li>
-                <li><Link href="/contact" className="hover:text-pink-400 transition-colors">Contact</Link></li>
+                <li><Link href="/about" className="hover:text-brand-pink-400 transition-colors">About</Link></li>
+                <li><Link href="/how-it-works" className="hover:text-brand-pink-400 transition-colors">How It Works</Link></li>
+                <li><Link href="/trust-safety" className="hover:text-brand-pink-400 transition-colors">Trust & Safety</Link></li>
+                <li><Link href="/contact" className="hover:text-brand-pink-400 transition-colors">Contact</Link></li>
               </ul>
             </div>
 
@@ -551,10 +551,10 @@ export default function LandingPage() {
             <div>
               <h3 className="font-serif font-semibold text-lg mb-4">Legal</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/terms" className="hover:text-pink-400 transition-colors">Terms of Service</Link></li>
-                <li><Link href="/privacy" className="hover:text-pink-400 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/cookies" className="hover:text-pink-400 transition-colors">Cookie Policy</Link></li>
-                <li><Link href="/community-guidelines" className="hover:text-pink-400 transition-colors">Community Guidelines</Link></li>
+                <li><Link href="/terms" className="hover:text-brand-pink-400 transition-colors">Terms of Service</Link></li>
+                <li><Link href="/privacy" className="hover:text-brand-pink-400 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/cookies" className="hover:text-brand-pink-400 transition-colors">Cookie Policy</Link></li>
+                <li><Link href="/community-guidelines" className="hover:text-brand-pink-400 transition-colors">Community Guidelines</Link></li>
               </ul>
             </div>
 
@@ -571,12 +571,12 @@ export default function LandingPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   required
-                  className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                  className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-pink-400"
                 />
                 <Button
                   type="submit"
                   disabled={isSubmittingNewsletter}
-                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+                  className="w-full bg-gradient-to-r from-brand-brand-pink-500 to-brand-purple-500 hover:from-brand-pink-600 hover:to-brand-purple-600"
                 >
                   {isSubmittingNewsletter ? 'Subscribing...' : 'Subscribe'}
                   <Mail className="ml-2 h-4 w-4" />
@@ -592,13 +592,13 @@ export default function LandingPage() {
             </p>
             
             <div className="flex gap-4">
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-colors" aria-label="Facebook">
+              <a href="#" className="text-gray-400 hover:text-brand-pink-400 transition-colors" aria-label="Facebook">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-colors" aria-label="Twitter">
+              <a href="#" className="text-gray-400 hover:text-brand-pink-400 transition-colors" aria-label="Twitter">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-colors" aria-label="Instagram">
+              <a href="#" className="text-gray-400 hover:text-brand-pink-400 transition-colors" aria-label="Instagram">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>

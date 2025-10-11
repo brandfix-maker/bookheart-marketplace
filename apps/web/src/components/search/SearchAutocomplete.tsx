@@ -227,9 +227,9 @@ export function SearchAutocomplete({
       case 'author':
         return 'text-blue-600';
       case 'series':
-        return 'text-purple-600';
+        return 'text-brand-purple-600';
       case 'trope':
-        return 'text-pink-600';
+        return 'text-brand-pink-600';
       default:
         return 'text-gray-600';
     }
@@ -249,7 +249,7 @@ export function SearchAutocomplete({
         />
         {isLoading && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-brand-purple-600"></div>
           </div>
         )}
       </div>
@@ -363,7 +363,7 @@ export function SearchAutocomplete({
                         selectedIndex === suggestions.length + popularSearches.length + trendingAuthors.length + index ? 'bg-purple-50 text-purple-700' : ''
                       }`}
                     >
-                      <BookOpen className="h-4 w-4 text-purple-600" />
+                      <BookOpen className="h-4 w-4 text-brand-purple-600" />
                       <div className="font-medium">{series}</div>
                     </button>
                   ))}
@@ -392,7 +392,7 @@ export function SearchAutocomplete({
                         selectedIndex === suggestions.length + popularSearches.length + trendingAuthors.length + trendingSeries.length + index ? 'bg-purple-50 text-purple-700' : ''
                       }`}
                     >
-                      <Tag className="h-4 w-4 text-pink-600" />
+                      <Tag className="h-4 w-4 text-brand-pink-600" />
                       <div className="font-medium">{trope.replace(/-/g, ' ')}</div>
                     </button>
                   ))}

@@ -134,7 +134,7 @@ export function Step4PhotoUpload({ data, onChange, errors, isSigned }: Step4Prop
               key={slot.type}
               className={cn(
                 'p-4',
-                slot.required && !hasImage && 'border-pink-500 bg-pink-900/30'
+                slot.required && !hasImage && 'border-brand-brand-pink-500 bg-pink-900/30'
               )}
             >
               <div className="space-y-3">

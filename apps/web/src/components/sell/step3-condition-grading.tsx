@@ -83,7 +83,7 @@ export function Step3ConditionGrading({ data, onChange, errors }: Step3Props) {
                 className={cn(
                   'p-4 cursor-pointer transition-all',
                   data.condition === condition.value
-                    ? 'border-pink-500 bg-pink-900/30 ring-2 ring-pink-400'
+                    ? 'border-brand-pink-500 bg-brand-pink-900/30 ring-2 ring-brand-pink-400'
                     : 'border-gray-600 bg-gray-700/50 hover:border-gray-500 hover:bg-gray-700'
                 )}
                 onClick={() => onChange({ ...data, condition: condition.value })}
@@ -133,7 +133,7 @@ export function Step3ConditionGrading({ data, onChange, errors }: Step3Props) {
                       <ul className="mt-2 space-y-1 text-xs text-gray-300">
                         {condition.details.map((detail, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="text-pink-500">•</span>
+                            <span className="text-brand-pink-500">•</span>
                             <span>{detail}</span>
                           </li>
                         ))}

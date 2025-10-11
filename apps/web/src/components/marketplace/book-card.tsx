@@ -68,7 +68,7 @@ export function BookCard({
   };
 
   return (
-    <Link href={`/book/${book.id}`}>
+    <Link href={`/books/${book.id}`}>
       <div
         className="group relative bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 h-full flex flex-col"
         onMouseEnter={() => setIsHovered(true)}
@@ -106,13 +106,13 @@ export function BookCard({
               </Badge>
             )}
             {subscriptionBoxData && (
-              <Badge className="bg-purple-600 text-white hover:bg-purple-700 text-xs font-bold flex items-center gap-1">
+              <Badge className="bg-brand-purple-600 text-white hover:bg-brand-purple-700 text-xs font-bold flex items-center gap-1">
                 <span>{subscriptionBoxData.logo}</span>
                 <span className="hidden sm:inline">{subscriptionBoxData.label}</span>
               </Badge>
             )}
             {book.specialEditionDetails?.paintedEdges && (
-              <Badge className="bg-pink-600 text-white hover:bg-pink-700 text-xs font-bold">
+              <Badge className="bg-brand-pink-600 text-white hover:bg-brand-pink-700 text-xs font-bold">
                 Painted Edges
               </Badge>
             )}
@@ -169,7 +169,7 @@ export function BookCard({
         <div className="p-4 flex flex-col flex-grow">
           {/* Title & Author */}
           <div className="mb-2">
-            <h3 className="font-semibold text-gray-900 line-clamp-2 text-sm mb-1 group-hover:text-purple-600 transition-colors">
+            <h3 className="font-semibold text-gray-900 line-clamp-2 text-sm mb-1 group-hover:text-brand-purple-600 transition-colors">
               {book.title}
             </h3>
             <p className="text-xs text-gray-600 line-clamp-1">{book.author}</p>
@@ -224,7 +224,7 @@ export function BookCard({
               </div>
             </div>
             {book.acceptsOffers && (
-              <p className="text-xs text-purple-600 font-medium mt-1">
+              <p className="text-xs text-brand-purple-600 font-medium mt-1">
                 Make an Offer
               </p>
             )}

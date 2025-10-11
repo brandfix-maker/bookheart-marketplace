@@ -59,7 +59,7 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-serif font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+        <h2 className="text-2xl font-serif font-bold bg-gradient-to-r from-brand-pink-600 to-brand-purple-600 bg-clip-text text-transparent mb-2">
           Your Story
         </h2>
         <p className="text-gray-300">
@@ -194,7 +194,7 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
       {showPreview && (
         <Card className="p-6 bg-gray-700/50 border-gray-600">
           <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-pink-600" />
+            <Sparkles className="w-5 h-5 text-brand-pink-600" />
             How Your Listing Will Appear
           </h3>
           <div className="space-y-4">
@@ -213,7 +213,7 @@ export function Step7YourStory({ data, onChange, errors, previewData }: Step7Pro
             {/* Price Preview */}
             {previewData?.price && (
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-pink-600">
+                <span className="text-3xl font-bold text-brand-pink-600">
                   ${parseFloat(previewData.price).toFixed(2)}
                 </span>
                 {previewData.shippingPrice && (

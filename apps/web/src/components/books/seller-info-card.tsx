@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { Star, MapPin, MessageCircle, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { MessageModal } from './message-modal';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -20,6 +22,8 @@ interface SellerInfoCardProps {
 }
 
 export function SellerInfoCard({ seller, bookId }: SellerInfoCardProps) {
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  
   // Placeholder data - TODO: Fetch real seller stats
   const sellerStats = {
     rating: 4.8,
@@ -46,7 +50,7 @@ export function SellerInfoCard({ seller, bookId }: SellerInfoCardProps) {
               />
             </div>
           ) : (
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white text-2xl font-bold border-2 border-gray-600">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple-600 to-brand-pink-600 flex items-center justify-center text-white text-2xl font-bold border-2 border-gray-600">
               {displayName.charAt(0).toUpperCase()}
             </div>
           )}
@@ -99,6 +103,7 @@ export function SellerInfoCard({ seller, bookId }: SellerInfoCardProps) {
         </Button>
 
         <Button 
+          onClick={() => setShowMessageModal(true)}
           variant="outline"
           className="w-full border border-gray-600 bg-gray-700/50 hover:bg-gray-700 text-white"
         >
@@ -106,6 +111,18 @@ export function SellerInfoCard({ seller, bookId }: SellerInfoCardProps) {
           Message Seller
         </Button>
       </div>
+
+      {/* Message Modal */}
+      {showMessageModal && (
+        <MessageModal
+          isOpen={showMessageModal}
+          onClose={() => setShowMessageModal(false)}
+          bookId={bookId}
+          sellerId={seller.id}
+          sellerUsername={seller.username}
+          bookTitle="this listing"
+        />
+      )}
     </div>
   );
 }

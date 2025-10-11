@@ -62,7 +62,7 @@ export default function LoginPage() {
       {/* Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-pink-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
       </div>
 
       <Card className="relative w-full max-w-md p-8 shadow-2xl border-0 bg-gray-800/90 backdrop-blur-sm border-gray-700">
@@ -140,14 +140,14 @@ export default function LoginPage() {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                className="h-4 w-4 text-brand-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                 disabled={isLoading}
               />
               <span className="ml-2 text-sm text-gray-200">Remember me</span>
             </label>
             <Link 
               href="/forgot-password" 
-              className="text-sm text-purple-600 hover:text-purple-700 transition-colors"
+              className="text-sm text-brand-purple-600 hover:text-brand-purple-700 transition-colors"
             >
               Forgot password?
             </Link>
@@ -157,7 +157,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full py-3 bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 hover:from-brand-purple-700 hover:to-brand-pink-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             onClick={() => {
               console.log('Button clicked!', { isLoading, formData });
             }}
@@ -179,7 +179,7 @@ export default function LoginPage() {
             Don't have an account?{' '}
             <Link 
               href="/register" 
-              className="text-purple-600 hover:text-purple-700 font-semibold transition-colors"
+              className="text-brand-purple-600 hover:text-brand-purple-700 font-semibold transition-colors"
             >
               Join the Inner Circle
             </Link>

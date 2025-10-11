@@ -20,8 +20,8 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Heart className="h-8 w-8 text-purple-600" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <Heart className="h-8 w-8 text-brand-purple-600" />
+            <span className="text-2xl font-bold bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 bg-clip-text text-transparent">
               BookHeart
             </span>
           </Link>
@@ -86,7 +86,7 @@ export function Header() {
           <div className="flex items-center space-x-4">
             {/* Sell Your Books Button - Desktop */}
             <Link href="/sell">
-              <Button className="hidden md:flex items-center gap-2 bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 min-w-[160px] group">
+              <Button className="hidden md:flex items-center gap-2 bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 min-w-[160px] group">
                 <Heart className="h-4 w-4 group-hover:animate-pulse" />
                 Sell Your Books
               </Button>
@@ -94,7 +94,7 @@ export function Header() {
             
             {/* Sell Your Books Button - Mobile */}
             <Link href="/sell" className="md:hidden">
-              <Button size="icon" className="bg-gradient-to-r from-[#E91E63] to-[#9C27B0] hover:from-[#D81B60] hover:to-[#8E24AA] text-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-10 h-10 group">
+              <Button size="icon" className="bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 hover:from-brand-pink-700 hover:to-brand-purple-700 text-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-10 h-10 group">
                 <Heart className="h-4 w-4 group-hover:animate-pulse" />
               </Button>
             </Link>

@@ -4,7 +4,8 @@ import { ImageGallery } from '@/components/books/image-gallery';
 import { BookInfoSection } from '@/components/books/book-info-section';
 import { SellerInfoCard } from '@/components/books/seller-info-card';
 import { AuctionDisplay } from '@/components/books/auction-display';
-import { Header } from '@/components/layout/header';
+import { BookTabs } from '@/components/books/book-tabs';
+import { SimilarBooks } from '@/components/books/similar-books';
 
 // Fetch book data server-side
 async function getBook(id: string) {
@@ -30,7 +31,7 @@ async function getBook(id: string) {
 async function getAuction(bookId: string) {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-    const res = await fetch(`${apiUrl}/auctions?bookId=${bookId}`, {
+    const res = await fetch(`${apiUrl}/books/${bookId}/auction`, {
       cache: 'no-store',
     });
 
@@ -39,8 +40,7 @@ async function getAuction(bookId: string) {
     }
 
     const data = await res.json();
-    // Return the first auction if any
-    return data.data?.[0] || null;
+    return data.data || null;
   } catch (error) {
     console.error('Error fetching auction:', error);
     return null;
@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       title: book.title,
       description,
       images: book.images?.[0]?.cloudinaryUrl ? [book.images[0].cloudinaryUrl] : [],
-      type: 'product',
+      type: 'book',
     },
     twitter: {
       card: 'summary_large_image',
@@ -91,8 +91,6 @@ export default async function BookDetailPage({ params }: { params: { id: string 
 
   return (
     <div className="min-h-screen bg-gray-800">
-      <Header />
-      
       <main className="max-w-7xl mx-auto px-4 py-8">
         {/* Two-column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -109,8 +107,13 @@ export default async function BookDetailPage({ params }: { params: { id: string 
           </div>
         </div>
 
-        {/* TODO: Add tabbed content section */}
-        {/* TODO: Add similar books section */}
+        {/* Tabbed Content Section */}
+        <div className="mt-12">
+          <BookTabs book={book} />
+        </div>
+
+        {/* Similar Books Section */}
+        <SimilarBooks bookId={book.id} />
       </main>
     </div>
   );

@@ -3,6 +3,7 @@ import { authenticate, optionalAuth } from '../middleware/auth';
 import { asyncHandler } from '../middleware/error';
 import { validate } from '../middleware/validation';
 import { BookService } from '../services/book.service';
+import { AuctionService } from '../services/auction.service';
 import { createBookSchema, updateBookSchema, uuidSchema } from '../utils/validation';
 import { ApiResponse } from '@bookheart/shared';
 
@@ -382,6 +383,30 @@ router.get('/autocomplete', optionalAuth, asyncHandler(async (req, res) => {
   const response: ApiResponse = {
     success: true,
     data: autocomplete,
+  };
+
+  res.json(response);
+}));
+
+// Get auction for a book
+router.get('/:id/auction', optionalAuth, asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  
+  // Validate UUID
+  const validation = uuidSchema.safeParse(id);
+  if (!validation.success) {
+    res.status(400).json({
+      success: false,
+      error: 'Invalid book ID format',
+    });
+    return;
+  }
+
+  const auction = await AuctionService.getAuctionByBookId(id);
+
+  const response: ApiResponse = {
+    success: true,
+    data: auction,
   };
 
   res.json(response);

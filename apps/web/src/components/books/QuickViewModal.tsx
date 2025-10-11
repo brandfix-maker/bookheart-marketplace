@@ -135,7 +135,7 @@ export function QuickViewModal({
                 {/* Special Edition Badge */}
                 {book.isSpecialEdition && (
                   <div className="absolute top-2 left-2">
-                    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center">
+                    <div className="bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center">
                       <Sparkles className="h-3 w-3 mr-1" />
                       Special Edition
                     </div>
@@ -190,7 +190,7 @@ export function QuickViewModal({
                 <p className="text-lg text-gray-600 mb-2">by {book.author}</p>
                 
                 {book.seriesName && (
-                  <p className="text-purple-600 font-medium">
+                  <p className="text-brand-purple-600 font-medium">
                     {book.seriesName}
                     {book.seriesNumber && ` #${book.seriesNumber}`}
                   </p>
@@ -218,7 +218,7 @@ export function QuickViewModal({
                     {book.tropes.slice(0, 6).map((trope, index) => (
                       <span
                         key={index}
-                        className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+                        className="px-2 py-1 bg-purple-100 text-brand-purple-700 text-xs rounded-full"
                       >
                         {trope.replace(/-/g, ' ')}
                       </span>
@@ -257,7 +257,7 @@ export function QuickViewModal({
                         };
                         return (
                           <div key={key} className="flex items-center text-xs text-gray-700">
-                            <Sparkles className="h-3 w-3 text-purple-600 mr-1" />
+                            <Sparkles className="h-3 w-3 text-brand-purple-600 mr-1" />
                             {labels[key as keyof typeof labels]}
                           </div>
                         );
@@ -274,7 +274,7 @@ export function QuickViewModal({
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Sold by</h4>
                   <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                      <BookOpen className="h-4 w-4 text-purple-600" />
+                      <BookOpen className="h-4 w-4 text-brand-purple-600" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-900">
@@ -311,7 +311,7 @@ export function QuickViewModal({
 
               {/* Action Buttons */}
               <div className="flex space-x-3 pt-4">
-                <Button asChild className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                <Button asChild className="flex-1 bg-gradient-to-r from-brand-purple-600 to-brand-pink-600 hover:from-brand-purple-700 hover:to-brand-pink-700">
                   <Link href={`/books/${book.id}`}>
                     <ShoppingCart className="h-4 w-4 mr-2" />
                     View Full Details

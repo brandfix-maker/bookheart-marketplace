@@ -42,7 +42,7 @@ export function UserMenu() {
           </Button>
         </Link>
         <Link href="/register">
-          <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+          <Button className="bg-gradient-to-r from-purple-600 to-brand-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
             Join Now
           </Button>
         </Link>
@@ -98,7 +98,7 @@ export function UserMenu() {
         className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
       >
         {/* Avatar */}
-        <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+        <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-brand-pink-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
           {user.avatarUrl ? (
             <img
               src={user.avatarUrl}
@@ -133,7 +133,7 @@ export function UserMenu() {
           {/* User Info Header */}
           <div className="px-4 py-3 border-b border-gray-100">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-brand-pink-600 rounded-full flex items-center justify-center text-white font-semibold">
                 {user.avatarUrl ? (
                   <img
                     src={user.avatarUrl}
@@ -278,7 +278,7 @@ export function UserMenuCompact() {
           </Button>
         </Link>
         <Link href="/register">
-          <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+          <Button size="sm" className="bg-gradient-to-r from-purple-600 to-brand-pink-600 text-white">
             Join
           </Button>
         </Link>
@@ -303,7 +303,7 @@ export function UserMenuCompact() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-semibold text-sm hover:opacity-80 transition-opacity"
+        className="w-8 h-8 bg-gradient-to-r from-purple-600 to-brand-pink-600 rounded-full flex items-center justify-center text-white font-semibold text-sm hover:opacity-80 transition-opacity"
       >
         {user.avatarUrl ? (
           <img

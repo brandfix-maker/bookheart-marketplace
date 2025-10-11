@@ -11,11 +11,11 @@ export default function ForumCategoryPage({ params }: { params: { category: stri
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto text-center space-y-8">
         <div className="flex justify-center">
-          <FolderOpen className="h-24 w-24 text-transparent bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text" />
+          <FolderOpen className="h-24 w-24 text-transparent bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 bg-clip-text" />
         </div>
         
         <div>
-          <h1 className="text-5xl font-serif font-bold bg-gradient-to-r from-[#E91E63] to-[#9C27B0] bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl font-serif font-bold bg-gradient-to-r from-brand-pink-500 to-brand-purple-500 bg-clip-text text-transparent mb-4">
             {categoryName}
           </h1>
           <p className="text-xl text-gray-600">
@@ -23,7 +23,7 @@ export default function ForumCategoryPage({ params }: { params: { category: stri
           </p>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-sm rounded-lg border-2 border-dashed border-pink-200 p-12">
+        <div className="bg-white/80 backdrop-blur-sm rounded-lg border-2 border-dashed border-brand-pink-200 p-12">
           <p className="text-gray-500 text-lg">
             📂 Forum category: {categoryName}
           </p>
