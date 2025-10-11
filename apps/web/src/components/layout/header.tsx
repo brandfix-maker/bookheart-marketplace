@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Heart, Search, Menu, ChevronDown } from 'lucide-react';
 import { UserMenu, UserMenuCompact } from './user-menu';
+import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -14,6 +15,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export function Header() {
+  const { user } = useAuth();
+  
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-gray-800/95 backdrop-blur-sm">
       <div className="container mx-auto px-4">
@@ -40,6 +43,14 @@ export function Header() {
             >
               Categories
             </Link>
+            {user && (user.hasListedItem || user.sellerVerified) && (
+              <Link 
+                href="/dashboard" 
+                className="text-gray-200 hover:text-purple-400 transition-colors font-medium"
+              >
+                Dashboard
+              </Link>
+            )}
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center text-gray-200 hover:text-purple-400 transition-colors font-medium focus:outline-none">
                 About

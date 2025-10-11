@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight, Save, Sparkles } from 'lucide-react';
+import { useAuth } from '@/contexts/auth-context';
 // form resolver imports removed (not used in this component)
 import Confetti from 'react-confetti';
 import { useWindowSize } from '@/hooks/use-window-size';
@@ -89,6 +90,7 @@ interface BookListingWizardProps {
 
 export function BookListingWizard({ draftId }: BookListingWizardProps) {
   const router = useRouter();
+  const { refreshUser } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [wizardData, setWizardData] = useState<BookWizardData>(INITIAL_DATA);
@@ -270,6 +272,16 @@ export function BookListingWizard({ draftId }: BookListingWizardProps) {
         setListingId(response.data.id);
         setShowSuccess(true);
         setHasUnsavedChanges(false);
+        
+        // Refresh user data to get updated hasListedItem flag
+        // This enables dashboard access and seller features
+        try {
+          await refreshUser();
+          console.log('✅ User data refreshed after book creation');
+        } catch (refreshError) {
+          console.error('⚠️ Failed to refresh user data:', refreshError);
+          // Don't fail the book creation if user refresh fails
+        }
       }
     } catch (error: any) {
       toast({

@@ -19,6 +19,12 @@ export const signatureTypeEnum = pgEnum('signature_type', ['hand', 'bookplate', 
 export const forumCategoryEnum = pgEnum('forum_category', [
   'new-releases', 'iso', 'collections', 'author-events', 'reading-challenges', 'feedback'
 ]);
+export const notificationTypeEnum = pgEnum('notification_type', [
+  'offer_received', 'offer_accepted', 'offer_rejected', 'offer_countered', 'message_received', 'book_sold'
+]);
+export const notificationRelatedTypeEnum = pgEnum('notification_related_type', [
+  'offer', 'transaction', 'message', 'book'
+]);
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -334,6 +340,18 @@ export const forumPosts = pgTable('forum_posts', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+export const notifications = pgTable('notifications', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  type: notificationTypeEnum('type').notNull(),
+  title: text('title').notNull(),
+  message: text('message').notNull(),
+  relatedId: uuid('related_id'),
+  relatedType: notificationRelatedTypeEnum('related_type'),
+  isRead: boolean('is_read').default(false).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 // Performance indexes
 export const booksSellerStatusIdx = index('books_seller_status_idx').on(books.sellerId, books.status);
 // Index for searching the 'title' field in books.
@@ -370,3 +388,9 @@ export const forumsLastPostIdx = index('forums_last_post_idx').on(forums.lastPos
 
 export const forumPostsThreadIdx = index('forum_posts_thread_idx').on(forumPosts.threadId);
 export const forumPostsAuthorIdx = index('forum_posts_author_idx').on(forumPosts.authorId);
+
+export const notificationsUserIdIdx = index('notifications_user_id_idx').on(notifications.userId);
+export const notificationsIsReadIdx = index('notifications_is_read_idx').on(notifications.isRead);
+export const notificationsCreatedAtIdx = index('notifications_created_at_idx').on(notifications.createdAt);
+export const notificationsUserReadIdx = index('notifications_user_read_idx').on(notifications.userId, notifications.isRead);
+export const notificationsUserCreatedIdx = index('notifications_user_created_idx').on(notifications.userId, notifications.createdAt);

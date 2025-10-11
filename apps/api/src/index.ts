@@ -61,6 +61,8 @@ import wishlistRoutes from './routes/wishlist';
 import offersRoutes from './routes/offers';
 import messagesRoutes from './routes/messages';
 import auctionsRoutes from './routes/auctions';
+import notificationsRoutes from './routes/notifications';
+import dashboardRoutes from './routes/dashboard';
 
 // Import middleware
 import { errorHandler } from './middleware/error';
@@ -162,6 +164,8 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/offers', offersRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/auctions', auctionsRoutes);
+app.use('/api/notifications', notificationsRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // 404 handler
 app.use(notFound);

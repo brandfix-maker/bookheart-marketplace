@@ -24,6 +24,8 @@ import {
   Instagram,
   ArrowRight
 } from 'lucide-react';
+import BookSpine from '@/components/decorative/book-spine';
+import { BOOK_SPINES } from '@/components/decorative/book-spine-library';
 
 // Subscription boxes configuration
 const SUBSCRIPTION_BOXES: Array<{
@@ -239,15 +241,55 @@ export default function LandingPage() {
 
         {/* Animated Book Spines */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-16 h-64 bg-gradient-to-r from-brand-purple-600 to-brand-purple-700 transform -rotate-12 animate-slide-in-left shadow-2xl">
-            <div className="p-2 text-white text-xs font-serif writing-vertical">Fourth Wing</div>
-          </div>
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-16 h-72 bg-gradient-to-r from-brand-pink-600 to-rose-700 transform rotate-12 animate-slide-in-right shadow-2xl">
-            <div className="p-2 text-white text-xs font-serif writing-vertical">A Court of Thorns</div>
-          </div>
-          <div className="absolute left-20 bottom-20 w-12 h-48 bg-gradient-to-r from-indigo-600 to-brand-purple-700 transform -rotate-6 animate-slide-in-bottom shadow-2xl opacity-70">
-            <div className="p-2 text-white text-xs font-serif writing-vertical">Crescent City</div>
-          </div>
+          {/* Top Left */}
+          <BookSpine
+            imagePath={BOOK_SPINES.BS_1.png}
+            size="md"
+            floatDuration={4}
+            parallaxStrength={0.3}
+            className="left-[3%] top-[15%] -rotate-12"
+            alt="Fourth Wing book spine"
+          />
+          
+          {/* Top Right */}
+          <BookSpine
+            imagePath={BOOK_SPINES.BS_3.png}
+            size="md"
+            floatDuration={4.5}
+            parallaxStrength={0.4}
+            className="right-[3%] top-[20%] rotate-12"
+            alt="A Court of Thorns book spine"
+          />
+          
+          {/* Middle Left */}
+          <BookSpine
+            imagePath={BOOK_SPINES.BS_5.png}
+            size="sm"
+            floatDuration={5}
+            parallaxStrength={0.2}
+            className="left-[8%] top-[50%] -rotate-6 opacity-80"
+            alt="Crescent City book spine"
+          />
+          
+          {/* Bottom Right */}
+          <BookSpine
+            imagePath={BOOK_SPINES.BS_7.png}
+            size="md"
+            floatDuration={3.8}
+            parallaxStrength={0.35}
+            className="right-[8%] bottom-[20%] rotate-8"
+            alt="Fantasy book spine"
+          />
+          
+          {/* Bottom Left */}
+          <BookSpine
+            imagePath={BOOK_SPINES.BS_9.png}
+            size="sm"
+            floatDuration={4.2}
+            parallaxStrength={0.25}
+            className="left-[15%] bottom-[8%] -rotate-10 opacity-70"
+            alt="Romance book spine"
+          />
         </div>
 
         {/* Floating Hearts */}

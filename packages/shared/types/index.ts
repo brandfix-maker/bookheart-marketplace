@@ -9,3 +9,5 @@ export * from './offer';
 export * from './auction';
 export * from './forum';
 export * from './api';
+export * from './notification';
+export * from './dashboard';

@@ -40,6 +40,23 @@ export class BookService {
 
       console.log('📚 BookService.createBook: Book created with ID:', newBook.id);
 
+      // Update user's hasListedItem flag when a book is successfully created
+      // This enables dashboard access and seller features
+      try {
+        await db
+          .update(users)
+          .set({ 
+            hasListedItem: true,
+            updatedAt: new Date()
+          })
+          .where(eq(users.id, sellerId));
+        
+        console.log('📚 BookService.createBook: Updated user hasListedItem flag for seller:', sellerId);
+      } catch (updateError) {
+        console.error('📚 BookService.createBook: Failed to update user hasListedItem flag:', updateError);
+        // Don't fail the book creation if user update fails
+      }
+
       // Return the created book with proper formatting
       return this.formatBook(newBook as any);
     } catch (error: any) {

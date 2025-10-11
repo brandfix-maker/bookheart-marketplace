@@ -1,5 +1,6 @@
-import { db, offers, eq, and, desc } from '@bookheart/database';
+import { db, offers, books, eq, and, desc } from '@bookheart/database';
 import { Offer } from '@bookheart/shared';
+import { NotificationService } from './notification.service';
 
 export class OfferService {
   /**
@@ -32,6 +33,21 @@ export class OfferService {
       .returning();
 
     console.log('💰 OfferService.createOffer: Offer created with ID:', newOffer.id);
+
+    // Get book title for notification
+    const [book] = await db.select({ title: books.title }).from(books).where(eq(books.id, bookId)).limit(1);
+    const bookTitle = book?.title || 'your book';
+
+    // Create notification for seller
+    await NotificationService.createNotification(
+      sellerId,
+      'offer_received',
+      'New Offer Received',
+      `You received a $${(offerAmountCents / 100).toFixed(2)} offer on ${bookTitle}`,
+      newOffer.id,
+      'offer'
+    ).catch(err => console.error('Failed to create notification:', err));
+
     return this.formatOffer(newOffer as any);
   }
 
@@ -159,6 +175,20 @@ export class OfferService {
     // TODO: Create transaction for this accepted offer
     // This will be handled when the buyer proceeds to checkout
 
+    // Get book title for notification
+    const [book] = await db.select({ title: books.title }).from(books).where(eq(books.id, offer.bookId)).limit(1);
+    const bookTitle = book?.title || 'a book';
+
+    // Create notification for buyer
+    await NotificationService.createNotification(
+      offer.buyerId,
+      'offer_accepted',
+      'Offer Accepted!',
+      `Your $${(offer.offerAmountCents / 100).toFixed(2)} offer on ${bookTitle} was accepted!`,
+      offerId,
+      'offer'
+    ).catch(err => console.error('Failed to create notification:', err));
+
     console.log('💰 OfferService.acceptOffer: Offer accepted');
     return this.formatOffer(updatedOffer as any);
   }
@@ -191,6 +221,20 @@ export class OfferService {
       })
       .where(eq(offers.id, offerId))
       .returning();
+
+    // Get book title for notification
+    const [book] = await db.select({ title: books.title }).from(books).where(eq(books.id, offer.bookId)).limit(1);
+    const bookTitle = book?.title || 'a book';
+
+    // Create notification for buyer
+    await NotificationService.createNotification(
+      offer.buyerId,
+      'offer_rejected',
+      'Offer Declined',
+      `Your offer on ${bookTitle} was declined`,
+      offerId,
+      'offer'
+    ).catch(err => console.error('Failed to create notification:', err));
 
     console.log('💰 OfferService.rejectOffer: Offer rejected');
     return this.formatOffer(updatedOffer as any);
@@ -236,6 +280,20 @@ export class OfferService {
       })
       .where(eq(offers.id, offerId))
       .returning();
+
+    // Get book title for notification
+    const [book] = await db.select({ title: books.title }).from(books).where(eq(books.id, offer.bookId)).limit(1);
+    const bookTitle = book?.title || 'a book';
+
+    // Create notification for buyer
+    await NotificationService.createNotification(
+      offer.buyerId,
+      'offer_countered',
+      'Counter Offer Received',
+      `Seller countered with $${(counterOfferAmountCents / 100).toFixed(2)} on ${bookTitle}`,
+      offerId,
+      'offer'
+    ).catch(err => console.error('Failed to create notification:', err));
 
     console.log('💰 OfferService.counterOffer: Counter offer sent');
     return this.formatOffer(updatedOffer as any);

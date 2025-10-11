@@ -643,6 +643,17 @@ export function MarketplaceNav() {
               </span>
             )}
           </Link>
+          {user && (user.hasListedItem || user.sellerVerified) && (
+            <Link
+              href="/dashboard"
+              className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${
+                isActivePath('/dashboard') ? 'text-brand-pink-500' : 'text-gray-300'
+              }`}
+            >
+              <Store className="h-5 w-5" />
+              <span className="text-xs font-medium">Dashboard</span>
+            </Link>
+          )}
           <Link
             href={user ? `/profile/${user.username}` : '/login'}
             className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 ${

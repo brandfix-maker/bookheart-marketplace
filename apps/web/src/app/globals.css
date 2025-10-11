@@ -387,4 +387,425 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* ============================================
+     Enhanced Layered Gradient Background System
+     ============================================ */
+  
+  /* Depth Level: Subtle (5-10% opacity) - For content-heavy sections */
+  .bg-gradient-hero-subtle {
+    background-image: 
+      url('/BookHeart_Backgrounds/Hero section/Clouds.png'),
+      url('/BookHeart_Backgrounds/Hero section/Glow.png'),
+      url('/BookHeart_Backgrounds/Hero section/Gradient.png');
+    background-size: cover, cover, cover;
+    background-position: center, center, center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    opacity: 0.08;
+  }
+
+  .bg-gradient-extended-subtle-1 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.07;
+  }
+
+  .bg-gradient-extended-subtle-2 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+  }
+
+  .bg-gradient-extended-subtle-3 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_3.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.09;
+  }
+
+  .bg-gradient-extended-subtle-4 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_4.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.06;
+  }
+
+  .bg-gradient-extended-subtle-5 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.10;
+  }
+
+  .bg-gradient-extended-subtle-6 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_6.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.07;
+  }
+
+  .bg-gradient-extended-subtle-7 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_7.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+  }
+
+  /* Depth Level: Medium (15-25% opacity) - Balanced visibility */
+  .bg-gradient-hero-medium {
+    background-image: 
+      url('/BookHeart_Backgrounds/Hero section/Stars.png'),
+      url('/BookHeart_Backgrounds/Hero section/Clouds.png'),
+      url('/BookHeart_Backgrounds/Hero section/Glow.png'),
+      url('/BookHeart_Backgrounds/Hero section/Gradient.png');
+    background-size: cover, cover, cover, cover;
+    background-position: center, center, center, center;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    opacity: 0.20;
+  }
+
+  .bg-gradient-extended-medium-1 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.18;
+  }
+
+  .bg-gradient-extended-medium-2 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.20;
+  }
+
+  .bg-gradient-extended-medium-3 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_3.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.22;
+  }
+
+  .bg-gradient-extended-medium-4 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_4.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.17;
+  }
+
+  .bg-gradient-extended-medium-5 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.25;
+  }
+
+  .bg-gradient-extended-medium-6 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_6.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.19;
+  }
+
+  .bg-gradient-extended-medium-7 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_7.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.21;
+  }
+
+  /* Depth Level: Bold (40-60% opacity) - High visual impact */
+  .bg-gradient-hero-bold {
+    background-image: 
+      url('/BookHeart_Backgrounds/Hero section/Stars.png'),
+      url('/BookHeart_Backgrounds/Hero section/Clouds.png'),
+      url('/BookHeart_Backgrounds/Hero section/Glow.png'),
+      url('/BookHeart_Backgrounds/Hero section/Gradient.png');
+    background-size: cover, cover, cover, cover;
+    background-position: center, center, center, center;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    opacity: 0.50;
+  }
+
+  .bg-gradient-extended-bold-1 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.45;
+  }
+
+  .bg-gradient-extended-bold-2 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.50;
+  }
+
+  .bg-gradient-extended-bold-3 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_3.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.55;
+  }
+
+  .bg-gradient-extended-bold-4 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_4.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.42;
+  }
+
+  .bg-gradient-extended-bold-5 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.60;
+  }
+
+  .bg-gradient-extended-bold-6 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_6.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.48;
+  }
+
+  .bg-gradient-extended-bold-7 {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Gradient_7.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.52;
+  }
+
+  /* Sparkle Overlay Variants */
+  .bg-sparkle-subtle {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Sparkle overlay.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.10;
+  }
+
+  .bg-sparkle-medium {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Sparkle overlay.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.25;
+  }
+
+  .bg-sparkle-bold {
+    background-image: url('/BookHeart_Backgrounds/Extended sections/Sparkle overlay.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.50;
+  }
+
+  /* Mobile-Optimized Backgrounds */
+  @media (max-width: 768px) {
+    .bg-gradient-hero-subtle,
+    .bg-gradient-hero-medium,
+    .bg-gradient-hero-bold {
+      background-image: 
+        url('/BookHeart_Backgrounds/Hero section/Mobile/Clouds.png'),
+        url('/BookHeart_Backgrounds/Hero section/Mobile/Glow.png'),
+        url('/BookHeart_Backgrounds/Hero section/Mobile/Gradient.png');
+    }
+
+    .bg-gradient-extended-subtle-1,
+    .bg-gradient-extended-medium-1,
+    .bg-gradient-extended-bold-1 {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Gradient_1.png');
+    }
+
+    .bg-gradient-extended-subtle-2,
+    .bg-gradient-extended-medium-2,
+    .bg-gradient-extended-bold-2 {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Gradient_2.png');
+    }
+
+    .bg-gradient-extended-subtle-3,
+    .bg-gradient-extended-medium-3,
+    .bg-gradient-extended-bold-3 {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Gradient_3.png');
+    }
+
+    .bg-gradient-extended-subtle-4,
+    .bg-gradient-extended-medium-4,
+    .bg-gradient-extended-bold-4 {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Gradient_4.png');
+    }
+
+    .bg-gradient-extended-subtle-5,
+    .bg-gradient-extended-medium-5,
+    .bg-gradient-extended-bold-5 {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Gradient_5.png');
+    }
+
+    .bg-gradient-extended-subtle-6,
+    .bg-gradient-extended-medium-6,
+    .bg-gradient-extended-bold-6 {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Gradient_6.png');
+    }
+
+    .bg-gradient-extended-subtle-7,
+    .bg-gradient-extended-medium-7,
+    .bg-gradient-extended-bold-7 {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Gradient_7.png');
+    }
+
+    .bg-sparkle-subtle,
+    .bg-sparkle-medium,
+    .bg-sparkle-bold {
+      background-image: url('/BookHeart_Backgrounds/Extended sections/Mobile/Sparkle overlay.png');
+    }
+  }
+
+  /* ============================================
+     Glass-Morphism Backdrop Blur Utilities
+     ============================================ */
+  
+  /* Light glass effect */
+  .glass-light {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Medium glass effect */
+  .glass-medium {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Heavy glass effect */
+  .glass-heavy {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Dark mode glass variants */
+  .dark .glass-light {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .dark .glass-medium {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .glass-heavy {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Frosted glass with tint */
+  .glass-frosted-pink {
+    background: rgba(255, 182, 193, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 182, 193, 0.2);
+  }
+
+  .glass-frosted-purple {
+    background: rgba(186, 142, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(186, 142, 255, 0.2);
+  }
+
+  .glass-frosted-blue {
+    background: rgba(142, 154, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(142, 154, 255, 0.2);
+  }
+
+  /* Backdrop blur only (no background color) */
+  .backdrop-blur-subtle {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .backdrop-blur-xl {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  /* Layered background containers */
+  .bg-layer-container {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .bg-layer-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  /* Animated gradient layer */
+  .bg-gradient-animated {
+    background: linear-gradient(
+      135deg,
+      hsla(320, 70%, 70%, 0.1) 0%,
+      hsla(280, 60%, 65%, 0.15) 25%,
+      hsla(240, 50%, 60%, 0.1) 50%,
+      hsla(300, 65%, 70%, 0.15) 75%,
+      hsla(320, 70%, 70%, 0.1) 100%
+    );
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease-in-out infinite;
+  }
+
+  .dark .bg-gradient-animated {
+    background: linear-gradient(
+      135deg,
+      hsla(320, 70%, 70%, 0.15) 0%,
+      hsla(280, 60%, 65%, 0.2) 25%,
+      hsla(240, 50%, 60%, 0.15) 50%,
+      hsla(300, 65%, 70%, 0.2) 75%,
+      hsla(320, 70%, 70%, 0.15) 100%
+    );
+    background-size: 200% 200%;
+  }
 }

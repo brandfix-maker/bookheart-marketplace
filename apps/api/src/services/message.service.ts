@@ -1,5 +1,6 @@
 import { db, messages, users, eq, and, or, desc, sql } from '@bookheart/database';
 import { Message } from '@bookheart/shared';
+import { NotificationService } from './notification.service';
 
 interface Conversation {
   otherUserId: string;
@@ -38,6 +39,24 @@ export class MessageService {
         isRead: false,
       })
       .returning();
+
+    // Get sender username for notification
+    const [sender] = await db
+      .select({ username: users.username })
+      .from(users)
+      .where(eq(users.id, senderId))
+      .limit(1);
+    const senderName = sender?.username || 'Someone';
+
+    // Create notification for recipient
+    await NotificationService.createNotification(
+      recipientId,
+      'message_received',
+      'New Message',
+      `${senderName} sent you a message`,
+      newMessage.id,
+      'message'
+    ).catch(err => console.error('Failed to create notification:', err));
 
     console.log('✉️ MessageService.sendMessage: Message sent with ID:', newMessage.id);
     return this.formatMessage(newMessage as any);

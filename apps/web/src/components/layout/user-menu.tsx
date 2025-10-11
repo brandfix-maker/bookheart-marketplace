@@ -199,7 +199,7 @@ export function UserMenu() {
               </>
             )}
 
-            {user.hasListedItem && (
+            {(user.hasListedItem || user.sellerVerified) && (
               <>
                 <Link
                   href="/dashboard"
@@ -209,14 +209,16 @@ export function UserMenu() {
                   <Store className="h-4 w-4 mr-3 text-gray-400" />
                   Seller Dashboard
                 </Link>
-                <Link
-                  href="/listings"
-                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <BookOpen className="h-4 w-4 mr-3 text-gray-400" />
-                  My Listings
-                </Link>
+                {user.hasListedItem && (
+                  <Link
+                    href="/listings"
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <BookOpen className="h-4 w-4 mr-3 text-gray-400" />
+                    My Listings
+                  </Link>
+                )}
               </>
             )}
 
@@ -338,7 +340,7 @@ export function UserMenuCompact() {
             >
               Settings
             </Link>
-            {user.hasListedItem && (
+            {(user.hasListedItem || user.sellerVerified) && (
               <Link
                 href="/dashboard"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
